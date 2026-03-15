@@ -1447,3 +1447,82 @@ html[data-theme="light"] .ms-dot-gold::before { background: var(--gold); }
 
 /* Newsletter section */
 html[data-theme="light"] #newsletter { background: var(--blue); }
+
+/* ─────────────────────────────────────────
+   LINKEDIN FEATURED POSTS
+───────────────────────────────────────── */
+.section-sub {
+  font-size: 1rem; color: var(--text-muted);
+  margin-top: -24px; margin-bottom: 40px;
+}
+.li-posts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.li-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  text-decoration: none;
+  display: flex; flex-direction: column; gap: 14px;
+  box-shadow: var(--shadow);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s;
+  opacity: 0; transform: translateY(16px);
+}
+.li-card.visible { opacity: 1; transform: translateY(0); }
+.li-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+
+.li-card-header {
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.li-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  object-fit: cover; object-position: center top;
+  flex-shrink: 0; border: 2px solid var(--border);
+}
+.li-author { flex: 1; }
+.li-author strong {
+  display: block; font-size: 0.88rem; font-weight: 700;
+  color: var(--navy);
+}
+.li-author span {
+  display: block; font-size: 0.73rem; color: var(--text-muted);
+  line-height: 1.4;
+}
+.li-date {
+  font-size: 0.72rem !important; font-weight: 600;
+  color: var(--blue) !important; margin-top: 2px;
+}
+.li-icon { flex-shrink: 0; margin-top: 2px; opacity: 0.85; }
+
+.li-text {
+  font-size: 0.84rem; color: var(--text);
+  line-height: 1.6; margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.li-engagement {
+  display: flex; gap: 14px;
+  font-size: 0.75rem; color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  padding-top: 10px; margin-top: auto;
+}
+.li-cta {
+  font-size: 0.78rem; font-weight: 700;
+  color: #0A66C2;
+  align-self: flex-start;
+}
+.li-card:hover .li-cta { text-decoration: underline; }
+
+@media (max-width: 900px) { .li-posts-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .li-posts-grid { grid-template-columns: 1fr; } }
+
+/* Light mode */
+html[data-theme="light"] .li-card {
+  box-shadow: 0 2px 12px rgba(15,30,61,0.07);
+  border-color: rgba(15,30,61,0.09);
+}
