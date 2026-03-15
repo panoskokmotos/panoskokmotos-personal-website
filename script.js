@@ -1,38 +1,61 @@
-// Navbar scroll effect
+// ── Navbar: transparent → solid on scroll ──
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 40);
-});
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
 
-// Mobile menu toggle
+// ── Mobile menu ──
 const hamburger = document.getElementById('hamburger');
 const navMobile = document.getElementById('nav-mobile');
-hamburger.addEventListener('click', () => {
-  navMobile.classList.toggle('open');
-});
+hamburger.addEventListener('click', () => navMobile.classList.toggle('open'));
+navMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navMobile.classList.remove('open')));
 
-// Close mobile menu on link click
-navMobile.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => navMobile.classList.remove('open'));
-});
+// ── Scroll-triggered fade-in ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('[data-animate], .timeline-item, .edu-card, .award-card, .project-card').forEach(el => observer.observe(el));
 
-// Fade-in on scroll
-const observer = new IntersectionObserver(
-  (entries) => entries.forEach(e => {
+// ── Animated counters ──
+function animateCounter(el) {
+  const target = +el.dataset.target;
+  const prefix = el.dataset.prefix || '';
+  const suffix = el.dataset.suffix || '';
+  const duration = 1800;
+  const start = performance.now();
+  const step = now => {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+    const value = Math.floor(eased * target);
+    // Format large numbers
+    const formatted = value >= 1000 ? Math.floor(value / 1000) + 'K' : value;
+    el.textContent = prefix + formatted + suffix;
+    if (progress < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+const counterObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
     if (e.isIntersecting) {
-      e.target.style.opacity = '1';
-      e.target.style.transform = 'translateY(0)';
-      observer.unobserve(e.target);
+      animateCounter(e.target);
+      counterObserver.unobserve(e.target);
     }
-  }),
-  { threshold: 0.12 }
-);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.impact-num').forEach(el => counterObserver.observe(el));
 
-document.querySelectorAll(
-  '.timeline-item, .project-card, .edu-item, .award-card, .stat'
-).forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(24px)';
-  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-  observer.observe(el);
-});
+// ── Active nav link on scroll ──
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const sectionObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(a => {
+        a.style.color = '';
+        if (a.getAttribute('href') === '#' + e.target.id) a.style.color = '#fff';
+      });
+    }
+  });
+}, { threshold: 0.4 });
+sections.forEach(s => sectionObserver.observe(s));
