@@ -13,7 +13,7 @@ navMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () => n
 // ── Scroll-triggered fade-in ──
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-}, { threshold: 0.12 });
+}, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' });
 document.querySelectorAll('[data-animate], .timeline-item, .edu-card, .award-card, .project-card, .book-card, .milestone, .press-card').forEach(el => observer.observe(el));
 
 // ── Animated counters ──
@@ -168,8 +168,8 @@ if (heroOrbs.length) {
     [400, 'Lv.5 Innovator'],
     [500, 'Lv.6 Leader'],
     [600, 'Lv.7 Visionary'],
-    [700, 'Lv.8 Champion'],
-    [800, 'Lv.MAX Legend 🏆'],
+    [700, 'Lv.8 Steward'],
+    [800, 'Lv.9 Purpose-Driven Leader'],
   ];
   const MAX_XP = 800;
 
