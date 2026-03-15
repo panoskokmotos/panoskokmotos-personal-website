@@ -6,25 +6,26 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:          #ffffff;
-  --bg-alt:      #f5f7ff;
+  /* Dark mode is the default — light mode overrides these in html[data-theme="light"] */
+  --bg:          #0d1530;
+  --bg-alt:      #111d40;
   --bg-dark:     #080d1f;
-  --bg-dark2:    #0d1530;
-  --navy:        #0f1e3d;
+  --bg-dark2:    #0a1228;
+  --navy:        rgba(255,255,255,0.95);
   --blue:        #3b6ef8;
   --blue-light:  #6090ff;
   --gold:        #f4a924;
-  --text:        #111827;
-  --text-muted:  #5a6382;
+  --text:        rgba(255,255,255,0.88);
+  --text-muted:  rgba(255,255,255,0.48);
   --text-light:  rgba(255,255,255,0.7);
-  --border:      rgba(0,0,0,0.07);
+  --border:      rgba(255,255,255,0.08);
   --border-dark: rgba(255,255,255,0.08);
   --radius-sm:   8px;
   --radius:      14px;
   --radius-lg:   20px;
-  --shadow:      0 2px 16px rgba(15,30,61,0.08);
-  --shadow-md:   0 6px 32px rgba(15,30,61,0.12);
-  --shadow-lg:   0 12px 48px rgba(15,30,61,0.18);
+  --shadow:      0 2px 16px rgba(0,0,0,0.3);
+  --shadow-md:   0 6px 32px rgba(0,0,0,0.4);
+  --shadow-lg:   0 12px 48px rgba(0,0,0,0.5);
   --font:        'Plus Jakarta Sans', sans-serif;
   --ease:        cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -644,14 +645,17 @@ html[data-theme="light"] .icon-moon { display: block; }
    DARK / LIGHT MODE
 ───────────────────────────────────────── */
 html[data-theme="light"] {
-  --bg:      #ffffff;
-  --bg-alt:  #f5f7ff;
-  --bg-dark: #f0f4ff;
-  --bg-dark2:#e8eeff;
-  --navy:    #0f1e3d;
-  --text:    #111827;
-  --text-muted: #5a6382;
-  --border:  rgba(0,0,0,0.08);
+  --bg:          #ffffff;
+  --bg-alt:      #edf1ff;
+  --bg-dark:     #e4eaff;
+  --bg-dark2:    #dce6ff;
+  --navy:        #0f1e3d;
+  --text:        #111827;
+  --text-muted:  #5a6382;
+  --border:      rgba(0,0,0,0.08);
+  --shadow:      0 2px 16px rgba(15,30,61,0.08);
+  --shadow-md:   0 6px 32px rgba(15,30,61,0.12);
+  --shadow-lg:   0 12px 48px rgba(15,30,61,0.18);
 }
 html[data-theme="light"] #navbar.scrolled {
   background: rgba(255,255,255,0.92);
@@ -723,7 +727,7 @@ html[data-theme="light"] .skill-group h4 { color: rgba(255,255,255,0.5); }
 }
 .books-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 20px;
 }
 .book-card {
@@ -748,8 +752,9 @@ html[data-theme="light"] .skill-group h4 { color: rgba(255,255,255,0.5); }
 .book-author { font-size: 0.78rem; color: var(--blue); font-weight: 600; margin-bottom: 8px; }
 .book-note { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; font-style: italic; }
 
-@media (max-width: 900px) { .books-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 640px) { .books-grid { grid-template-columns: 1fr; } }
+@media (max-width: 1100px) { .books-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 800px)  { .books-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 580px)  { .books-grid { grid-template-columns: repeat(2, 1fr); } }
 
 /* ─────────────────────────────────────────
    NEWSLETTER
