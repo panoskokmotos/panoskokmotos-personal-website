@@ -843,9 +843,33 @@ html[data-theme="light"] .skill-group h4 { color: rgba(255,255,255,0.5); }
 }
 .book-points li::marker { color: var(--blue); }
 
-@media (max-width: 1100px) { .books-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 800px)  { .books-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 580px)  { .books-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.books-categories { display: flex; flex-direction: column; gap: 28px; }
+.books-category-title { font-size: 0.95rem; color: var(--blue); margin-bottom: 14px; letter-spacing: 0.03em; }
+.books-category .books-grid { grid-template-columns: repeat(5, 1fr); }
+
+.chip-brand { background: rgba(59,110,248,0.15); border-color: rgba(59,110,248,0.35); }
+.chip-icon { font-weight: 700; width: 14px; text-align: center; }
+
+.company-logo-img { width: 56px; height: 56px; object-fit: contain; border-radius: 12px; background: #fff; padding: 6px; border: 1px solid rgba(255,255,255,0.25); }
+
+.watch-links { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.watch-link-chip { display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: 999px; text-decoration: none; background: var(--bg-alt); border: 1px solid var(--border); color: var(--text); font-size: 0.8rem; font-weight: 600; }
+.watch-link-chip:hover { background: var(--blue); color: #fff; border-color: var(--blue); }
+.social-links-grid { max-width: 760px; margin: 0 auto; }
+
+.media-btn { display: inline-flex; align-items: center; gap: 6px; }
+.media-icon { width: 14px; text-align: center; font-weight: 700; }
+
+.press-logo { width: 34px; height: 34px; object-fit: contain; border-radius: 8px; background: #fff; padding: 4px; margin-bottom: 6px; }
+
+.substack-btn { display: inline-flex; align-items: center; gap: 10px; text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+.substack-btn small { display: block; opacity: 0.85; font-size: 0.76rem; font-weight: 500; margin-top: 2px; }
+.substack-icon { width: 28px; height: 28px; border-radius: 8px; background: rgba(255,255,255,0.2); display: inline-flex; align-items: center; justify-content: center; font-weight: 800; }
+
+@media (max-width: 1100px) { .books-grid { grid-template-columns: repeat(3, 1fr); } .books-category .books-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 800px)  { .books-grid { grid-template-columns: repeat(2, 1fr); } .books-category .books-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 580px)  { .books-grid { grid-template-columns: 1fr; } .books-category .books-grid { grid-template-columns: 1fr; } }
 
 /* ─────────────────────────────────────────
    JOURNEY GAMIFICATION
