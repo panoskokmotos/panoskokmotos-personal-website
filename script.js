@@ -150,6 +150,25 @@ if (heroOrbs.length) {
   }, { passive: true });
 }
 
+// ── Video autoplay on hover ──
+document.querySelectorAll('.watch-embed-wrap, .watch-featured .watch-embed-wrap').forEach(wrap => {
+  const iframe = wrap.querySelector('iframe');
+  if (!iframe) return;
+  // Store clean base src (strip any existing params)
+  const baseSrc = iframe.src.split('?')[0];
+  iframe.setAttribute('src', baseSrc);
+  let hoverTimer;
+  wrap.addEventListener('mouseenter', () => {
+    hoverTimer = setTimeout(() => {
+      iframe.setAttribute('src', baseSrc + '?autoplay=1&mute=1&rel=0');
+    }, 300);
+  });
+  wrap.addEventListener('mouseleave', () => {
+    clearTimeout(hoverTimer);
+    iframe.setAttribute('src', baseSrc);
+  });
+});
+
 // ── Journey Gamification ──
 (function() {
   const track   = document.getElementById('milestonesTrack');
