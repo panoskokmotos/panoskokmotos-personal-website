@@ -1,0 +1,14 @@
+{
+  "name": "Panos Kokmotos",
+  "short_name": "Panos K.",
+  "description": "Co-Founder & COO of Givelink. Forbes 30 Under 30 Greece. WEF Global Shaper.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0f1a",
+  "theme_color": "#3b6ef8",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "assets/favicon-32.png",  "sizes": "32x32",   "type": "image/png" },
+    { "src": "assets/favicon-180.png", "sizes": "180x180", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
