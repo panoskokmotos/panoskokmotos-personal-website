@@ -608,3 +608,56 @@ document.querySelectorAll('.award-flip').forEach(card => {
     }
   });
 });
+
+// ── Cursor spotlight (desktop only) ──
+(function() {
+  if (window.matchMedia('(hover: none)').matches) return;
+  const el = document.createElement('div');
+  el.className = 'cursor-spotlight';
+  document.body.appendChild(el);
+  document.addEventListener('mousemove', e => {
+    el.style.left = e.clientX + 'px';
+    el.style.top  = e.clientY + 'px';
+  });
+  document.addEventListener('mouseleave', () => el.style.opacity = '0');
+  document.addEventListener('mouseenter', () => el.style.opacity = '1');
+})();
+
+// ── Back-to-top progress ring ──
+(function() {
+  const btn = document.getElementById('backToTop');
+  if (!btn) return;
+  // Inject ring SVG
+  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.classList.add('progress-ring');
+  svg.setAttribute('viewBox','0 0 40 40');
+  svg.innerHTML = '<circle class="ring-track" cx="20" cy="20" r="18"/><circle class="ring-fill" cx="20" cy="20" r="18"/>';
+  btn.appendChild(svg);
+  const fill = svg.querySelector('.ring-fill');
+  const circumference = 2 * Math.PI * 18; // ~113
+  fill.style.strokeDasharray = circumference;
+  fill.style.strokeDashoffset = circumference;
+
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const pct = docHeight > 0 ? scrollTop / docHeight : 0;
+    fill.style.strokeDashoffset = circumference * (1 - pct);
+  }, { passive: true });
+})();
+
+// ── Active nav link indicator ──
+(function() {
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+})();
