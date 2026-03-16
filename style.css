@@ -3474,17 +3474,24 @@ html[data-theme="light"] .nav-mobile-close { background: rgba(15,30,61,0.05); bo
 html[data-theme="light"] .nav-mobile-close:hover { background: rgba(59,110,248,0.08); color: var(--blue); }
 
 /* ── Chat header new conversation button ── */
-.chat-header-actions { display: flex; align-items: center; gap: 6px; }
+.chat-header-actions { display: flex; align-items: center; gap: 4px; }
 .chat-new-btn {
   display: flex; align-items: center; justify-content: center;
-  width: 30px; height: 30px; border-radius: 50%;
-  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.7); cursor: pointer;
-  transition: background 0.2s, color 0.2s, transform 0.15s;
+  width: 32px; height: 32px; border-radius: 8px;
+  background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3);
+  color: #fff; cursor: pointer;
+  transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
 }
-.chat-new-btn:hover { background: rgba(59,110,248,0.2); color: #fff; transform: rotate(90deg); }
-html[data-theme="light"] .chat-new-btn { background: rgba(15,30,61,0.06); border-color: rgba(15,30,61,0.12); color: var(--text-muted); }
-html[data-theme="light"] .chat-new-btn:hover { background: rgba(59,110,248,0.1); color: var(--blue); }
+.chat-new-btn:hover {
+  background: rgba(255,255,255,0.3);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.15);
+  transform: scale(1.08);
+}
+.chat-new-btn:active { transform: scale(0.95); }
+
+/* ── Bold/italic inside chat bubbles ── */
+.chat-msg p strong { font-weight: 700; color: inherit; }
+.chat-msg p em { font-style: italic; color: inherit; }
 
 /* ── Timeline active-item left-rail highlight ── */
 .timeline-item.tl-active .tl-dot {

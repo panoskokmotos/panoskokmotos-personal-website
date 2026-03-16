@@ -11,7 +11,6 @@ const chatNewChat  = document.getElementById('chatNewChat');
 
 const STORAGE_KEY = 'panos_chat_v1';
 let messages = []; // conversation history
-let firstReplyShown = false; // track if we've shown follow-up chips
 
 // ── Minimal markdown: bold & italic ──
 function parseMarkdown(text) {
@@ -37,7 +36,6 @@ function parseMarkdown(text) {
     // Hide starters since there's a conversation
     const starters = document.getElementById('chatStarters');
     if (starters) starters.classList.add('hidden');
-    firstReplyShown = true;
   } catch (e) {
     messages = [];
   }
@@ -137,11 +135,8 @@ async function sendMessage() {
     messages.push({ role: 'assistant', content: reply });
     saveHistory();
 
-    // Show follow-up chips after first bot reply
-    if (!firstReplyShown) {
-      firstReplyShown = true;
-      showFollowUpChips();
-    }
+    // Always show follow-up chips after every bot reply
+    showFollowUpChips();
   } catch {
     thinkingEl.remove();
     addMessage('bot', 'Connection error. Email panagiotis.kokmotoss@gmail.com directly!');
@@ -165,7 +160,6 @@ function useChatStarter(btn) {
 // ── Clear chat (new conversation) ──
 function clearChat() {
   messages = [];
-  firstReplyShown = false;
   localStorage.removeItem(STORAGE_KEY);
   chatMessages.innerHTML = '<div class="chat-msg bot"><p>👋 Hi! I\'m Panos\'s AI assistant. Ask me anything about his work, Givelink, the podcast, or how to get in touch!</p></div>';
   const starters = document.getElementById('chatStarters');
