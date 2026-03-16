@@ -46,7 +46,7 @@
   <link rel="canonical" href="https://panoskokmotos.com/" />
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#3b6ef8" />
-  <link rel="preload" as="image" href="photo.webp" type="image/webp" />
+  <link rel="preload" as="image" href="photo.webp" type="image/webp" fetchpriority="high" />
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -157,10 +157,12 @@
   <nav id="navbar" role="banner">
     <div class="nav-inner">
       <a href="#hero" class="nav-logo">
-        <picture>
-  <source srcset="photo.webp" type="image/webp" />
-  <img src="photo.jpg" alt="Panos Kokmotos" class="nav-logo-avatar" width="38" height="38" />
-</picture>
+        <span class="nav-avatar">
+          <picture>
+            <source srcset="photo.webp" type="image/webp" />
+            <img src="photo.jpg" alt="Panos Kokmotos" width="38" height="38" />
+          </picture>
+        </span>
         <span class="nav-logo-name">Panos Kokmotos</span>
       </a>
       <ul class="nav-links">
@@ -181,6 +183,12 @@
     </div>
     <div class="nav-mobile-wrap" id="nav-mobile">
       <div class="nav-mobile-inner">
+        <div class="nav-mobile-header">
+          <span class="nav-mobile-title">Menu</span>
+          <button class="nav-mobile-close" id="navMobileClose" aria-label="Close menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
         <ul class="nav-mobile-links">
           <li><a href="#about">About</a></li>
           <li><a href="#journey">Milestones</a></li>
@@ -213,7 +221,7 @@
       <div class="hero-avatar">
         <picture>
           <source srcset="photo.webp" type="image/webp" />
-          <img src="photo.jpg" alt="Panos Kokmotos" width="90" height="90" />
+          <img src="photo.jpg" alt="Panos Kokmotos" width="90" height="90" fetchpriority="high" />
         </picture>
       </div>
       <div class="hero-badges">
@@ -555,7 +563,7 @@
           <div class="tl-dot tl-dot-accent"></div>
           <div class="tl-meta"><time class="tl-date" datetime="2022-07">July 2022 – Present</time><span class="tl-loc">SF, USA / Athens, Greece</span></div>
           <div class="tl-card">
-            <div class="tl-header"><div><h3>Co-Founder &amp; COO</h3><p class="tl-company">Givelink</p></div><span class="tl-badge current">Current</span></div>
+            <div class="tl-header"><div><h3>Co-Founder &amp; COO</h3><p class="tl-company">Givelink</p></div><div class="tl-badges-row"><span class="tl-badge current">Current</span><span class="tl-xp-badge">🚀 +300 XP</span></div></div>
             <p>In-kind donation platform letting donors shop the goods nonprofits need most — with step-by-step tracking, photo confirmation, and real impact stories.</p>
             <ul class="tl-bullets">
               <li>$200K+ donations · 7,500+ contributions · 100K+ lives impacted</li>
@@ -579,7 +587,7 @@
           <div class="tl-dot"></div>
           <div class="tl-meta"><time class="tl-date" datetime="2023-07">July – Sept 2023</time><span class="tl-loc">Piraeus, Greece</span></div>
           <div class="tl-card">
-            <div class="tl-header"><div><h3>R&amp;D Engineer Trainee</h3><p class="tl-company">DNV</p></div></div>
+            <div class="tl-header"><div><h3>R&amp;D Engineer Trainee</h3><p class="tl-company">DNV</p></div><span class="tl-xp-badge">🔬 +80 XP</span></div>
             <p>Supported decarbonization-focused R&amp;D initiatives and translated engineering data into decision-ready insights.</p>
             <ul class="tl-bullets">
               <li>Analyzed machinery performance datasets with Excel and Power BI to identify efficiency opportunities</li>
@@ -595,7 +603,7 @@
           <div class="tl-dot"></div>
           <div class="tl-meta"><time class="tl-date" datetime="2022-06">June – Dec 2022</time><span class="tl-loc">Singapore (Remote)</span></div>
           <div class="tl-card">
-            <div class="tl-header"><div><h3>Growth Consultant</h3><p class="tl-company">Atlas Analytics</p></div></div>
+            <div class="tl-header"><div><h3>Growth Consultant</h3><p class="tl-company">Atlas Analytics</p></div><span class="tl-xp-badge">📈 +90 XP</span></div>
             <p>Drove outbound growth and partnerships for B2B campaigns across Greece, Cyprus, and the UK.</p>
             <ul class="tl-bullets">
               <li>Executed targeted outreach and qualification flows for consulting, IT, and startup accounts</li>
@@ -611,7 +619,7 @@
           <div class="tl-dot"></div>
           <div class="tl-meta"><time class="tl-date" datetime="2021-10">Oct 2021 – Apr 2022</time><span class="tl-loc">Remote</span></div>
           <div class="tl-card">
-            <div class="tl-header"><div><h3>Project Manager</h3><p class="tl-company">European Startup Universe</p></div></div>
+            <div class="tl-header"><div><h3>Project Manager</h3><p class="tl-company">European Startup Universe</p></div><span class="tl-xp-badge">🌍 +70 XP</span></div>
             <ul class="tl-bullets">
               <li>Led 9-person team from 6 countries · 150+ company partnerships · 5,000+ organic visitors</li>
               <li>1,500+ founders &amp; 120+ experts from 9 countries · 450% participation growth</li>
@@ -625,7 +633,7 @@
           <div class="tl-dot"></div>
           <div class="tl-meta"><time class="tl-date" datetime="2021-07">July – Sept 2021</time><span class="tl-loc">Athens, Greece</span></div>
           <div class="tl-card">
-            <div class="tl-header"><div><h3>Innovation Consultant Intern</h3><p class="tl-company">Break-Even Consulting</p></div></div>
+            <div class="tl-header"><div><h3>Innovation Consultant Intern</h3><p class="tl-company">Break-Even Consulting</p></div><span class="tl-xp-badge">💡 +60 XP</span></div>
             <ul class="tl-bullets"><li>Accelerated 4 corporate innovation labs &amp; intrapreneurship programs</li><li>95% of research goals achieved across 4 internal projects</li></ul>
             <div class="tl-links">
               <a href="https://www.break-even.gr/" target="_blank" rel="noopener" class="chip chip-brand"><span class="chip-icon">🌐</span> Website</a>
@@ -1347,9 +1355,9 @@
           <label for="contact-subject">Subject</label>
           <input id="contact-subject" type="text" name="subject" placeholder="What's this about?" />
         </div>
-        <div class="form-field">
+        <div class="form-field" style="margin-bottom:24px">
           <label for="contact-message">Message</label>
-          <textarea id="contact-message" name="message" rows="4" placeholder="Tell me what's on your mind…" required></textarea>
+          <textarea id="contact-message" name="message" rows="5" placeholder="Tell me what's on your mind…" required></textarea>
         </div>
         <button type="submit" class="btn btn-primary">
           <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>

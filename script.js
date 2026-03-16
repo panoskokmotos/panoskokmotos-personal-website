@@ -7,7 +7,29 @@ window.addEventListener('scroll', () => {
 // ── Mobile menu ──
 const hamburger = document.getElementById('hamburger');
 const navMobile = document.getElementById('nav-mobile');
-hamburger.addEventListener('click', () => navMobile.classList.toggle('open'));
+const navMobileClose = document.getElementById('navMobileClose');
+hamburger.addEventListener('click', () => {
+  const isOpen = navMobile.classList.toggle('open');
+  hamburger.setAttribute('aria-expanded', isOpen);
+  hamburger.setAttribute('aria-label', isOpen ? 'Close menu' : 'Menu');
+});
+if (navMobileClose) {
+  navMobileClose.addEventListener('click', () => {
+    navMobile.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    hamburger.setAttribute('aria-label', 'Menu');
+  });
+}
+// Close when clicking outside
+document.addEventListener('click', (e) => {
+  if (navMobile.classList.contains('open') &&
+      !navMobile.contains(e.target) &&
+      !hamburger.contains(e.target)) {
+    navMobile.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    hamburger.setAttribute('aria-label', 'Menu');
+  }
+});
 navMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navMobile.classList.remove('open')));
 
 // ── Scroll-triggered fade-in ──
@@ -660,4 +682,17 @@ document.querySelectorAll('.award-flip').forEach(card => {
     });
   }, { threshold: 0.3 });
   sections.forEach(s => observer.observe(s));
+})();
+
+// ── Timeline connector draw on scroll ──
+(function() {
+  const timeline = document.querySelector('#experience .timeline');
+  if (!timeline) return;
+  function update() {
+    const rect = timeline.getBoundingClientRect();
+    const visible = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / rect.height));
+    timeline.style.setProperty('--draw-pct', Math.round(visible * 100) + '%');
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
 })();
