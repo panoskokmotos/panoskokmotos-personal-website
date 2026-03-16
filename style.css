@@ -138,16 +138,19 @@ section { padding: 100px 0; }
 }
 
 .nav-logo {
-  width: 38px; height: 38px;
-  border-radius: 50%; overflow: hidden;
-  border: 2px solid rgba(255,255,255,0.2);
-  box-shadow: 0 0 0 2px var(--blue);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; flex-shrink: 0;
+  transition: opacity 0.2s;
 }
-.nav-logo picture, .nav-logo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
-.nav-logo:hover { transform: scale(1.07); box-shadow: 0 0 0 3px var(--blue-light); }
+.nav-logo:hover { opacity: 0.85; }
+.nav-avatar {
+  width: 36px; height: 36px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
+  border: 2px solid rgba(255,255,255,0.3);
+  box-shadow: 0 0 0 2px var(--blue);
+  display: block;
+}
+.nav-avatar picture { display: block; width: 100%; height: 100%; }
+.nav-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
 
 .nav-links { display: flex; align-items: center; gap: 8px; }
 .nav-links a {
@@ -1160,16 +1163,8 @@ html[data-theme="light"] .journey-xp-track {
    NAV LOGO (circular photo)
 ───────────────────────────────────────── */
 .nav-logo {
-  display: flex; align-items: center; text-decoration: none;
-  width: 38px; height: 38px; border-radius: 50%; overflow: hidden;
-  border: 2px solid rgba(255,255,255,0.25);
-  flex-shrink: 0;
-}
-.nav-logo picture,
-.nav-logo img {
-  width: 100%; height: 100%;
-  object-fit: cover; object-position: center top;
-  display: block; border-radius: 50%;
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; flex-shrink: 0;
 }
 html[data-theme="light"] .nav-logo { border-color: rgba(15,30,61,0.2); }
 
@@ -3245,56 +3240,67 @@ html[data-theme="light"] .copy-email-btn { border-color: rgba(15,30,61,0.15); co
 ═══════════════════════════════════════════════ */
 
 /* ── Nav logo photo fix ── */
-.nav-logo-avatar-wrap {
-  width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-}
-.nav-logo picture { width: 100%; height: 100%; display: block; }
-.nav-logo picture img { width: 100%; height: 100%; object-fit: cover; object-position: center top; border-radius: 50%; display: block; }
+/* nav-avatar handles the circular photo — see .nav-avatar above */
 
 /* ── Impact bar hero stat centered ── */
-.impact-bar-inner { flex-direction: column; gap: 20px; }
+.impact-bar-inner { flex-direction: column; gap: 0; align-items: center; padding: 28px 20px; }
 .impact-center-hero {
   display: flex; flex-direction: column; align-items: center; text-align: center;
-  padding: 8px 0 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  width: 100%; max-width: 340px;
+  padding: 0 0 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  width: 100%;
 }
 .impact-num-big {
-  font-size: clamp(3rem, 8vw, 5rem) !important;
+  font-size: clamp(3.2rem, 12vw, 5.5rem) !important;
   font-weight: 900 !important;
-  background: linear-gradient(135deg, #fff 0%, #93c5fd 50%, #3b6ef8 100%);
+  background: linear-gradient(135deg, #fff 0%, #93c5fd 40%, #3b6ef8 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  line-height: 1;
+  line-height: 1; letter-spacing: -0.02em;
 }
 .impact-label-big {
-  font-size: 0.95rem; font-weight: 600; color: rgba(255,255,255,0.85); margin-top: 8px;
-  letter-spacing: 0.02em;
+  font-size: 1rem; font-weight: 600; color: rgba(255,255,255,0.85); margin-top: 6px;
+  letter-spacing: 0.01em;
 }
 .impact-stats-row {
   display: flex; align-items: center; justify-content: center;
-  flex-wrap: wrap; gap: 0 4px;
-  width: 100%;
+  flex-wrap: wrap; gap: 0; width: 100%; padding-top: 16px;
 }
-.impact-stats-row .impact-stat { padding: 8px 16px; }
-.impact-stats-row .impact-num { font-size: 1.4rem !important; }
+.impact-stats-row .impact-stat {
+  padding: 10px 14px; text-align: center; flex: 1; min-width: 120px;
+}
+.impact-stats-row .impact-num { font-size: 1.35rem !important; font-weight: 800 !important; }
+.impact-stats-row .impact-label { font-size: 0.72rem !important; }
+.impact-stats-row .impact-divider { display: none; }
 
 @media (min-width: 700px) {
-  .impact-bar-inner { flex-direction: row; align-items: center; justify-content: center; gap: 0; }
-  .impact-center-hero { border-bottom: none; border-right: 1px solid rgba(255,255,255,0.1); padding: 0 32px 0 0; max-width: none; }
-  .impact-stats-row { flex-wrap: nowrap; flex: 1; }
+  .impact-bar-inner { flex-direction: row; align-items: center; justify-content: center; gap: 0; padding: 24px 32px; }
+  .impact-center-hero { border-bottom: none; border-right: 1px solid rgba(255,255,255,0.12); padding: 0 28px 0 0; flex: 0 0 auto; min-width: 180px; }
+  .impact-num-big { font-size: clamp(2.8rem, 4vw, 4rem) !important; }
+  .impact-stats-row { flex-wrap: nowrap; flex: 1; padding-top: 0; }
+  .impact-stats-row .impact-divider { display: block; }
+}
+@media (max-width: 420px) {
+  .impact-stats-row .impact-stat { min-width: 90px; padding: 8px 6px; }
+  .impact-stats-row .impact-num { font-size: 1.1rem !important; }
+  .impact-stats-row .impact-label { font-size: 0.65rem !important; }
 }
 
 /* ── Chip tooltip — fix positioning on small screens ── */
 @media (max-width: 600px) {
   .chip[data-tooltip]::after {
-    left: 0; transform: translateX(0) translateY(4px);
-    max-width: 180px;
+    left: 50%; transform: translateX(-50%) translateY(4px);
+    max-width: min(200px, 80vw);
+    white-space: normal; text-align: center;
   }
-  .chip[data-tooltip]::before { left: 12px; transform: translateX(0) translateY(4px); }
-  .chip[data-tooltip]:hover::after { transform: translateX(0) translateY(0); }
-  .chip[data-tooltip]:hover::before { transform: translateX(0) translateY(0); }
+  .chip[data-tooltip]::before { left: 50%; transform: translateX(-50%) translateY(4px); }
+  .chip[data-tooltip]:hover::after,
+  .chip[data-tooltip]:focus::after { transform: translateX(-50%) translateY(0); }
+  .chip[data-tooltip]:hover::before,
+  .chip[data-tooltip]:focus::before { transform: translateX(-50%) translateY(0); }
 }
+/* Fix tooltip overflow on all screens */
+.skill-group { position: relative; overflow: visible; }
+.chips { position: relative; overflow: visible; }
 
 /* ── TidyCal embed ── */
 .tidycal-wrap {
@@ -3318,12 +3324,15 @@ html[data-theme="light"] .copy-email-btn { border-color: rgba(15,30,61,0.15); co
 
 /* ── Book covers — 2 columns on mobile ── */
 @media (max-width: 580px) {
-  .books-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
-  .book-card { padding: 10px; }
+  .books-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+  .book-card { padding: 8px; display: flex; flex-direction: column; }
+  .book-cover-wrap { height: 110px; overflow: hidden; border-radius: 8px; }
+  .book-cover-img { width: 100%; height: 100%; object-fit: cover; }
   .book-highlights { display: none; }
-  .book-body h4 { font-size: 0.78rem; line-height: 1.3; }
-  .book-author { font-size: 0.7rem; }
-  .book-share-x { font-size: 0.68rem; padding: 4px 8px; }
+  .book-body { padding: 6px 2px 0; }
+  .book-body h4 { font-size: 0.72rem; line-height: 1.3; margin-bottom: 2px; }
+  .book-author { font-size: 0.65rem; margin-bottom: 4px; }
+  .book-share-x { font-size: 0.62rem; padding: 3px 7px; margin-top: auto; }
 }
 
 /* ── Chat widget height cap on small phones ── */
@@ -3405,9 +3414,61 @@ html[data-theme="light"] .copy-email-btn { border-color: rgba(15,30,61,0.15); co
   transition: stroke-dashoffset 0.2s linear;
 }
 
-/* ── Book cover placeholder when image fails ── */
-.book-cover-img { background: var(--card-bg); min-height: 140px; object-fit: cover; }
+/* ── Book cover — ensure always fills space ── */
+.book-cover-wrap { background: linear-gradient(135deg, rgba(59,110,248,0.15), rgba(59,110,248,0.05)); border-radius: 10px; overflow: hidden; }
+.book-cover-img {
+  min-height: 140px; object-fit: cover; display: block;
+  width: 100%; background: linear-gradient(135deg, #1a2a4a, #0f1e3d);
+}
 
 /* ── Light mode overrides batch E ── */
 html[data-theme="light"] .tidycal-wrap { border-color: rgba(15,30,61,0.1); }
 html[data-theme="light"] .nav-link::after { background: var(--blue); }
+
+/* ── Mobile nav close button & header ── */
+.nav-mobile-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 4px;
+}
+.nav-mobile-title {
+  font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--text-muted);
+}
+.nav-mobile-close {
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px; padding: 6px; cursor: pointer;
+  color: rgba(255,255,255,0.7); display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-mobile-close:hover { background: rgba(255,255,255,0.14); color: #fff; }
+html[data-theme="light"] .nav-mobile-header { border-bottom-color: rgba(15,30,61,0.08); }
+html[data-theme="light"] .nav-mobile-close { background: rgba(15,30,61,0.05); border-color: rgba(15,30,61,0.1); color: var(--text-muted); }
+html[data-theme="light"] .nav-mobile-close:hover { background: rgba(59,110,248,0.08); color: var(--blue); }
+
+/* ── Timeline XP gamification badges ── */
+.tl-badges-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.tl-xp-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 0.72rem; font-weight: 700;
+  background: rgba(59,110,248,0.12); color: var(--blue);
+  border: 1px solid rgba(59,110,248,0.25);
+  animation: xp-pulse 3s ease-in-out infinite;
+}
+@keyframes xp-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(59,110,248,0); }
+  50% { box-shadow: 0 0 0 4px rgba(59,110,248,0.1); }
+}
+html[data-theme="light"] .tl-xp-badge { background: rgba(59,110,248,0.07); color: #2563eb; border-color: rgba(59,110,248,0.2); }
+
+/* ── Timeline connector draw animation ── */
+.timeline { position: relative; }
+.timeline::before {
+  content: '';
+  position: absolute; left: 7px; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--blue) var(--draw-pct, 0%), var(--border) var(--draw-pct, 0%));
+  transition: background 0.1s;
+}
