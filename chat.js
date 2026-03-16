@@ -73,7 +73,12 @@ async function sendMessage() {
   messages.push({ role: 'user', content: text });
   saveHistory();
 
-  const thinkingEl = addMessage('thinking', 'Thinking…');
+  // Animated typing dots indicator
+  const thinkingEl = document.createElement('div');
+  thinkingEl.className = 'chat-msg thinking';
+  thinkingEl.innerHTML = '<p><span class="chat-typing-dots" aria-label="Thinking"><span></span><span></span><span></span></span></p>';
+  chatMessages.appendChild(thinkingEl);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
 
   try {
     const res = await fetch(WORKER_URL, {

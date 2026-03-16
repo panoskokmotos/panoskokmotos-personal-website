@@ -28,6 +28,12 @@
   <!-- Plausible Analytics — sign up at plausible.io and add panoskokmotos.com to activate -->
   <script defer data-domain="panoskokmotos.com" src="https://plausible.io/js/script.js"></script>
 
+  <!-- DNS prefetch for external domains -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://covers.openlibrary.org" />
+  <link rel="dns-prefetch" href="https://www.youtube.com" />
+  <link rel="dns-prefetch" href="https://open.spotify.com" />
+  <link rel="dns-prefetch" href="https://esm.sh" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
@@ -37,6 +43,45 @@
   <link rel="canonical" href="https://panoskokmotos.com/" />
   <link rel="preload" as="image" href="photo.webp" type="image/webp" />
   <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Panos Kokmotos",
+  "alternateName": "Panagiotis Kokmotos",
+  "url": "https://panoskokmotos.com",
+  "image": "https://panoskokmotos.com/photo.jpg",
+  "jobTitle": "Co-Founder & COO",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Givelink",
+    "url": "https://givelink.app",
+    "description": "In-kind donation platform connecting donors with nonprofits"
+  },
+  "alumniOf": [
+    { "@type": "EducationalOrganization", "name": "University of Patras" },
+    { "@type": "EducationalOrganization", "name": "Universitat Politècnica de Catalunya (UPC Barcelona)" }
+  ],
+  "award": [
+    "Forbes 30 Under 30 Greece 2024",
+    "WEF Global Shaper – San Francisco Hub",
+    "Top 4 Europe GSEA 2023",
+    "2× Best University Startup Greece",
+    "European Young Innovators Top 15 (U26)",
+    "Pappajohn Business Plan Competition Winner 2024–25"
+  ],
+  "knowsAbout": ["Entrepreneurship", "Social Impact", "In-Kind Donations", "Startup Fundraising", "AI & Technology", "Mechanical Engineering"],
+  "knowsLanguage": ["Greek", "English", "French", "Spanish"],
+  "nationality": "Greek",
+  "sameAs": [
+    "https://www.linkedin.com/in/panoskokmotos/",
+    "https://x.com/panoskokmotoss",
+    "https://www.instagram.com/panoskokmotoss/",
+    "https://github.com/panoskokmotos",
+    "https://panoskokmotos.substack.com"
+  ]
+}
+</script>
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -156,7 +201,7 @@
         <span class="badge">🚀 Co-Founder & COO, Givelink</span>
       </div>
       <h1>Panos <span class="hero-name-accent">Kokmotos</span></h1>
-      <p class="hero-tagline">Advocate. Changemaker. Builder.</p>
+      <p class="hero-tagline" id="heroTagline" aria-label="Advocate. Changemaker. Builder."></p>
       <p class="hero-sub">
         Co-Founder &amp; COO of <a href="https://givelink.app/en" target="_blank" rel="noopener" class="hero-link">Givelink</a> · Podcast Host · Based in San Francisco, USA &amp; Athens/Patras, Greece
       </p>
@@ -390,7 +435,7 @@
         <div class="journey-walker" id="journeyWalker" aria-hidden="true">🧑‍💻</div>
         <div class="milestones">
         <div class="milestone" data-animate data-achievement="🏅 Achievement: Academic Awards" data-xp="100">
-          <div class="ms-year">2016</div>
+          <time class="ms-year" datetime="2016">2016</time>
           <div class="ms-dot"></div>
           <div class="ms-card">
             <span class="ms-emoji">🥇</span>
@@ -398,7 +443,7 @@
           </div>
         </div>
         <div class="milestone" data-animate data-achievement="🎓 Achievement: University of Patras" data-xp="100">
-          <div class="ms-year">2019</div>
+          <time class="ms-year" datetime="2019">2019</time>
           <div class="ms-dot"></div>
           <div class="ms-card">
             <span class="ms-emoji">🎓</span>
@@ -406,7 +451,7 @@
           </div>
         </div>
         <div class="milestone" data-animate data-achievement="🛠 Achievement: First Job + Citathlon" data-xp="100">
-          <div class="ms-year">2020</div>
+          <time class="ms-year" datetime="2020">2020</time>
           <div class="ms-dot"></div>
           <div class="ms-card">
             <span class="ms-emoji">🛠</span>
@@ -414,7 +459,7 @@
           </div>
         </div>
         <div class="milestone" data-animate data-achievement="🚀 Achievement: Startup Universe PM" data-xp="100">
-          <div class="ms-year">2021</div>
+          <time class="ms-year" datetime="2021">2021</time>
           <div class="ms-dot"></div>
           <div class="ms-card">
             <span class="ms-emoji">🚀</span>
@@ -422,7 +467,7 @@
           </div>
         </div>
         <div class="milestone" data-animate data-achievement="💡 Achievement: Co-Founded Givelink" data-xp="100">
-          <div class="ms-year">2022</div>
+          <time class="ms-year" datetime="2022">2022</time>
           <div class="ms-dot ms-dot-accent"></div>
           <div class="ms-card ms-card-featured">
             <span class="ms-emoji">💡</span>
@@ -434,7 +479,7 @@
           </div>
         </div>
         <div class="milestone" data-animate data-achievement="🏆 Achievement: Forbes 30 Under 30!" data-xp="100">
-          <div class="ms-year">2023</div>
+          <time class="ms-year" datetime="2023">2023</time>
           <div class="ms-dot ms-dot-gold"></div>
           <div class="ms-card ms-card-featured">
             <span class="ms-emoji">🏆</span>
@@ -446,7 +491,7 @@
           </div>
         </div>
         <div class="milestone" data-animate data-achievement="🙏 Milestone: Pappajohn Winner" data-xp="100">
-          <div class="ms-year">2024</div>
+          <time class="ms-year" datetime="2024">2024</time>
           <div class="ms-dot"></div>
           <div class="ms-card">
             <span class="ms-emoji">💰</span>
@@ -454,7 +499,7 @@
           </div>
         </div>
         <div class="milestone" data-animate data-achievement="🌐 Achievement: WEF Global Shaper" data-xp="100">
-          <div class="ms-year">2025</div>
+          <time class="ms-year" datetime="2025">2025</time>
           <div class="ms-dot ms-dot-accent"></div>
           <div class="ms-card ms-card-featured">
             <span class="ms-emoji">🌐</span>
@@ -462,7 +507,7 @@
           </div>
         </div>
         <div class="milestone" data-animate data-achievement="📣 Achievement: Executive Board SF" data-xp="100">
-          <div class="ms-year">2026</div>
+          <time class="ms-year" datetime="2026">2026</time>
           <div class="ms-dot ms-dot-accent"></div>
           <div class="ms-card ms-card-featured">
             <span class="ms-emoji">📣</span>
@@ -482,7 +527,7 @@
       <div class="timeline">
         <div class="timeline-item" data-animate>
           <div class="tl-dot tl-dot-accent"></div>
-          <div class="tl-meta"><span class="tl-date">July 2022 – Present</span><span class="tl-loc">SF, USA / Athens, Greece</span></div>
+          <div class="tl-meta"><time class="tl-date" datetime="2022-07">July 2022 – Present</time><span class="tl-loc">SF, USA / Athens, Greece</span></div>
           <div class="tl-card">
             <div class="tl-header"><div><h3>Co-Founder &amp; COO</h3><p class="tl-company">Givelink</p></div><span class="tl-badge current">Current</span></div>
             <p>In-kind donation platform letting donors shop the goods nonprofits need most — with step-by-step tracking, photo confirmation, and real impact stories.</p>
@@ -506,7 +551,7 @@
         </div>
         <div class="timeline-item" data-animate>
           <div class="tl-dot"></div>
-          <div class="tl-meta"><span class="tl-date">July – Sept 2023</span><span class="tl-loc">Piraeus, Greece</span></div>
+          <div class="tl-meta"><time class="tl-date" datetime="2023-07">July – Sept 2023</time><span class="tl-loc">Piraeus, Greece</span></div>
           <div class="tl-card">
             <div class="tl-header"><div><h3>R&amp;D Engineer Trainee</h3><p class="tl-company">DNV</p></div></div>
             <p>Supported decarbonization-focused R&amp;D initiatives and translated engineering data into decision-ready insights.</p>
@@ -522,7 +567,7 @@
         </div>
         <div class="timeline-item" data-animate>
           <div class="tl-dot"></div>
-          <div class="tl-meta"><span class="tl-date">June – Dec 2022</span><span class="tl-loc">Singapore (Remote)</span></div>
+          <div class="tl-meta"><time class="tl-date" datetime="2022-06">June – Dec 2022</time><span class="tl-loc">Singapore (Remote)</span></div>
           <div class="tl-card">
             <div class="tl-header"><div><h3>Growth Consultant</h3><p class="tl-company">Atlas Analytics</p></div></div>
             <p>Drove outbound growth and partnerships for B2B campaigns across Greece, Cyprus, and the UK.</p>
@@ -538,7 +583,7 @@
         </div>
         <div class="timeline-item" data-animate>
           <div class="tl-dot"></div>
-          <div class="tl-meta"><span class="tl-date">Oct 2021 – Apr 2022</span><span class="tl-loc">Remote</span></div>
+          <div class="tl-meta"><time class="tl-date" datetime="2021-10">Oct 2021 – Apr 2022</time><span class="tl-loc">Remote</span></div>
           <div class="tl-card">
             <div class="tl-header"><div><h3>Project Manager</h3><p class="tl-company">European Startup Universe</p></div></div>
             <ul class="tl-bullets">
@@ -552,7 +597,7 @@
         </div>
         <div class="timeline-item" data-animate>
           <div class="tl-dot"></div>
-          <div class="tl-meta"><span class="tl-date">July – Sept 2021</span><span class="tl-loc">Athens, Greece</span></div>
+          <div class="tl-meta"><time class="tl-date" datetime="2021-07">July – Sept 2021</time><span class="tl-loc">Athens, Greece</span></div>
           <div class="tl-card">
             <div class="tl-header"><div><h3>Innovation Consultant Intern</h3><p class="tl-company">Break-Even Consulting</p></div></div>
             <ul class="tl-bullets"><li>Accelerated 4 corporate innovation labs &amp; intrapreneurship programs</li><li>95% of research goals achieved across 4 internal projects</li></ul>
@@ -665,35 +710,65 @@
       <div class="watch-grid">
         <div class="watch-card" data-animate>
           <div class="watch-embed-wrap">
-            <iframe src="https://www.youtube.com/embed/QouMSOF4wqQ" title="Naftemporiki TV interview" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+            <div class="yt-facade" data-vid="QouMSOF4wqQ" role="button" tabindex="0" aria-label="Play Naftemporiki TV interview on YouTube">
+              <img src="https://i.ytimg.com/vi/QouMSOF4wqQ/hqdefault.jpg" alt="Naftemporiki TV interview thumbnail" loading="lazy" />
+              <div class="yt-play-btn" aria-hidden="true">
+                <svg viewBox="0 0 68 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74C65.69 4.66 63.34 2.28 60.28 1.43 55.04 0 34 0 34 0S12.96 0 7.72 1.43C4.66 2.28 2.31 4.66 1.48 7.74 0 13.03 0 24 0 24s0 10.97 1.48 16.26c.83 3.08 3.18 5.46 6.24 6.31C12.96 48 34 48 34 48s21.04 0 26.28-1.43c3.06-.85 5.41-3.23 6.24-6.31C68 34.97 68 24 68 24s0-10.97-1.48-16.26z" fill="#FF0000"/><path d="M27 34l18-10-18-10v20z" fill="#fff"/></svg>
+              </div>
+              <iframe data-src="https://www.youtube.com/embed/QouMSOF4wqQ?autoplay=1&rel=0" title="Naftemporiki TV interview" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
           </div>
           <h4 class="watch-label">Naftemporiki TV</h4>
           <p class="watch-summary">Business media interview on Givelink's fundraising milestones and social entrepreneurship model.</p>
         </div>
         <div class="watch-card" data-animate>
           <div class="watch-embed-wrap">
-            <iframe src="https://www.youtube.com/embed/TcVqF3OUZ0Q" title="Hustle Hours" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+            <div class="yt-facade" data-vid="TcVqF3OUZ0Q" role="button" tabindex="0" aria-label="Play Hustle Hours Podcast on YouTube">
+              <img src="https://i.ytimg.com/vi/TcVqF3OUZ0Q/hqdefault.jpg" alt="Hustle Hours Podcast thumbnail" loading="lazy" />
+              <div class="yt-play-btn" aria-hidden="true">
+                <svg viewBox="0 0 68 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74C65.69 4.66 63.34 2.28 60.28 1.43 55.04 0 34 0 34 0S12.96 0 7.72 1.43C4.66 2.28 2.31 4.66 1.48 7.74 0 13.03 0 24 0 24s0 10.97 1.48 16.26c.83 3.08 3.18 5.46 6.24 6.31C12.96 48 34 48 34 48s21.04 0 26.28-1.43c3.06-.85 5.41-3.23 6.24-6.31C68 34.97 68 24 68 24s0-10.97-1.48-16.26z" fill="#FF0000"/><path d="M27 34l18-10-18-10v20z" fill="#fff"/></svg>
+              </div>
+              <iframe data-src="https://www.youtube.com/embed/TcVqF3OUZ0Q?autoplay=1&rel=0" title="Hustle Hours Podcast" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
           </div>
           <h4 class="watch-label">Hustle Hours Podcast</h4>
           <p class="watch-summary">A conversation about startup pressure, founder mindset, and staying mission-first under uncertainty.</p>
         </div>
         <div class="watch-card" data-animate>
           <div class="watch-embed-wrap">
-            <iframe src="https://www.youtube.com/embed/_7W_15yLrZg" title="TechXperience Fest" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+            <div class="yt-facade" data-vid="_7W_15yLrZg" role="button" tabindex="0" aria-label="Play TechXperience Fest on YouTube">
+              <img src="https://i.ytimg.com/vi/_7W_15yLrZg/hqdefault.jpg" alt="TechXperience Fest thumbnail" loading="lazy" />
+              <div class="yt-play-btn" aria-hidden="true">
+                <svg viewBox="0 0 68 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74C65.69 4.66 63.34 2.28 60.28 1.43 55.04 0 34 0 34 0S12.96 0 7.72 1.43C4.66 2.28 2.31 4.66 1.48 7.74 0 13.03 0 24 0 24s0 10.97 1.48 16.26c.83 3.08 3.18 5.46 6.24 6.31C12.96 48 34 48 34 48s21.04 0 26.28-1.43c3.06-.85 5.41-3.23 6.24-6.31C68 34.97 68 24 68 24s0-10.97-1.48-16.26z" fill="#FF0000"/><path d="M27 34l18-10-18-10v20z" fill="#fff"/></svg>
+              </div>
+              <iframe data-src="https://www.youtube.com/embed/_7W_15yLrZg?autoplay=1&rel=0" title="TechXperience Fest" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
           </div>
           <h4 class="watch-label">TechXperience Fest</h4>
           <p class="watch-summary">A live session on startup execution, storytelling, and building impact-focused ventures.</p>
         </div>
         <div class="watch-card" data-animate>
           <div class="watch-embed-wrap">
-            <iframe src="https://www.youtube.com/embed/0kxjq3bPb74" title="Kathodon Podcast" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+            <div class="yt-facade" data-vid="0kxjq3bPb74" role="button" tabindex="0" aria-label="Play Kathodon Podcast on YouTube">
+              <img src="https://i.ytimg.com/vi/0kxjq3bPb74/hqdefault.jpg" alt="Kathodon Podcast thumbnail" loading="lazy" />
+              <div class="yt-play-btn" aria-hidden="true">
+                <svg viewBox="0 0 68 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74C65.69 4.66 63.34 2.28 60.28 1.43 55.04 0 34 0 34 0S12.96 0 7.72 1.43C4.66 2.28 2.31 4.66 1.48 7.74 0 13.03 0 24 0 24s0 10.97 1.48 16.26c.83 3.08 3.18 5.46 6.24 6.31C12.96 48 34 48 34 48s21.04 0 26.28-1.43c3.06-.85 5.41-3.23 6.24-6.31C68 34.97 68 24 68 24s0-10.97-1.48-16.26z" fill="#FF0000"/><path d="M27 34l18-10-18-10v20z" fill="#fff"/></svg>
+              </div>
+              <iframe data-src="https://www.youtube.com/embed/0kxjq3bPb74?autoplay=1&rel=0" title="Kathodon Podcast" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
           </div>
           <h4 class="watch-label">Kathodon Podcast</h4>
           <p class="watch-summary">A long-form discussion on personal growth, grit, and scaling Givelink from Greece to the US.</p>
         </div>
         <div class="watch-card" data-animate>
           <div class="watch-embed-wrap">
-            <iframe src="https://www.youtube.com/embed/qUuCnqrJHTM" title="Why Should I Invest?" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+            <div class="yt-facade" data-vid="qUuCnqrJHTM" role="button" tabindex="0" aria-label="Play Why Should I Invest? on YouTube">
+              <img src="https://i.ytimg.com/vi/qUuCnqrJHTM/hqdefault.jpg" alt="Why Should I Invest? thumbnail" loading="lazy" />
+              <div class="yt-play-btn" aria-hidden="true">
+                <svg viewBox="0 0 68 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M66.52 7.74C65.69 4.66 63.34 2.28 60.28 1.43 55.04 0 34 0 34 0S12.96 0 7.72 1.43C4.66 2.28 2.31 4.66 1.48 7.74 0 13.03 0 24 0 24s0 10.97 1.48 16.26c.83 3.08 3.18 5.46 6.24 6.31C12.96 48 34 48 34 48s21.04 0 26.28-1.43c3.06-.85 5.41-3.23 6.24-6.31C68 34.97 68 24 68 24s0-10.97-1.48-16.26z" fill="#FF0000"/><path d="M27 34l18-10-18-10v20z" fill="#fff"/></svg>
+              </div>
+              <iframe data-src="https://www.youtube.com/embed/qUuCnqrJHTM?autoplay=1&rel=0" title="Why Should I Invest?" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
           </div>
           <h4 class="watch-label">Why Should I Invest?</h4>
           <p class="watch-summary">An investor-oriented breakdown of the problem, solution, and long-term vision for the platform.</p>
@@ -990,6 +1065,17 @@
           </div>
         </div>
       </div>
+
+      <!-- Random Insight Generator -->
+      <div class="books-insight-wrap">
+        <button class="btn-random-insight" id="insightBtn" type="button">
+          ✨ Give me a random insight
+        </button>
+        <div class="insight-display" id="insightDisplay" aria-live="polite">
+          <p class="insight-text" id="insightText"></p>
+          <span class="insight-source" id="insightSource"></span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -999,7 +1085,30 @@
       <p class="section-eyebrow light">Skills &amp; Interests</p>
       <h2 class="section-heading light">Toolkit &amp; Passions</h2>
       <div class="skills-cols">
-        <div class="skill-group"><h4>🌍 Languages</h4><div class="chips"><span class="chip">Greek (Native)</span><span class="chip">English (C2)</span><span class="chip">French (B2)</span><span class="chip">Spanish (Elementary)</span></div></div>
+        <div class="skill-group"><h4>🌍 Languages</h4>
+          <div class="lang-bars">
+            <div class="lang-bar-item">
+              <span class="lang-bar-label">Greek (Native)</span>
+              <div class="lang-bar-track"><div class="lang-bar-fill" data-pct="100"></div></div>
+              <span class="lang-bar-pct">100%</span>
+            </div>
+            <div class="lang-bar-item">
+              <span class="lang-bar-label">English (C2)</span>
+              <div class="lang-bar-track"><div class="lang-bar-fill" data-pct="98"></div></div>
+              <span class="lang-bar-pct">98%</span>
+            </div>
+            <div class="lang-bar-item">
+              <span class="lang-bar-label">French (B2)</span>
+              <div class="lang-bar-track"><div class="lang-bar-fill" data-pct="70"></div></div>
+              <span class="lang-bar-pct">70%</span>
+            </div>
+            <div class="lang-bar-item">
+              <span class="lang-bar-label">Spanish (Elementary)</span>
+              <div class="lang-bar-track"><div class="lang-bar-fill" data-pct="20"></div></div>
+              <span class="lang-bar-pct">20%</span>
+            </div>
+          </div>
+        </div>
         <div class="skill-group"><h4>💻 Technical</h4><div class="chips"><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">R / RStudio</span><span class="chip">Excel</span><span class="chip">Power BI</span><span class="chip">Notion</span><span class="chip">Canva</span></div></div>
         <div class="skill-group"><h4>🤖 AI Tools</h4><div class="chips"><span class="chip">Claude (Anthropic)</span><span class="chip">ChatGPT / GPT-4o</span><span class="chip">Cursor</span><span class="chip">Midjourney</span><span class="chip">Perplexity AI</span><span class="chip">Gemini</span><span class="chip">Notion AI</span><span class="chip">ElevenLabs</span></div></div>
         <div class="skill-group"><h4>⚡ Entrepreneurship</h4><div class="chips"><span class="chip">Startup Fundraising</span><span class="chip">B2B Sales</span><span class="chip">Product Management</span><span class="chip">Go-to-Market</span><span class="chip">Public Speaking</span><span class="chip">Community Building</span><span class="chip">Business Development</span><span class="chip">Data Storytelling</span></div></div>
@@ -1116,6 +1225,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           &nbsp;Book a Call with Panos
         </a>
+      </div>
+      <!-- Inline booking calendar -->
+      <div class="tidycal-wrap" style="margin-top:40px;border-radius:14px;overflow:hidden;border:1px solid var(--border);max-width:780px;margin-left:auto;margin-right:auto;">
+        <iframe src="https://tidycal.com/givelink/panos?embedded=true" title="Book a call with Panos Kokmotos" width="100%" height="520" frameborder="0" loading="lazy" style="display:block;"></iframe>
       </div>
     </div>
   </section>
@@ -1248,5 +1361,13 @@
 
   <script src="script.js"></script>
   <script src="chat.js"></script>
+  <!-- Service Worker registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
 </body>
 </html>
