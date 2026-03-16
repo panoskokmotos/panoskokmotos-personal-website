@@ -509,3 +509,102 @@ document.querySelectorAll('.skeleton-wrap img.book-cover-img').forEach(img => {
   `;
   document.head.appendChild(script);
 })();
+
+// ── Hero particle canvas ──
+(function() {
+  const canvas = document.getElementById('hero-particles');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+  const COUNT = window.innerWidth < 600 ? 40 : 80;
+
+  function resize() {
+    const hero = canvas.closest('#hero') || canvas.parentElement;
+    W = canvas.width  = hero.offsetWidth;
+    H = canvas.height = hero.offsetHeight;
+  }
+
+  function mkParticle() {
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.5 + 0.4,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+      alpha: Math.random() * 0.5 + 0.15
+    };
+  }
+
+  function init() {
+    resize();
+    particles = Array.from({ length: COUNT }, mkParticle);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(139,168,255,${p.alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  init();
+  draw();
+})();
+
+// ── Copy email button ──
+document.querySelectorAll('.copy-email-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const text = btn.dataset.copy;
+    if (!text) return;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.classList.add('copied');
+      btn.querySelector('.copy-icon').style.display = 'none';
+      btn.querySelector('.check-icon').style.display = '';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.querySelector('.copy-icon').style.display = '';
+        btn.querySelector('.check-icon').style.display = 'none';
+      }, 2200);
+    }).catch(() => {
+      // Fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      btn.classList.add('copied');
+      setTimeout(() => btn.classList.remove('copied'), 2200);
+    });
+  });
+});
+
+// ── Spotify lazy facade ──
+const spotifyFacade = document.getElementById('spotifyFacade');
+if (spotifyFacade) {
+  const activate = () => {
+    const iframe = spotifyFacade.querySelector('iframe');
+    if (!iframe) return;
+    iframe.src = iframe.dataset.src;
+    spotifyFacade.classList.add('loaded');
+  };
+  spotifyFacade.addEventListener('click', activate);
+  spotifyFacade.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') activate(); });
+}
+
+// ── Award flip — touch support (tap to flip on mobile) ──
+document.querySelectorAll('.award-flip').forEach(card => {
+  card.addEventListener('click', e => {
+    // Only toggle on touch devices; desktop uses CSS hover
+    if (window.matchMedia('(hover: none)').matches) {
+      card.classList.toggle('flipped');
+      // If flipped and has link, allow click-through after 300ms
+    }
+  });
+});

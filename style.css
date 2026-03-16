@@ -3056,3 +3056,185 @@ html[data-theme="light"] .btn-random-insight { border-color: rgba(15,30,61,0.15)
 html[data-theme="light"] .btn-random-insight:hover { border-color: var(--gold); color: var(--gold); background: rgba(212,175,55,0.07); }
 html[data-theme="light"] .insight-display { background: #fff; }
 html[data-theme="light"] .chat-typing-dots span { background: #bbb; }
+
+/* ═══════════════════════════════════════════════
+   BATCH D — UI polish, mobile, SEO helpers
+═══════════════════════════════════════════════ */
+
+/* ── Hero particle canvas ── */
+#hero-particles {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none; z-index: 0;
+}
+
+/* ── Hero wave divider ── */
+.hero-wave {
+  position: absolute; bottom: -1px; left: 0; right: 0;
+  line-height: 0; z-index: 2; pointer-events: none;
+}
+.hero-wave svg { width: 100%; height: 60px; display: block; }
+
+/* ── Award flip cards ── */
+.award-flip {
+  perspective: 900px;
+  height: 110px;
+  opacity: 0; transform: translateY(18px); transition: opacity 0.4s, transform 0.4s;
+}
+.award-flip.visible { opacity: 1; transform: translateY(0); }
+.award-flip-inner {
+  position: relative; width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
+}
+.award-flip:hover .award-flip-inner,
+.award-flip.flipped .award-flip-inner { transform: rotateY(180deg); }
+.award-front, .award-back {
+  position: absolute; inset: 0;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 14px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+.award-front {
+  background: var(--card-bg);
+  gap: 8px;
+}
+.award-front .award-emoji { font-size: 1.6rem; }
+.award-front p { font-size: 0.82rem; color: var(--text-muted); font-weight: 500; line-height: 1.45; margin: 0; }
+.award-back {
+  background: linear-gradient(135deg, rgba(59,110,248,0.15), rgba(59,110,248,0.05));
+  border-color: rgba(59,110,248,0.3);
+  transform: rotateY(180deg);
+  gap: 10px; padding: 14px 14px;
+}
+.award-back p { font-size: 0.78rem; color: var(--text); line-height: 1.55; margin: 0; }
+.award-back-link {
+  font-size: 0.73rem; font-weight: 600;
+  color: var(--blue); text-decoration: none;
+  border-bottom: 1px solid rgba(59,110,248,0.3);
+  transition: color 0.15s;
+}
+.award-back-link:hover { color: #fff; border-color: #fff; }
+
+/* ── Chip tooltip ── */
+.chip[data-tooltip] { position: relative; cursor: default; }
+.chip[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute; bottom: calc(100% + 8px); left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: var(--navy,#0f1e3d); color: #fff;
+  font-size: 0.72rem; font-weight: 400; line-height: 1.45;
+  white-space: nowrap; max-width: 220px; white-space: normal; text-align: center;
+  padding: 6px 10px; border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  pointer-events: none; opacity: 0;
+  transition: opacity 0.18s, transform 0.18s;
+  z-index: 100;
+}
+.chip[data-tooltip]::before {
+  content: '';
+  position: absolute; bottom: calc(100% + 4px); left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  border: 5px solid transparent;
+  border-top-color: var(--navy,#0f1e3d);
+  pointer-events: none; opacity: 0;
+  transition: opacity 0.18s, transform 0.18s; z-index: 100;
+}
+.chip[data-tooltip]:hover::after,
+.chip[data-tooltip]:focus::after {
+  opacity: 1; transform: translateX(-50%) translateY(0);
+}
+.chip[data-tooltip]:hover::before,
+.chip[data-tooltip]:focus::before {
+  opacity: 1; transform: translateX(-50%) translateY(0);
+}
+
+/* ── About photo hover effect ── */
+.about-photo-wrap {
+  position: relative; display: inline-block;
+  transition: transform 0.35s var(--ease,ease);
+  transform-origin: center bottom;
+}
+.about-photo-wrap:hover { transform: scale(1.03) translateY(-4px); }
+.about-photo-wrap .about-photo-placeholder {
+  display: block; width: 100%; max-width: 260px;
+  border-radius: 20px;
+  transition: box-shadow 0.35s var(--ease,ease);
+}
+.about-photo-wrap:hover .about-photo-placeholder {
+  box-shadow: 0 16px 48px rgba(59,110,248,0.25);
+}
+
+/* ── Copy-email button ── */
+.contact-card-email {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px;
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 14px; padding: 16px 18px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.contact-card-email:hover { border-color: rgba(59,110,248,0.35); box-shadow: var(--shadow-sm); }
+.contact-card-inner-link {
+  display: flex; align-items: center; gap: 14px;
+  text-decoration: none; color: inherit; flex: 1; min-width: 0;
+}
+.contact-card-inner-link strong { display: block; font-weight: 600; font-size: 0.92rem; }
+.contact-card-inner-link p { margin: 2px 0 0; font-size: 0.82rem; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.copy-email-btn {
+  flex-shrink: 0; background: none; border: 1px solid var(--border);
+  border-radius: 8px; padding: 7px; cursor: pointer;
+  color: var(--text-muted); transition: all 0.18s var(--ease,ease);
+  display: flex; align-items: center; justify-content: center;
+}
+.copy-email-btn:hover { background: rgba(59,110,248,0.1); border-color: var(--blue); color: var(--blue); }
+.copy-email-btn.copied { border-color: #22c55e; color: #22c55e; background: rgba(34,197,94,0.1); }
+
+/* ── Spotify lazy facade ── */
+.spotify-facade {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px 16px; cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.spotify-facade:hover { border-color: #1DB954; box-shadow: 0 4px 20px rgba(29,185,84,0.15); }
+.spotify-facade-inner {
+  display: flex; align-items: center; gap: 14px;
+}
+.spotify-facade-icon { color: #1DB954; flex-shrink: 0; }
+.spotify-facade-title { font-size: 0.88rem; font-weight: 600; color: var(--text); margin: 0 0 2px; }
+.spotify-facade-sub { font-size: 0.76rem; color: var(--text-muted); margin: 0; }
+.spotify-play-btn { margin-left: auto; flex-shrink: 0; }
+.spotify-facade.loaded { padding: 0; border: none; background: none; cursor: default; }
+.spotify-facade.loaded:hover { box-shadow: none; }
+.spotify-facade.loaded .spotify-facade-inner { display: none; }
+.spotify-facade.loaded iframe { display: block !important; }
+
+/* ── Mobile: ensure hero photo visible ── */
+@media (max-width: 768px) {
+  .hero-avatar {
+    display: block !important;
+    width: 100px; height: 100px;
+    margin: 0 auto 22px;
+  }
+  .hero-content { text-align: center; }
+  .hero-badges { justify-content: center; }
+  .hero-socials { justify-content: center; }
+  .hero-actions { justify-content: center; flex-wrap: wrap; }
+}
+@media (max-width: 480px) {
+  .hero-avatar { width: 88px; height: 88px; }
+  .about-photo-wrap { display: flex; justify-content: center; }
+  .about-photo-placeholder { max-width: 200px !important; }
+}
+
+/* ── Light mode overrides for Batch D ── */
+html[data-theme="light"] .award-front { background: #fff; }
+html[data-theme="light"] .award-back { background: rgba(59,110,248,0.06); }
+html[data-theme="light"] .award-back p { color: var(--navy); }
+html[data-theme="light"] .award-back-link { color: var(--blue); }
+html[data-theme="light"] .chip[data-tooltip]::after { background: var(--navy); }
+html[data-theme="light"] .chip[data-tooltip]::before { border-top-color: var(--navy); }
+html[data-theme="light"] .spotify-facade { background: #fff; }
+html[data-theme="light"] .contact-card-email { background: #fff; }
+html[data-theme="light"] .copy-email-btn { border-color: rgba(15,30,61,0.15); color: #888; }

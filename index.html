@@ -41,6 +41,8 @@
   <link rel="icon" type="image/png" sizes="180x180" href="assets/favicon-180.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png" />
   <link rel="canonical" href="https://panoskokmotos.com/" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#3b6ef8" />
   <link rel="preload" as="image" href="photo.webp" type="image/webp" />
   <script type="application/ld+json">
 {
@@ -129,6 +131,18 @@
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home",       "item": "https://panoskokmotos.com/" },
+    { "@type": "ListItem", "position": 2, "name": "About",      "item": "https://panoskokmotos.com/#about" },
+    { "@type": "ListItem", "position": 3, "name": "Projects",   "item": "https://panoskokmotos.com/#projects" },
+    { "@type": "ListItem", "position": 4, "name": "Contact",    "item": "https://panoskokmotos.com/#contact" }
+  ]
+}
+</script>
 </head>
 <body>
   <a href="#about" class="skip-to-content">Skip to content</a>
@@ -184,6 +198,7 @@
   <!-- ── Hero ── -->
   <section id="hero">
     <div class="hero-bg">
+      <canvas id="hero-particles" aria-hidden="true"></canvas>
       <div class="hero-orb hero-orb-1"></div>
       <div class="hero-orb hero-orb-2"></div>
       <div class="hero-orb hero-orb-3"></div>
@@ -192,7 +207,7 @@
       <div class="hero-avatar">
         <picture>
           <source srcset="photo.webp" type="image/webp" />
-          <img src="photo.jpg" alt="Panos Kokmotos" />
+          <img src="photo.jpg" alt="Panos Kokmotos" width="90" height="90" />
         </picture>
       </div>
       <div class="hero-badges">
@@ -234,6 +249,10 @@
     <a href="#impact" class="hero-scroll-arrow" aria-label="Scroll down">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
     </a>
+    <!-- Wave divider -->
+    <div class="hero-wave" aria-hidden="true">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,60 L0,60 Z" fill="var(--impact-bar-bg,#0f1e3d)"/></svg>
+    </div>
   </section>
 
   <!-- ── Impact Bar ── -->
@@ -329,7 +348,7 @@
           <div class="about-photo-wrap">
             <picture>
               <source srcset="assets/headshot.webp" type="image/webp" />
-              <img src="assets/headshot.jpg" alt="Panos Kokmotos" class="about-photo-placeholder" onerror="this.src='photo.jpg'" />
+              <img src="assets/headshot.jpg" alt="Panos Kokmotos" class="about-photo-placeholder" width="260" height="260" onerror="this.src='photo.jpg'" />
             </picture>
             <div class="about-photo-ring"></div>
           </div>
@@ -840,8 +859,16 @@
               <div class="proj-metric"><strong>50+</strong><span>Episodes</span></div>
               <div class="proj-metric"><strong>2.5K+</strong><span>Subscribers</span></div>
             </div>
-            <div class="spotify-embed">
-              <iframe style="border-radius:12px" src="https://open.spotify.com/embed/show/3R2F6kjvzVh1QXmTvmUQEu?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            <div class="spotify-facade" id="spotifyFacade" role="button" tabindex="0" aria-label="Load Entrepreneurship Talks on Spotify">
+              <div class="spotify-facade-inner">
+                <svg class="spotify-facade-icon" viewBox="0 0 24 24" fill="currentColor" width="32" height="32"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.52 17.28c-.24.36-.66.48-1.02.24-2.82-1.74-6.36-2.1-10.56-1.14-.42.12-.78-.18-.9-.54-.12-.42.18-.78.54-.9 4.56-1.02 8.52-.6 11.64 1.32.42.18.48.66.3 1.02zm1.44-3.3c-.3.42-.84.6-1.26.3-3.24-1.98-8.16-2.58-11.94-1.38-.48.12-.99-.12-1.11-.6-.12-.48.12-.99.6-1.11 4.38-1.32 9.78-.66 13.5 1.62.36.24.54.78.21 1.17zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.3c-.6.18-1.2-.18-1.38-.72-.18-.6.18-1.2.72-1.38 4.26-1.26 11.28-1.02 15.72 1.62.54.3.72 1.02.42 1.56-.3.42-1.02.6-1.56.24z"/></svg>
+                <div>
+                  <p class="spotify-facade-title">Entrepreneurship Talks</p>
+                  <p class="spotify-facade-sub">Click to load Spotify player</p>
+                </div>
+                <svg class="spotify-play-btn" viewBox="0 0 24 24" fill="currentColor" width="36" height="36"><circle cx="12" cy="12" r="12" fill="#1DB954"/><polygon points="9,7 19,12 9,17" fill="white"/></svg>
+              </div>
+              <iframe style="border-radius:12px;display:none" data-src="https://open.spotify.com/embed/show/3R2F6kjvzVh1QXmTvmUQEu?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" title="Entrepreneurship Talks podcast on Spotify"></iframe>
             </div>
             <div class="project-actions" style="margin-top:12px">
               <a href="https://open.spotify.com/show/3R2F6kjvzVh1QXmTvmUQEu" target="_blank" rel="noopener" class="btn btn-sm media-btn btn-spotify"><span class="media-icon">🎵</span> Spotify</a>
@@ -864,15 +891,61 @@
       <p class="section-eyebrow light">Media &amp; Press</p>
       <h2 class="section-heading light">Recognition &amp; Coverage</h2>
       <div class="awards-grid">
-        <a href="https://www.forbesgreece.gr/listes-forbes/3754171/i-lista-30-under-30-greece-2024" target="_blank" rel="noopener" class="award-card award-card-link" data-animate><span class="award-emoji">🏆</span><p>Forbes 30 Under 30 Greece</p></a>
-        <a href="https://www.ertnews.gr/eidiseis/ellada/ja-greece-taksideyoun-stin-tourkia-gia-diakriseis-oi-start-ups-isometricks-kai-carexchange-gia-to-ja-europe-gen-e-2023/" target="_blank" rel="noopener" class="award-card award-card-link" data-animate><span class="award-emoji">🌍</span><p>Top 4 Europe — GSEA 2023</p></a>
-        <div class="award-card" data-animate><span class="award-emoji">🚀</span><p>2× Best University Startup Greece</p></div>
-        <a href="https://wsa-global.org/winner/carexchange/" target="_blank" rel="noopener" class="award-card award-card-link" data-animate><span class="award-emoji">💡</span><p>European Young Innovators Top 15 (U26)</p></a>
-        <a href="https://www.voria.gr/article/nikitria-i-kainotomia-ston-diagonismo-epiheirimatikon-ideon-john-and-mary-pappajohn" target="_blank" rel="noopener" class="award-card award-card-link" data-animate><span class="award-emoji">🎓</span><p>Pappajohn Competition Winners 2024–25</p></a>
-        <div class="award-card" data-animate><span class="award-emoji">⭕</span><p>Circle Future Leaders Fellow</p></div>
-        <div class="award-card" data-animate><span class="award-emoji">👼</span><p>Pegasus Angel Accelerator Fellow</p></div>
-        <div class="award-card" data-animate><span class="award-emoji">🌐</span><p>WEF Global Shaper, San Francisco</p></div>
-        <div class="award-card" data-animate><span class="award-emoji">🧠</span><p>Mensa Member · 132+ IQ</p></div>
+        <!-- Each card: hover to flip, click link on back -->
+        <div class="award-flip" data-animate>
+          <div class="award-flip-inner">
+            <div class="award-front"><span class="award-emoji">🏆</span><p>Forbes 30 Under 30 Greece</p></div>
+            <div class="award-back"><p>Listed among the 30 most promising Greek entrepreneurs under 30 in 2024 by Forbes Greece.</p><a href="https://www.forbesgreece.gr/listes-forbes/3754171/i-lista-30-under-30-greece-2024" target="_blank" rel="noopener" class="award-back-link">Read more →</a></div>
+          </div>
+        </div>
+        <div class="award-flip" data-animate>
+          <div class="award-flip-inner">
+            <div class="award-front"><span class="award-emoji">🌍</span><p>Top 4 Europe — GSEA 2023</p></div>
+            <div class="award-back"><p>Reached Top 4 at Europe's most prestigious student entrepreneurship competition in Istanbul.</p><a href="https://www.ertnews.gr/eidiseis/ellada/ja-greece-taksideyoun-stin-tourkia-gia-diakriseis-oi-start-ups-isometricks-kai-carexchange-gia-to-ja-europe-gen-e-2023/" target="_blank" rel="noopener" class="award-back-link">Read more →</a></div>
+          </div>
+        </div>
+        <div class="award-flip" data-animate>
+          <div class="award-flip-inner">
+            <div class="award-front"><span class="award-emoji">🚀</span><p>2× Best University Startup Greece</p></div>
+            <div class="award-back"><p>Recognized twice as one of Greece's best university startups at national-level competitions.</p></div>
+          </div>
+        </div>
+        <div class="award-flip" data-animate>
+          <div class="award-flip-inner">
+            <div class="award-front"><span class="award-emoji">💡</span><p>European Young Innovators Top 15 (U26)</p></div>
+            <div class="award-back"><p>Selected among the Top 15 young innovators in Europe by the World Summit Awards (WSA) Global.</p><a href="https://wsa-global.org/winner/carexchange/" target="_blank" rel="noopener" class="award-back-link">Read more →</a></div>
+          </div>
+        </div>
+        <div class="award-flip" data-animate>
+          <div class="award-flip-inner">
+            <div class="award-front"><span class="award-emoji">🎓</span><p>Pappajohn Competition Winners 2024–25</p></div>
+            <div class="award-back"><p>First place at the John & Mary Pappajohn Business Plan Competition at the University of Patras.</p><a href="https://www.voria.gr/article/nikitria-i-kainotomia-ston-diagonismo-epiheirimatikon-ideon-john-and-mary-pappajohn" target="_blank" rel="noopener" class="award-back-link">Read more →</a></div>
+          </div>
+        </div>
+        <div class="award-flip" data-animate>
+          <div class="award-flip-inner">
+            <div class="award-front"><span class="award-emoji">⭕</span><p>Circle Future Leaders Fellow</p></div>
+            <div class="award-back"><p>Invited as a Future Leaders Fellow by Circle — a curated network of high-impact young professionals across Europe.</p></div>
+          </div>
+        </div>
+        <div class="award-flip" data-animate>
+          <div class="award-flip-inner">
+            <div class="award-front"><span class="award-emoji">👼</span><p>Pegasus Angel Accelerator Fellow</p></div>
+            <div class="award-back"><p>Selected for Pegasus Angel Accelerator, a pre-seed program for Greece's most promising early-stage startups.</p></div>
+          </div>
+        </div>
+        <div class="award-flip" data-animate>
+          <div class="award-flip-inner">
+            <div class="award-front"><span class="award-emoji">🌐</span><p>WEF Global Shaper, San Francisco</p></div>
+            <div class="award-back"><p>Member of the World Economic Forum's Global Shapers Community, representing the San Francisco Hub since 2024.</p></div>
+          </div>
+        </div>
+        <div class="award-flip" data-animate>
+          <div class="award-flip-inner">
+            <div class="award-front"><span class="award-emoji">🧠</span><p>Mensa Member · 132+ IQ</p></div>
+            <div class="award-back"><p>Invited member of Mensa International — the high-IQ society — with a score in the global top 2%.</p></div>
+          </div>
+        </div>
       </div>
 
       <h3 class="press-sub-heading">Press Coverage</h3>
@@ -1114,7 +1187,7 @@
         <div class="skill-group"><h4>⚡ Entrepreneurship</h4><div class="chips"><span class="chip">Startup Fundraising</span><span class="chip">B2B Sales</span><span class="chip">Product Management</span><span class="chip">Go-to-Market</span><span class="chip">Public Speaking</span><span class="chip">Community Building</span><span class="chip">Business Development</span><span class="chip">Data Storytelling</span></div></div>
         <div class="skill-group"><h4>🧠 Soft Skills</h4><div class="chips"><span class="chip">Leadership</span><span class="chip">Communication</span><span class="chip">Team Building</span><span class="chip">Problem Solving</span><span class="chip">Adaptability</span><span class="chip">Negotiation</span><span class="chip">Critical Thinking</span><span class="chip">Stakeholder Management</span></div></div>
         <div class="skill-group"><h4>📜 Certificates</h4><div class="chips"><span class="chip">Google PM (Pro)</span><span class="chip">Financial Markets (Honors)</span><span class="chip">Learning How to Learn</span><span class="chip">Erasmus+ Youth</span><span class="chip">AI Catalyst Program</span></div></div>
-        <div class="skill-group"><h4>🏃 Sports &amp; Hobbies</h4><div class="chips"><span class="chip">📚 Books (40/yr)</span><span class="chip">🏋️ HYROX</span><span class="chip">⚡ CrossFit</span><span class="chip">🏊 Triathlon</span><span class="chip">🥾 Trail Running</span><span class="chip">🎹 Piano</span><span class="chip">💃 Latin Dance</span><span class="chip">🕺 Tango</span><span class="chip">♟️ Chess</span><span class="chip">✈️ Travel</span></div></div>
+        <div class="skill-group"><h4>🏃 Sports &amp; Hobbies</h4><div class="chips"><span class="chip" data-tooltip="~40 books per year across business, psychology &amp; philosophy">📚 Books (40/yr)</span><span class="chip" data-tooltip="Completed 3+ HYROX races — the fitness racing world series">🏋️ HYROX</span><span class="chip" data-tooltip="Regular CrossFit athlete since 2022">⚡ CrossFit</span><span class="chip" data-tooltip="Completed sprint &amp; Olympic distance triathlons">🏊 Triathlon</span><span class="chip" data-tooltip="Mountain trail runner — loves long climbs">🥾 Trail Running</span><span class="chip" data-tooltip="Classical piano training since childhood">🎹 Piano</span><span class="chip" data-tooltip="Salsa, Bachata &amp; Kizomba">💃 Latin Dance</span><span class="chip" data-tooltip="Argentine Tango — patience &amp; connection">🕺 Tango</span><span class="chip" data-tooltip="ELO ~1400 — always improving">♟️ Chess</span><span class="chip" data-tooltip="40+ countries visited &amp; counting">✈️ Travel</span></div></div>
       </div>
     </div>
   </section>
@@ -1240,7 +1313,13 @@
       <h2 class="section-heading light">Let's build something <em>meaningful</em> together</h2>
       <p class="contact-sub">Open to collaborations, speaking invitations, investment conversations, and connecting with bold people working on hard problems.</p>
       <div class="contact-cards">
-        <a href="mailto:panagiotis.kokmotoss@gmail.com" class="contact-card"><span class="cc-icon">✉️</span><div><strong>Email</strong><p>panagiotis.kokmotoss@gmail.com</p></div></a>
+        <div class="contact-card contact-card-email">
+          <a href="mailto:panagiotis.kokmotoss@gmail.com" class="contact-card-inner-link"><span class="cc-icon">✉️</span><div><strong>Email</strong><p>panagiotis.kokmotoss@gmail.com</p></div></a>
+          <button class="copy-email-btn" data-copy="panagiotis.kokmotoss@gmail.com" aria-label="Copy email address" title="Copy to clipboard">
+            <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+        </div>
         <a href="https://www.linkedin.com/in/panoskokmotos/" target="_blank" rel="noopener" class="contact-card"><span class="cc-icon">💼</span><div><strong>LinkedIn</strong><p>/in/panoskokmotos</p></div></a>
         <a href="https://x.com/panoskokmotoss" target="_blank" rel="noopener" class="contact-card"><span class="cc-icon">𝕏</span><div><strong>Twitter / X</strong><p>@panoskokmotoss</p></div></a>
         <a href="https://www.instagram.com/panoskokmotoss/" target="_blank" rel="noopener" class="contact-card"><span class="cc-icon"><svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5z"/><path d="M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.8a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4z"/><circle cx="17.25" cy="6.75" r="1.2"/></svg></span><div><strong>Instagram</strong><p>@panoskokmotoss</p></div></a>
