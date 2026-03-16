@@ -150,11 +150,10 @@ if (heroOrbs.length) {
   }, { passive: true });
 }
 
-// ── Video autoplay on hover ──
-document.querySelectorAll('.watch-embed-wrap, .watch-featured .watch-embed-wrap').forEach(wrap => {
+// ── Video autoplay on hover (featured iframe only — grid uses façades) ──
+document.querySelectorAll('.watch-featured .watch-embed-wrap').forEach(wrap => {
   const iframe = wrap.querySelector('iframe');
-  if (!iframe) return;
-  // Store clean base src (strip any existing params)
+  if (!iframe || iframe.closest('.yt-facade')) return;
   const baseSrc = iframe.src.split('?')[0];
   iframe.setAttribute('src', baseSrc);
   let hoverTimer;
@@ -327,3 +326,186 @@ document.querySelectorAll('.skeleton-wrap img.book-cover-img').forEach(img => {
   if (img.complete && img.naturalWidth > 0) done();
   else img.addEventListener('load', done);
 });
+
+// ── Back to top ──
+(function() {
+  const btn = document.getElementById('backToTop');
+  if (!btn) return;
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('visible', window.scrollY > 600);
+  }, { passive: true });
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+
+// ── Hamburger ↔ X animation for full-screen mobile menu ──
+(function() {
+  const hb = document.getElementById('hamburger');
+  if (hb) {
+    hb.addEventListener('click', () => hb.classList.toggle('active'));
+    document.querySelectorAll('#nav-mobile a').forEach(a => {
+      a.addEventListener('click', () => hb.classList.remove('active'));
+    });
+  }
+})();
+
+// ── 3D card tilt on project cards ──
+(function() {
+  if (window.matchMedia('(pointer: coarse)').matches) return; // skip on touch
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = `perspective(1000px) rotateY(${x * 7}deg) rotateX(${-y * 7}deg) translateZ(6px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.transition = 'transform 0.4s var(--ease, ease)';
+      setTimeout(() => card.style.transition = '', 400);
+    });
+  });
+})();
+
+// ── Typewriter effect on hero tagline ──
+(function() {
+  const el = document.getElementById('heroTagline');
+  if (!el) return;
+  const words = ['Advocate.', 'Changemaker.', 'Builder.'];
+  const cursor = document.createElement('span');
+  cursor.className = 'hero-tagline-cursor';
+  cursor.setAttribute('aria-hidden', 'true');
+
+  let charIdx = 0;
+  let wordIdx = 0;
+  let typing = true;
+  let fullText = words.join(' ');
+
+  // Build full string char by char
+  const chars = fullText.split('');
+  let displayed = '';
+
+  function tick() {
+    if (charIdx < chars.length) {
+      displayed += chars[charIdx++];
+      el.textContent = displayed;
+      el.appendChild(cursor);
+      setTimeout(tick, charIdx === chars.length ? 400 : 55);
+    } else {
+      // Done typing — keep cursor blinking
+      el.appendChild(cursor);
+    }
+  }
+  // Small delay before starting
+  setTimeout(tick, 600);
+})();
+
+// ── YouTube façade: click to load iframe ──
+(function() {
+  document.querySelectorAll('.yt-facade').forEach(facade => {
+    const activate = () => {
+      if (facade.classList.contains('yt-active')) return;
+      const iframe = facade.querySelector('iframe');
+      if (iframe && iframe.dataset.src) {
+        iframe.src = iframe.dataset.src;
+        facade.classList.add('yt-active');
+      }
+    };
+    facade.addEventListener('click', activate);
+    facade.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') activate(); });
+  });
+})();
+
+// ── Language progress bars (animate on intersection) ──
+(function() {
+  const bars = document.querySelectorAll('.lang-bar-fill');
+  if (!bars.length) return;
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.width = e.target.dataset.pct + '%';
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  bars.forEach(b => obs.observe(b));
+})();
+
+// ── Random insight generator (Books section) ──
+(function() {
+  const btn = document.getElementById('insightBtn');
+  const display = document.getElementById('insightDisplay');
+  const textEl = document.getElementById('insightText');
+  const sourceEl = document.getElementById('insightSource');
+  if (!btn) return;
+
+  const insights = [
+    { text: '"Play long-term games with long-term people."', source: '— Naval Ravikant · The Almanack of Naval Ravikant' },
+    { text: '"Read what you love until you love to read."', source: '— Naval Ravikant · The Almanack of Naval Ravikant' },
+    { text: '"You have power over your mind — not outside events. Realise this, and you will find strength."', source: '— Marcus Aurelius · Meditations' },
+    { text: '"The obstacle is the way."', source: '— Marcus Aurelius · Meditations' },
+    { text: '"Nature does not hurry, yet everything is accomplished."', source: '— Lao Tzu · Tao Te Ching' },
+    { text: '"Knowing others is intelligence; knowing yourself is true wisdom."', source: '— Lao Tzu · Tao Te Ching' },
+    { text: '"It\'s not what happens to you, but how you react to it that matters."', source: '— Epictetus · Discourses' },
+    { text: '"Wealth consists not in having great possessions, but in having few wants."', source: '— Epictetus · Discourses' },
+    { text: '"Build unique value instead of competing in crowded markets."', source: '— Peter Thiel · Zero to One' },
+    { text: '"Progress is open-ended when societies protect reason and freedom."', source: '— David Deutsch · The Beginning of Infinity' },
+    { text: '"Good explanations are hard to vary — that\'s what makes them powerful."', source: '— David Deutsch · The Fabric of Reality' },
+    { text: '"AI outcomes depend on proactive design, not passive optimism."', source: '— Max Tegmark · Life 3.0' },
+    { text: '"Test assumptions fast before over-investing in execution."', source: '— Eric Ries · The Lean Startup' },
+    { text: '"World-class performance is built from repeatable daily systems."', source: '— Tim Ferriss · Tools of Titans' },
+    { text: '"Mission-aligned teams can outperform when resources are tight."', source: '— Phil Knight · Shoe Dog' },
+  ];
+
+  let lastIdx = -1;
+  btn.addEventListener('click', () => {
+    let idx;
+    do { idx = Math.floor(Math.random() * insights.length); } while (idx === lastIdx);
+    lastIdx = idx;
+    const { text, source } = insights[idx];
+    display.classList.remove('visible');
+    // Force reflow for re-animation
+    void display.offsetWidth;
+    textEl.textContent = text;
+    sourceEl.textContent = source;
+    display.classList.add('visible');
+  });
+})();
+
+// ── Cobe globe (about section) ──
+(function() {
+  const canvas = document.getElementById('globe-canvas');
+  if (!canvas) return;
+  const script = document.createElement('script');
+  script.type = 'module';
+  script.textContent = `
+    import createGlobe from 'https://esm.sh/cobe@0.6.3';
+    const canvas = document.getElementById('globe-canvas');
+    if (!canvas) return;
+    const phi = { value: 0 };
+    const globe = createGlobe(canvas, {
+      devicePixelRatio: Math.min(window.devicePixelRatio, 2),
+      width: 260, height: 260,
+      phi: 0.4, theta: 0.2,
+      dark: 1, diffuse: 1.2,
+      scale: 1,
+      mapSamples: 12000,
+      mapBrightness: 6,
+      baseColor: [0.1, 0.2, 0.6],
+      markerColor: [0.23, 0.43, 0.97],
+      glowColor: [0.1, 0.2, 0.5],
+      markers: [
+        { location: [38.2466, 21.7346], size: 0.06 }, // Patras
+        { location: [37.9838, 23.7275], size: 0.06 }, // Athens
+        { location: [41.3851, 2.1734],  size: 0.05 }, // Barcelona
+        { location: [37.7749, -122.4194], size: 0.07 }, // San Francisco
+      ],
+      onRender(state) {
+        state.phi = phi.value;
+        phi.value += 0.004;
+      }
+    });
+  `;
+  document.head.appendChild(script);
+})();
