@@ -8,29 +8,32 @@ window.addEventListener('scroll', () => {
 const hamburger = document.getElementById('hamburger');
 const navMobile = document.getElementById('nav-mobile');
 const navMobileClose = document.getElementById('navMobileClose');
+
+function closeMenu() {
+  navMobile.classList.remove('open');
+  hamburger.classList.remove('active');
+  hamburger.setAttribute('aria-expanded', 'false');
+  hamburger.setAttribute('aria-label', 'Menu');
+}
+
 hamburger.addEventListener('click', () => {
   const isOpen = navMobile.classList.toggle('open');
+  hamburger.classList.toggle('active', isOpen);
   hamburger.setAttribute('aria-expanded', isOpen);
   hamburger.setAttribute('aria-label', isOpen ? 'Close menu' : 'Menu');
 });
 if (navMobileClose) {
-  navMobileClose.addEventListener('click', () => {
-    navMobile.classList.remove('open');
-    hamburger.setAttribute('aria-expanded', 'false');
-    hamburger.setAttribute('aria-label', 'Menu');
-  });
+  navMobileClose.addEventListener('click', closeMenu);
 }
 // Close when clicking outside
 document.addEventListener('click', (e) => {
   if (navMobile.classList.contains('open') &&
       !navMobile.contains(e.target) &&
       !hamburger.contains(e.target)) {
-    navMobile.classList.remove('open');
-    hamburger.setAttribute('aria-expanded', 'false');
-    hamburger.setAttribute('aria-label', 'Menu');
+    closeMenu();
   }
 });
-navMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navMobile.classList.remove('open')));
+navMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 
 // ── Scroll-triggered fade-in ──
 const observer = new IntersectionObserver(entries => {
@@ -361,16 +364,7 @@ document.querySelectorAll('.skeleton-wrap img.book-cover-img').forEach(img => {
   });
 })();
 
-// ── Hamburger ↔ X animation for full-screen mobile menu ──
-(function() {
-  const hb = document.getElementById('hamburger');
-  if (hb) {
-    hb.addEventListener('click', () => hb.classList.toggle('active'));
-    document.querySelectorAll('#nav-mobile a').forEach(a => {
-      a.addEventListener('click', () => hb.classList.remove('active'));
-    });
-  }
-})();
+// (hamburger ↔ X handled by closeMenu / main toggle above)
 
 // ── 3D card tilt on project cards ──
 (function() {
