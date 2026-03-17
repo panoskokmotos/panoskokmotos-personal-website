@@ -1,230 +1,249 @@
 #!/usr/bin/env python3
-"""
-OG Image Generator for panoskokmotos.com
-1200x630px dark navy background with headshot photo avatar
-"""
+"""Generate OG image for panoskokmotos.com — 1200x630px"""
 
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
-import math
+import sys
 import os
+import math
+import urllib.request
 
-# ── Constants ───────────────────────────────────────────────────────────────
-W, H = 1200, 630
-BG_COLOR        = (10, 18, 34)        # #0a1222
-BLUE_ACCENT     = (59, 130, 246)      # #3b82f6
-BLUE_LIGHT      = (147, 180, 255)     # #93b4ff
-BLUE_GLOW       = (96, 165, 250)      # #60a5fa
-MUTED           = (100, 116, 139)     # #64748b
-WHITE           = (255, 255, 255)
-PILL_BG         = (15, 28, 55)        # slightly lighter navy
-PILL_BORDER     = (30, 58, 95)
+try:
+    from PIL import Image, ImageDraw, ImageFont, ImageFilter
+except ImportError:
+    import subprocess
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "Pillow",
+                           "--break-system-packages"])
+    from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
-OUT_PATH        = "/Users/panoskokmotos/Documents/GitHub/1st-Project/og-image.png"
-HEADSHOT_PATH   = "/Users/panoskokmotos/Documents/GitHub/1st-Project/assets/headshot.jpg"
-
-# ── Helpers ──────────────────────────────────────────────────────────────────
-
-def make_circular_avatar(img_path: str, size: int) -> Image.Image:
-    """Load image, crop to square centre, resize, apply circular mask."""
-    src = Image.open(img_path).convert("RGBA")
-    # Square crop from centre
-    sw, sh = src.size
-    side = min(sw, sh)
-    left = (sw - side) // 2
-    top  = (sh - side) // 2
-    src  = src.crop((left, top, left + side, top + side))
-    src  = src.resize((size, size), Image.LANCZOS)
-
-    # Circular mask
-    mask = Image.new("L", (size, size), 0)
-    ImageDraw.Draw(mask).ellipse((0, 0, size - 1, size - 1), fill=255)
-    src.putalpha(mask)
-    return src
+BASE = "/Users/panoskokmotos/Documents/GitHub/1st-Project"
+FONT_DIR = os.path.join(BASE, "_og_fonts")
 
 
-def draw_glow_rings(draw: ImageDraw.ImageDraw, cx: int, cy: int,
-                    inner_r: int, color_rgba, num_rings: int = 4,
-                    ring_gap: int = 14, max_alpha: int = 180):
-    """Draw concentric ellipses to simulate a glow effect."""
-    for i in range(num_rings):
-        r     = inner_r + (i + 1) * ring_gap
-        alpha = int(max_alpha * (1 - i / num_rings) ** 1.5)
-        rgba  = (*color_rgba[:3], alpha)
-        # Draw thick ring as filled circle minus inner circle (layered transparency)
-        ring_img  = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-        ring_draw = ImageDraw.Draw(ring_img)
-        ring_draw.ellipse(
-            (cx - r, cy - r, cx + r, cy + r),
-            fill=None,
-            outline=rgba,
-            width=max(1, 4 - i),
-        )
-        draw._image.alpha_composite(ring_img)
+def download_fonts():
+    """Download Inter from Google Fonts if not already cached."""
+    os.makedirs(FONT_DIR, exist_ok=True)
+    fonts = {
+        "Inter-Bold.ttf":    "https://github.com/rsms/inter/raw/master/docs/font-files/Inter-Bold.ttf",
+        "Inter-SemiBold.ttf":"https://github.com/rsms/inter/raw/master/docs/font-files/Inter-SemiBold.ttf",
+        "Inter-Regular.ttf": "https://github.com/rsms/inter/raw/master/docs/font-files/Inter-Regular.ttf",
+        "Inter-Medium.ttf":  "https://github.com/rsms/inter/raw/master/docs/font-files/Inter-Medium.ttf",
+    }
+    for name, url in fonts.items():
+        dest = os.path.join(FONT_DIR, name)
+        if not os.path.exists(dest):
+            print(f"Downloading {name}…")
+            try:
+                urllib.request.urlretrieve(url, dest)
+            except Exception as e:
+                print(f"  Failed: {e}")
 
 
-def get_font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont:
-    """Try common system fonts, fall back to default."""
-    candidates_bold = [
-        "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
-        "/System/Library/Fonts/Helvetica.ttc",
-        "/System/Library/Fonts/SFNSDisplay-Bold.otf",
-        "/Library/Fonts/Arial Bold.ttf",
-        "/System/Library/Fonts/Supplemental/Trebuchet MS Bold.ttf",
-    ]
-    candidates_regular = [
-        "/System/Library/Fonts/Supplemental/Arial.ttf",
-        "/System/Library/Fonts/Helvetica.ttc",
-        "/System/Library/Fonts/SFNSText.otf",
-        "/Library/Fonts/Arial.ttf",
-        "/System/Library/Fonts/Supplemental/Trebuchet MS.ttf",
-    ]
-    candidates = candidates_bold if bold else candidates_regular
-    for path in candidates:
+def load_font(size, weight="regular"):
+    """Load Inter font by weight, fallback to system fonts."""
+    weight_map = {
+        "bold":     ["Inter-Bold.ttf", "Inter-ExtraBold.ttf"],
+        "semibold": ["Inter-SemiBold.ttf", "Inter-Bold.ttf"],
+        "medium":   ["Inter-Medium.ttf", "Inter-SemiBold.ttf"],
+        "regular":  ["Inter-Regular.ttf", "Inter-Medium.ttf"],
+    }
+    candidates = weight_map.get(weight, weight_map["regular"])
+
+    # Try downloaded Inter fonts first
+    for name in candidates:
+        path = os.path.join(FONT_DIR, name)
         if os.path.exists(path):
-            return ImageFont.truetype(path, size)
+            try:
+                return ImageFont.truetype(path, size)
+            except Exception:
+                pass
+
+    # macOS system fonts
+    system = {
+        "bold": [
+            "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
+            "/Library/Fonts/Arial Bold.ttf",
+        ],
+        "regular": [
+            "/System/Library/Fonts/Supplemental/Arial.ttf",
+            "/Library/Fonts/Arial.ttf",
+            "/System/Library/Fonts/Helvetica.ttc",
+        ],
+    }
+    key = "bold" if weight in ("bold", "semibold") else "regular"
+    for path in system.get(key, []):
+        if os.path.exists(path):
+            try:
+                return ImageFont.truetype(path, size)
+            except Exception:
+                pass
     return ImageFont.load_default()
 
 
-def draw_rounded_rect(draw: ImageDraw.ImageDraw, xy, radius: int,
-                      fill=None, outline=None, width: int = 1):
-    x0, y0, x1, y1 = xy
-    draw.rounded_rectangle([x0, y0, x1, y1], radius=radius,
-                            fill=fill, outline=outline, width=width)
+def circle_crop(img, size):
+    """Crop image to a circle of given diameter, return RGBA."""
+    img = img.convert("RGBA").resize((size, size), Image.LANCZOS)
+    mask = Image.new("L", (size, size), 0)
+    ImageDraw.Draw(mask).ellipse([0, 0, size, size], fill=255)
+    result = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    result.paste(img, (0, 0), mask)
+    return result
 
 
-# ── Main ─────────────────────────────────────────────────────────────────────
+def make_og_image():
+    download_fonts()
 
-def generate():
-    canvas = Image.new("RGBA", (W, H), BG_COLOR + (255,))
-    draw   = ImageDraw.Draw(canvas)
+    W, H = 1200, 630
+    img = Image.new("RGBA", (W, H), (13, 21, 48, 255))
 
-    # ── Subtle grid / dot pattern background ─────────────────────────────────
-    dot_color = (255, 255, 255, 18)
-    for gx in range(0, W, 40):
-        for gy in range(0, H, 40):
-            dot_img  = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-            dot_draw = ImageDraw.Draw(dot_img)
-            dot_draw.ellipse((gx - 1, gy - 1, gx + 1, gy + 1), fill=dot_color)
-            canvas.alpha_composite(dot_img)
+    # ── Radial blue glow (left-center) ───────────────────────────────────────
+    glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    gd = ImageDraw.Draw(glow)
+    gcx, gcy, gr = 380, 300, 420
+    for i in range(60, 0, -1):
+        r = int(gr * i / 60)
+        alpha = int(22 * (i / 60) ** 2)
+        gd.ellipse([gcx - r, gcy - r, gcx + r, gcy + r], fill=(59, 110, 248, alpha))
+    img = Image.alpha_composite(img, glow)
 
-    # ── Ambient blue glow top-right ───────────────────────────────────────────
-    glow_layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    glow_draw  = ImageDraw.Draw(glow_layer)
-    for r in range(280, 0, -4):
-        alpha = int(55 * (1 - r / 280) ** 2)
-        glow_draw.ellipse(
-            (W - 500 - r, -r, W - 500 + r, r),
-            fill=(*BLUE_ACCENT[:3], alpha),
-        )
-    canvas.alpha_composite(glow_layer)
+    # ── Right-side dark vignette (x=700→1200) ────────────────────────────────
+    grad = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    grd = ImageDraw.Draw(grad)
+    for px in range(W - 700):
+        t = px / (W - 700)
+        alpha = int(180 * (t ** 0.7))
+        col = int(8 + (5 - 8) * t)
+        grd.line([(700 + px, 0), (700 + px, H)], fill=(col, col + 5, col + 23, alpha))
+    img = Image.alpha_composite(img, grad)
 
-    # ── LEFT COLUMN ───────────────────────────────────────────────────────────
-    lx = 72   # left margin
-    ty = 110  # top of text block
+    # ── Dot grid texture ─────────────────────────────────────────────────────
+    dots = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    dd = ImageDraw.Draw(dots)
+    for x in range(10, W, 30):
+        for y in range(10, H, 30):
+            dd.ellipse([x - 1, y - 1, x + 1, y + 1], fill=(255, 255, 255, 7))
+    img = Image.alpha_composite(img, dots)
 
-    # Name
-    font_name = get_font(58, bold=True)
-    draw.text((lx, ty), "Panos Kokmotos", font=font_name, fill=WHITE)
+    draw = ImageDraw.Draw(img)
 
-    # Blue underline beneath name
-    name_bbox = draw.textbbox((lx, ty), "Panos Kokmotos", font=font_name)
-    underline_y = name_bbox[3] + 6
-    draw.rectangle([lx, underline_y, lx + 260, underline_y + 4],
-                   fill=BLUE_ACCENT)
+    # ── Top accent bar ────────────────────────────────────────────────────────
+    draw.rectangle([0, 0, W, 4], fill=(59, 110, 248, 255))
 
-    # Tagline
-    font_tag = get_font(22, bold=False)
-    tag_y = underline_y + 20
-    draw.text((lx, tag_y), "Advocate · Changemaker · Builder",
-              font=font_tag, fill=BLUE_LIGHT)
+    # ── Photo circle (cx=930, cy=315, r=190) ─────────────────────────────────
+    pcx, pcy, pr = 930, 315, 190
 
-    # Sub-details
-    font_sub  = get_font(17, bold=False)
-    details   = [
-        "MSc Candidate, University of Amsterdam",
-        "Founder · Product Leader · Social Entrepreneur",
-    ]
-    sub_y = tag_y + 44
-    for line in details:
-        draw.text((lx, sub_y), line, font=font_sub, fill=MUTED)
-        sub_y += 28
+    # Soft outer glow
+    glow2 = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    gd2 = ImageDraw.Draw(glow2)
+    for r in range(pr + 30, pr - 5, -2):
+        frac = (pr + 30 - r) / 35
+        al = int(60 * math.exp(-frac * 2.5))
+        gd2.ellipse([pcx - r, pcy - r, pcx + r, pcy + r],
+                    outline=(59, 110, 248, al), width=2)
+    img = Image.alpha_composite(img, glow2)
+    draw = ImageDraw.Draw(img)
 
-    # Website pill
-    pill_text  = "panoskokmotos.com"
-    font_pill  = get_font(16, bold=False)
-    pw = draw.textlength(pill_text, font=font_pill)
-    pill_x0, pill_y0 = lx, sub_y + 20
-    pill_x1, pill_y1 = pill_x0 + pw + 28, pill_y0 + 34
-    draw_rounded_rect(draw, (pill_x0, pill_y0, pill_x1, pill_y1),
-                      radius=17, fill=PILL_BG, outline=BLUE_ACCENT, width=2)
-    # dot indicator
-    dot_cx = pill_x0 + 14
-    dot_cy = (pill_y0 + pill_y1) // 2
-    draw.ellipse((dot_cx - 4, dot_cy - 4, dot_cx + 4, dot_cy + 4),
-                 fill=BLUE_ACCENT)
-    draw.text((pill_x0 + 24, pill_y0 + 8), pill_text,
-              font=font_pill, fill=BLUE_LIGHT)
+    # Try to load and composite headshot
+    headshot_path = os.path.join(BASE, "assets", "headshot.webp")
+    headshot_loaded = False
+    if os.path.exists(headshot_path):
+        try:
+            hs = Image.open(headshot_path)
+            diameter = pr * 2
+            hs_circle = circle_crop(hs, diameter)
+            # Paste at circle center
+            img.paste(hs_circle, (pcx - pr, pcy - pr), hs_circle)
+            headshot_loaded = True
+            draw = ImageDraw.Draw(img)
+        except Exception as e:
+            print(f"Could not load headshot: {e}")
 
-    # ── BOTTOM BADGES ─────────────────────────────────────────────────────────
-    badges = [
-        ("🎓", "MSc @ UvA"),
-        ("🚀", "Founder × 2"),
-        ("🌍", "Social Impact"),
-    ]
-    font_badge = get_font(15, bold=False)
-    bx = lx
-    by = H - 90
-    badge_gap = 20
-    for icon, label in badges:
-        text   = f"{icon}  {label}"
-        tw     = draw.textlength(text, font=font_badge)
-        bx1    = bx + tw + 32
-        draw_rounded_rect(draw, (bx, by, bx1, by + 40),
-                          radius=20, fill=PILL_BG, outline=PILL_BORDER, width=1)
-        draw.text((bx + 14, by + 10), text, font=font_badge, fill=BLUE_LIGHT)
-        bx = bx1 + badge_gap
+    if not headshot_loaded:
+        draw.ellipse([pcx - pr, pcy - pr, pcx + pr, pcy + pr], fill=(10, 18, 40, 255))
 
-    # ── RIGHT COLUMN — headshot ───────────────────────────────────────────────
-    AVATAR_R  = 168          # radius of the circular crop
-    AVATAR_D  = AVATAR_R * 2
-    cx = W - 220             # centre x
-    cy = H // 2              # centre y
+    # Ring overlay on photo
+    draw.ellipse([pcx - pr, pcy - pr, pcx + pr, pcy + pr],
+                 outline=(59, 110, 248, 200), width=3)
+    # Thin inner ring
+    draw.ellipse([pcx - pr + 6, pcy - pr + 6, pcx + pr - 6, pcy + pr - 6],
+                 outline=(255, 255, 255, 18), width=1)
 
-    # Glow rings behind avatar (draw onto canvas directly via composite)
-    for i in range(5):
-        ring_r  = AVATAR_R + 20 + i * 16
-        alpha   = int(160 * (1 - i / 5) ** 2)
-        ring_layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-        ring_draw  = ImageDraw.Draw(ring_layer)
-        ring_draw.ellipse(
-            (cx - ring_r, cy - ring_r, cx + ring_r, cy + ring_r),
-            fill=None,
-            outline=(*BLUE_GLOW, alpha),
-            width=max(1, 5 - i),
-        )
-        canvas.alpha_composite(ring_layer)
+    # ── Fonts ─────────────────────────────────────────────────────────────────
+    font_url    = load_font(13, "medium")
+    font_name   = load_font(68, "bold")
+    font_title  = load_font(23, "regular")
+    font_badge  = load_font(13, "medium")
+    font_stats  = load_font(15, "regular")
+    font_bot    = load_font(13, "regular")
 
-    # Blue border ring (solid, just inside glow)
-    border_layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    border_draw  = ImageDraw.Draw(border_layer)
-    border_r     = AVATAR_R + 8
-    border_draw.ellipse(
-        (cx - border_r, cy - border_r, cx + border_r, cy + border_r),
-        fill=None, outline=(*BLUE_ACCENT, 255), width=4,
-    )
-    canvas.alpha_composite(border_layer)
+    # ── URL label ─────────────────────────────────────────────────────────────
+    url_chars = list("panoskokmotos.com")
+    url_text = "  ".join(url_chars).upper()
+    draw.text((72, 44), url_text, font=font_url, fill=(255, 255, 255, 55))
 
-    # Circular avatar
-    avatar = make_circular_avatar(HEADSHOT_PATH, AVATAR_D)
-    avatar_x = cx - AVATAR_R
-    avatar_y = cy - AVATAR_R
-    canvas.alpha_composite(avatar, dest=(avatar_x, avatar_y))
+    # ── Name ──────────────────────────────────────────────────────────────────
+    draw.text((72, 172), "Panos Kokmotos", font=font_name, fill=(255, 255, 255, 242))
+
+    # ── Subtitle ──────────────────────────────────────────────────────────────
+    draw.text((72, 258), "Co-Founder & COO, Givelink", font=font_title,
+              fill=(255, 255, 255, 160))
+
+    # ── Pill badges ───────────────────────────────────────────────────────────
+    badges = ["Forbes 30 Under 30", "WEF Global Shaper", "Entrepreneurship Talks"]
+    pad_x, pad_y = 16, 7
+    bx, by = 72, 308
+
+    pill_layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    pl = ImageDraw.Draw(pill_layer)
+    pill_text_positions = []
+
+    for text in badges:
+        bb = font_badge.getbbox(text)
+        tw, th = bb[2] - bb[0], bb[3] - bb[1]
+        pw, ph = tw + pad_x * 2, th + pad_y * 2
+        pl.rounded_rectangle([bx, by, bx + pw, by + ph], radius=999,
+                              fill=(20, 38, 90, 220))
+        pl.rounded_rectangle([bx, by, bx + pw, by + ph], radius=999,
+                              outline=(59, 110, 248, 160), width=1)
+        pill_text_positions.append((bx + pad_x - bb[0], by + pad_y - bb[1], text))
+        bx += pw + 12
+
+    img = Image.alpha_composite(img, pill_layer)
+    draw = ImageDraw.Draw(img)
+
+    for tx, ty, text in pill_text_positions:
+        draw.text((tx, ty), text, font=font_badge, fill=(110, 158, 255, 255))
+
+    # ── Divider ───────────────────────────────────────────────────────────────
+    draw.rectangle([72, 368, 730, 369], fill=(255, 255, 255, 18))
+
+    # ── Stats ─────────────────────────────────────────────────────────────────
+    stats = "100K+ lives impacted  ·  $220K+ donated  ·  100+ nonprofits"
+    draw.text((72, 386), stats, font=font_stats, fill=(255, 255, 255, 110))
+
+    # ── Bottom bar ────────────────────────────────────────────────────────────
+    # Subtle separator line
+    draw.rectangle([0, 588, W, 589], fill=(255, 255, 255, 8))
+    draw.rectangle([0, 589, W, H], fill=(6, 11, 28, 255))
+
+    left_bot = "Building for social impact  ·  San Francisco & Athens"
+    right_bot = "Forbes 30 Under 30  ·  WEF Global Shaper  ·  Givelink"
+
+    draw.text((72, 602), left_bot, font=font_bot, fill=(255, 255, 255, 120))
+
+    rb = font_bot.getbbox(right_bot)
+    rw = rb[2] - rb[0]
+    draw.text((W - 72 - rw, 602), right_bot, font=font_bot, fill=(255, 255, 255, 70))
 
     # ── Save ──────────────────────────────────────────────────────────────────
-    canvas = canvas.convert("RGB")
-    canvas.save(OUT_PATH, "PNG", optimize=True)
-    print(f"Saved: {OUT_PATH}  ({W}x{H}px)")
+    out = os.path.join(BASE, "og-image.png")
+    img.convert("RGB").save(out, "PNG", optimize=True)
+    size = os.path.getsize(out)
+    print(f"✓ OG image saved: {out}")
+    print(f"  Size: {size:,} bytes ({size / 1024:.1f} KB) · 1200×630px")
+    if headshot_loaded:
+        print("  ✓ Headshot composited from assets/headshot.webp")
+    else:
+        print("  ⚠ Using placeholder circle (headshot not found)")
 
 
 if __name__ == "__main__":
-    generate()
+    make_og_image()
