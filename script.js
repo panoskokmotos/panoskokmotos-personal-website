@@ -207,13 +207,13 @@ document.querySelectorAll('.watch-featured .watch-embed-wrap').forEach(wrap => {
   });
 });
 
-// ── Journey Gamification ──
+// ── Journey Gamification (bidirectional — follows scroll up & down) ──
 (function() {
-  const track   = document.getElementById('milestonesTrack');
-  const walker  = document.getElementById('journeyWalker');
-  const xpFill  = document.getElementById('journeyXpFill');
-  const xpPts   = document.getElementById('journeyXpPts');
-  const lvlBadge = document.getElementById('journeyLevelBadge');
+  const track     = document.getElementById('milestonesTrack');
+  const walker    = document.getElementById('journeyWalker');
+  const xpFill    = document.getElementById('journeyXpFill');
+  const xpPts     = document.getElementById('journeyXpPts');
+  const lvlBadge  = document.getElementById('journeyLevelBadge');
   const toastWrap = document.getElementById('achievementToasts');
   if (!track) return;
 
@@ -230,7 +230,10 @@ document.querySelectorAll('.watch-featured .watch-embed-wrap').forEach(wrap => {
   ];
   const MAX_XP = 800;
 
-  let totalXp = 0;
+  const milestones = Array.from(track.querySelectorAll('.milestone[data-achievement]'));
+  const toastShown = new Set(); // only toast each achievement once (first unlock going down)
+  let lastActiveIdx = -1;
+  let currentXp = 0;
 
   function getLevelLabel(xp) {
     for (let i = LEVELS.length - 1; i >= 0; i--) {
@@ -240,7 +243,8 @@ document.querySelectorAll('.watch-featured .watch-embed-wrap').forEach(wrap => {
   }
 
   function showToast(text) {
-    if (!toastWrap) return;
+    if (!toastWrap || toastShown.has(text)) return;
+    toastShown.add(text);
     const t = document.createElement('div');
     t.className = 'achievement-toast';
     t.innerHTML = `<span class="toast-icon">🔓</span><span>${text}</span><span class="toast-xp">+100 XP</span>`;
@@ -248,57 +252,73 @@ document.querySelectorAll('.watch-featured .watch-embed-wrap').forEach(wrap => {
     setTimeout(() => t.remove(), 3000);
   }
 
-  function updateXp(newXp) {
-    const prevLabel = getLevelLabel(totalXp);
-    totalXp = Math.min(newXp, MAX_XP);
-    const pct = (totalXp / MAX_XP) * 100;
+  function setXp(newXp) {
+    const prevLabel = getLevelLabel(currentXp);
+    currentXp = Math.max(0, Math.min(newXp, MAX_XP));
+    const pct = (currentXp / MAX_XP) * 100;
     if (xpFill) xpFill.style.width = pct + '%';
-    if (xpPts) xpPts.textContent = totalXp;
-    const newLabel = getLevelLabel(totalXp);
+    if (xpPts)  xpPts.textContent  = currentXp;
+    const newLabel = getLevelLabel(currentXp);
     if (lvlBadge && newLabel !== prevLabel) {
       lvlBadge.textContent = newLabel;
       lvlBadge.classList.remove('level-up');
-      void lvlBadge.offsetWidth; // reflow
+      void lvlBadge.offsetWidth;
       lvlBadge.classList.add('level-up');
     }
   }
 
-  // Move walker to milestone
   function moveWalkerTo(milestoneEl) {
+    if (!walker || !milestoneEl) return;
     const dotEl = milestoneEl.querySelector('.ms-dot');
     if (!dotEl) return;
-    // offsetTop relative to milestones-track
-    const msTop  = milestoneEl.offsetTop;
-    const dotH   = dotEl.offsetTop; // dot's position within the milestone row
-    walker.style.top = (msTop + dotH + 4) + 'px';
+    walker.style.top = (milestoneEl.offsetTop + dotEl.offsetTop + 4) + 'px';
   }
 
-  // Observe each milestone for intersection
-  const milestones = track.querySelectorAll('.milestone[data-achievement]');
-  let lastUnlockedIdx = -1;
+  // Determine which milestone is currently "active" based on scroll position.
+  // A milestone is active when its top edge has crossed 65% down the viewport.
+  function getActiveIdx() {
+    const threshold = window.scrollY + window.innerHeight * 0.65;
+    let active = -1;
+    for (let i = 0; i < milestones.length; i++) {
+      const absTop = milestones[i].getBoundingClientRect().top + window.scrollY;
+      if (absTop <= threshold) active = i;
+      else break;
+    }
+    return active;
+  }
 
-  const gameObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const ms = entry.target;
-      const idx = Array.from(milestones).indexOf(ms);
-      if (idx <= lastUnlockedIdx) return; // already processed
-      lastUnlockedIdx = idx;
+  function update() {
+    const idx = getActiveIdx();
+    if (idx === lastActiveIdx) return;
 
-      if (walker) moveWalkerTo(ms);
-      updateXp(totalXp + 100);
-      const achievement = ms.dataset.achievement;
-      if (achievement) showToast(achievement);
-      gameObserver.unobserve(ms);
-    });
-  }, { threshold: 0.4, rootMargin: '0px 0px -10% 0px' });
+    // Fire toasts only on first downward unlock
+    if (idx > lastActiveIdx) {
+      for (let i = lastActiveIdx + 1; i <= idx; i++) {
+        const ach = milestones[i].dataset.achievement;
+        if (ach) showToast(ach);
+      }
+    }
 
-  milestones.forEach(ms => gameObserver.observe(ms));
+    lastActiveIdx = idx;
 
-  // Initialize progress and walker
-  updateXp(totalXp);
-  if (lvlBadge) lvlBadge.textContent = getLevelLabel(totalXp);
-  if (milestones.length) moveWalkerTo(milestones[0]);
+    if (idx >= 0) {
+      moveWalkerTo(milestones[idx]);
+      setXp((idx + 1) * 100);
+    } else {
+      // Above all milestones: reset to start
+      moveWalkerTo(milestones[0]);
+      setXp(0);
+    }
+  }
+
+  // Scroll drives everything — bidirectional
+  window.addEventListener('scroll', update, { passive: true });
+
+  // Initial state
+  setXp(0);
+  if (lvlBadge)      lvlBadge.textContent = getLevelLabel(0);
+  if (milestones[0]) moveWalkerTo(milestones[0]);
+  update(); // handle page-load mid-scroll
 })();
 
 // ── Contact form async submit ──
