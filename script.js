@@ -328,8 +328,10 @@ if (contactForm) {
     e.preventDefault();
     const btn = contactForm.querySelector('button[type="submit"]');
     const success = document.getElementById('formSuccess');
+    const originalHTML = btn.innerHTML;
     btn.disabled = true;
-    btn.textContent = 'Sending…';
+    btn.classList.add('btn-loading');
+    btn.innerHTML = '<span class="btn-spinner"></span>Sending…';
     try {
       const res = await fetch(contactForm.action, {
         method: 'POST',
@@ -338,16 +340,20 @@ if (contactForm) {
       });
       if (res.ok) {
         contactForm.reset();
-        success.style.display = 'block';
-        btn.textContent = 'Sent ✓';
+        btn.innerHTML = '✓ Sent!';
+        btn.classList.remove('btn-loading');
+        success.classList.add('visible');
+        success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       } else {
         btn.disabled = false;
-        btn.textContent = 'Send Message';
+        btn.classList.remove('btn-loading');
+        btn.innerHTML = originalHTML;
         alert('Something went wrong. Please try again.');
       }
     } catch {
       btn.disabled = false;
-      btn.textContent = 'Send Message';
+      btn.classList.remove('btn-loading');
+      btn.innerHTML = originalHTML;
       alert('Network error. Please email panagiotis.kokmotoss@gmail.com directly.');
     }
   });

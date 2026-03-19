@@ -1402,7 +1402,10 @@
           <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
           Send Message
         </button>
-        <p class="form-success" id="formSuccess" style="display:none">✅ Message sent! I'll get back to you soon.</p>
+        <div class="form-success" id="formSuccess" role="status" aria-live="polite">
+          <span class="form-success-icon">✓</span>
+          Message sent! I'll get back to you soon.
+        </div>
       </form>
     </div>
   </section>
