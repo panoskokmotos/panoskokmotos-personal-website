@@ -186,6 +186,13 @@ function clearChat() {
 
 if (chatNewChat) chatNewChat.addEventListener('click', clearChat);
 
+// ── Book AI: open chat pre-loaded with a book question ──
+window.chatOpenWithBook = function(title, author) {
+  openChat();
+  chatInput.value = 'How did reading "' + title + '" by ' + author + ' affect Panos\u2019 life and thinking?';
+  sendMessage();
+};
+
 // ── AI button size toggle ──
 const chatSizeToggle = document.getElementById('chatSizeToggle');
 function updateSizeToggleUI(isLg) {
