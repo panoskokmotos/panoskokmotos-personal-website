@@ -411,6 +411,44 @@ document.querySelectorAll('.skeleton-wrap img.book-cover-img').forEach(img => {
   });
 })();
 
+// ── AI Chat: proactive trigger (once per session, after 15s idle) ──
+(function() {
+  if (sessionStorage.getItem('chat_proactive_done')) return;
+  const widget = document.getElementById('chatWidget');
+  const toggle = document.getElementById('chatToggle');
+  if (!widget || !toggle) return;
+  // Only fire if chat hasn't been manually opened yet
+  const timer = setTimeout(() => {
+    if (widget.classList.contains('open')) return; // user already opened it
+    sessionStorage.setItem('chat_proactive_done', '1');
+    toggle.click(); // open chat
+    // Show a proactive intro message (injected as a "bot thinking then reveal" effect)
+    const msgs = document.getElementById('chatMessages');
+    if (msgs) {
+      const existing = msgs.querySelectorAll('.chat-msg.bot');
+      if (existing.length === 1) {
+        // Replace the generic welcome with a more personal nudge
+        existing[0].querySelector('p').textContent =
+          '👋 Hey! Quick one — curious about Givelink, or want to know what Panos is focused on right now?';
+      }
+    }
+  }, 15000);
+  // Cancel if user interacts with the chat themselves
+  toggle.addEventListener('click', () => clearTimeout(timer), { once: true });
+})();
+
+// ── AI Chat: keyboard shortcut (/ or ?) to toggle ──
+(function() {
+  document.addEventListener('keydown', e => {
+    const tag = (document.activeElement || {}).tagName || '';
+    if (['INPUT','TEXTAREA','SELECT'].includes(tag)) return; // don't intercept form typing
+    if (e.key === '/' || e.key === '?') {
+      const toggle = document.getElementById('chatToggle');
+      if (toggle) { e.preventDefault(); toggle.click(); }
+    }
+  });
+})();
+
 // (hamburger ↔ X handled by closeMenu / main toggle above)
 
 // ── 3D card tilt on project cards ──
