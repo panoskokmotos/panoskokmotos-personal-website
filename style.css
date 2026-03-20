@@ -1157,7 +1157,12 @@ html[data-theme="light"] .skill-group h4 { color: rgba(255,255,255,0.5); }
 .books-category-title { font-size: 0.95rem; color: var(--blue); margin-bottom: 14px; letter-spacing: 0.03em; }
 .books-category .books-grid { grid-template-columns: repeat(5, 1fr); }
 
-.chip-brand { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); color: var(--text-muted); }
+.chip-brand {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.1);
+  color: var(--text-muted);
+  transition: all 0.18s cubic-bezier(0.4,0,0.2,1);
+}
 .chip-icon { font-weight: 700; width: 16px; text-align: center; display: flex; align-items: center; justify-content: center; }
 .chip-icon-only {
   padding: 0; gap: 0; justify-content: center;
@@ -1165,17 +1170,33 @@ html[data-theme="light"] .skill-group h4 { color: rgba(255,255,255,0.5); }
   min-width: unset;
 }
 .chip-icon-only .chip-icon { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
-.chip-brand:hover { background: var(--blue); border-color: var(--blue); color: #fff; }
-.tl-links { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; }
-/* Show labels on tl-links chips */
-.tl-links .chip-icon-only {
-  width: auto; height: 32px; padding: 0 10px; gap: 5px;
-  border-radius: 8px; font-size: 0.78rem; font-weight: 600;
+.chip-brand:hover {
+  background: rgba(59,110,248,0.15);
+  border-color: rgba(59,110,248,0.35);
+  color: var(--blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59,110,248,0.2);
 }
-.tl-links .chip-icon-only .chip-icon { width: 16px; height: 16px; font-size: 0.85rem; }
+/* ── Experience timeline chips (show label) ── */
+.tl-links { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; }
+.tl-links .chip-icon-only {
+  width: auto; height: 34px; padding: 0 12px; gap: 6px;
+  border-radius: 20px; font-size: 0.76rem; font-weight: 600;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-muted);
+}
+.tl-links .chip-icon-only .chip-icon { width: 14px; height: 14px; font-size: 0.82rem; flex-shrink: 0; }
 .tl-links .chip-icon-only::after {
   content: attr(title); white-space: nowrap;
-  font-size: 0.78rem; font-weight: 600;
+  font-size: 0.76rem; font-weight: 600; letter-spacing: 0.01em;
+}
+.tl-links .chip-icon-only:hover {
+  background: rgba(59,110,248,0.12);
+  border-color: rgba(59,110,248,0.3);
+  color: var(--blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(59,110,248,0.15);
 }
 
 .company-logo-img {
@@ -1195,8 +1216,12 @@ html[data-theme="light"] .skill-group h4 { color: rgba(255,255,255,0.5); }
 .watch-link-chip:hover { background: var(--blue); color: #fff; border-color: var(--blue); }
 .social-links-grid { max-width: 760px; margin: 0 auto; }
 
-.media-btn { display: inline-flex; align-items: center; gap: 6px; }
-.media-icon { width: 14px; text-align: center; font-weight: 700; }
+.media-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: all 0.18s cubic-bezier(0.4,0,0.2,1);
+}
+.media-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+.media-icon { width: 14px; text-align: center; font-weight: 700; display: flex; align-items: center; justify-content: center; }
 
 .press-logo { width: 34px; height: 34px; object-fit: contain; border-radius: 8px; background: #fff; padding: 4px; margin-bottom: 6px; }
 
@@ -1337,30 +1362,55 @@ html[data-theme="light"] .journey-xp-track {
 /* ─────────────────────────────────────────
    FAQ ACCORDION
 ───────────────────────────────────────── */
-.faq-list { display: flex; flex-direction: column; gap: 10px; max-width: 780px; margin: 0 auto; }
-.faq-item { background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color 0.2s; }
-.faq-item:hover { border-color: rgba(59,110,248,0.3); }
+.faq-list {
+  display: flex; flex-direction: column; gap: 0;
+  max-width: 780px; margin: 0 auto;
+  border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+}
+.faq-item {
+  background: var(--bg-alt); border: none;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+  position: relative;
+}
+.faq-item:last-child { border-bottom: none; }
+.faq-item:has(.faq-q[aria-expanded="true"]) {
+  background: rgba(59,110,248,0.04);
+}
+.faq-item:has(.faq-q[aria-expanded="true"])::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; background: var(--blue); border-radius: 0 2px 2px 0;
+}
 .faq-q {
   width: 100%; text-align: left; background: none; border: none; cursor: pointer;
-  padding: 18px 22px; font-size: 0.97rem; font-weight: 600; color: var(--text);
-  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  padding: 20px 24px; font-size: 0.97rem; font-weight: 600; color: var(--text);
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
   line-height: 1.4; font-family: inherit;
+  transition: color 0.2s;
 }
-.faq-q::after {
-  content: '+'; font-size: 1.4rem; font-weight: 300; color: var(--blue);
-  flex-shrink: 0; transition: transform 0.3s;
+.faq-q:hover { color: var(--blue); }
+.faq-q[aria-expanded="true"] { color: var(--blue); }
+.faq-chevron {
+  flex-shrink: 0; width: 20px; height: 20px;
+  border-radius: 50%; background: rgba(59,110,248,0.1);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  color: var(--blue);
 }
-.faq-q[aria-expanded="true"]::after { transform: rotate(45deg); }
+.faq-q[aria-expanded="true"] .faq-chevron {
+  background: var(--blue); color: #fff; transform: rotate(180deg);
+}
 .faq-a {
-  max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.25s ease;
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.38s cubic-bezier(0.4,0,0.2,1);
 }
-.faq-a.open { max-height: 400px; }
+.faq-a.open { max-height: 500px; }
 .faq-a p {
-  padding: 0 22px 18px; font-size: 0.88rem; color: var(--text-muted);
-  line-height: 1.65; border-top: 1px solid var(--border);
-  padding-top: 14px; margin-top: 0;
+  padding: 0 24px 20px; padding-left: 27px;
+  font-size: 0.9rem; color: var(--text-muted);
+  line-height: 1.7; margin: 0;
 }
-.faq-a a { color: var(--blue); text-decoration: underline; }
+.faq-a a { color: var(--blue); text-decoration: underline; text-underline-offset: 2px; }
 
 /* ─────────────────────────────────────────
    COOKIE CONSENT BANNER
@@ -1478,24 +1528,69 @@ html[data-theme="light"] .journey-xp-track {
 }
 
 .chat-header {
-  background: var(--blue);
+  background: linear-gradient(135deg, #1e3a8a 0%, var(--blue) 60%, #6d28d9 100%);
   padding: 14px 16px;
   display: flex; align-items: center; justify-content: space-between;
+  position: relative; overflow: hidden;
 }
-.chat-header-info { display: flex; align-items: center; gap: 10px; }
+.chat-header::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 100% 0%, rgba(255,255,255,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+.chat-header-info { display: flex; align-items: center; gap: 10px; position: relative; }
 .chat-avatar {
   width: 36px; height: 36px; border-radius: 50%;
   object-fit: cover; object-position: 40% 28%;
-  border: 2px solid rgba(255,255,255,0.3);
+  border: 2px solid rgba(255,255,255,0.35);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
+.chat-header-text { display: flex; flex-direction: column; }
 .chat-header strong { display: block; font-size: 0.9rem; color: #fff; font-weight: 700; }
-.chat-header span { font-size: 0.72rem; color: rgba(255,255,255,0.65); }
+.chat-header span { font-size: 0.72rem; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 4px; }
+.chat-status-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 0 2px rgba(74,222,128,0.3);
+  display: inline-block; flex-shrink: 0;
+  animation: statusPulse 2s ease-in-out infinite;
+}
+@keyframes statusPulse {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(74,222,128,0.3); }
+  50%       { box-shadow: 0 0 0 4px rgba(74,222,128,0.15); }
+}
+.chat-header-actions { display: flex; align-items: center; gap: 4px; position: relative; }
 .chat-close-btn {
   background: none; border: none; color: rgba(255,255,255,0.7);
   cursor: pointer; font-size: 1rem; padding: 4px 6px;
   border-radius: 6px; transition: all 0.15s;
 }
 .chat-close-btn:hover { color: #fff; background: rgba(255,255,255,0.15); }
+
+/* ── Chat nudge tooltip ── */
+.chat-nudge {
+  position: absolute; right: 70px; bottom: 50%;
+  transform: translateY(50%) translateX(8px);
+  background: rgba(15,20,40,0.95);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px; padding: 9px 16px;
+  font-size: 0.82rem; font-weight: 600; color: #fff;
+  white-space: nowrap; pointer-events: none;
+  opacity: 0; transition: opacity 0.4s, transform 0.4s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.chat-nudge.show {
+  opacity: 1; transform: translateY(50%) translateX(0);
+}
+.chat-nudge::after {
+  content: ''; position: absolute;
+  right: -5px; top: 50%; transform: translateY(-50%) rotate(45deg);
+  width: 9px; height: 9px;
+  background: rgba(15,20,40,0.95);
+  border-top: 1px solid rgba(255,255,255,0.12);
+  border-right: 1px solid rgba(255,255,255,0.12);
+}
 
 .chat-messages {
   flex: 1; overflow-y: auto; padding: 16px;
