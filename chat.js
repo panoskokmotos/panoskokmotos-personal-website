@@ -188,14 +188,23 @@ if (chatNewChat) chatNewChat.addEventListener('click', clearChat);
 
 // ── AI button size toggle ──
 const chatSizeToggle = document.getElementById('chatSizeToggle');
+function updateSizeToggleUI(isLg) {
+  if (!chatSizeToggle) return;
+  const expand = chatSizeToggle.querySelector('.size-icon-expand');
+  const shrink = chatSizeToggle.querySelector('.size-icon-shrink');
+  chatSizeToggle.setAttribute('aria-pressed', String(isLg));
+  chatSizeToggle.title = isLg ? 'Restore button size' : 'Make button bigger';
+  if (expand) expand.style.display = isLg ? 'none' : '';
+  if (shrink) shrink.style.display = isLg ? '' : 'none';
+  chatSizeToggle.classList.toggle('active', isLg);
+}
 if (chatSizeToggle && chatWidget) {
-  if (localStorage.getItem('chat_btn_lg') === '1') {
-    chatWidget.classList.add('chat-widget-lg');
-    chatSizeToggle.title = 'Restore button size';
-  }
+  const savedLg = localStorage.getItem('chat_btn_lg') === '1';
+  if (savedLg) chatWidget.classList.add('chat-widget-lg');
+  updateSizeToggleUI(savedLg);
   chatSizeToggle.addEventListener('click', () => {
     const isLg = chatWidget.classList.toggle('chat-widget-lg');
     localStorage.setItem('chat_btn_lg', isLg ? '1' : '0');
-    chatSizeToggle.title = isLg ? 'Restore button size' : 'Enlarge AI button';
+    updateSizeToggleUI(isLg);
   });
 }

@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-790ERKMVS5"></script>
+  <!-- Google Analytics — loaded only after consent -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-790ERKMVS5');
+    gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',wait_for_update:500});
+    function _loadGA(){
+      var s=document.createElement('script');
+      s.async=true;
+      s.src='https://www.googletagmanager.com/gtag/js?id=G-790ERKMVS5';
+      document.head.appendChild(s);
+      gtag('js',new Date());
+      gtag('config','G-790ERKMVS5');
+    }
+    (function(){
+      var consent=localStorage.getItem('cookie_consent');
+      if(consent==='accepted'){gtag('consent','update',{analytics_storage:'granted'});_loadGA();}
+    })();
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -236,6 +246,85 @@
   ]
 }
 </script>
+<!-- PodcastSeries Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "PodcastSeries",
+  "name": "Entrepreneurship Talks",
+  "description": "A long-form podcast and community co-founded by Panos Kokmotos in 2020, featuring conversations with founders, investors, and changemakers. 60+ episodes, 350K+ views.",
+  "url": "https://panoskokmotos.com/#projects",
+  "webFeed": "https://open.spotify.com/show/3R2F6kjvzVh1QXmTvmUQEu",
+  "author": {
+    "@type": "Person",
+    "name": "Panos Kokmotos",
+    "url": "https://panoskokmotos.com/"
+  },
+  "sameAs": [
+    "https://open.spotify.com/show/3R2F6kjvzVh1QXmTvmUQEu",
+    "https://podcasts.apple.com/gr/podcast/entrepreneurship-talks/id1686587675",
+    "https://www.youtube.com/@entrepreneurshiptalks"
+  ]
+}
+</script>
+  <!-- FAQ Schema for SEO/GEO -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Givelink and how does it work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Givelink is an in-kind donation platform that lets donors shop the specific goods nonprofits need most — with step-by-step delivery tracking, photo confirmation, and real impact stories. It has impacted 100,000+ lives and processed $220K+ in donations."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I book a call or meeting with Panos Kokmotos?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can book a 30-minute call directly at tidycal.com/givelink/panos. Panos is open to conversations about Givelink partnerships, speaking invitations, podcast appearances, and connecting with founders working on hard problems."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is Entrepreneurship Talks?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Entrepreneurship Talks is a long-form podcast and community co-founded by Panos Kokmotos in 2020, featuring conversations with founders, investors, and changemakers. It has 60+ episodes, 350K+ views, and a $100K+ grant secured."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Panos Kokmotos available for speaking engagements?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Panos speaks on entrepreneurship, social impact, in-kind giving, AI, and the future of philanthropy. He has spoken at university events, startup competitions, and community forums across Europe and the US."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What awards has Panos Kokmotos received?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Panos has been named to Forbes 30 Under 30 Greece 2024, recognized as a WEF Global Shaper (San Francisco Hub), reached Top 4 in Europe at GSEA 2023, won the Pappajohn Business Plan Competition, and was selected among Europe's Top 15 Young Innovators by World Summit Awards Global."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where is Panos Kokmotos based?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Panos splits his time between San Francisco, USA and Athens/Patras, Greece. He is available for remote conversations globally and in-person meetings in both locations."
+      }
+    }
+  ]
+}
+</script>
+
   <!-- PostHog Analytics -->
   <script>
     !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","").replace("https://","https://assets.")+"posthog.com/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+" (stub)"},o="init capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId setPersonPropertiesForFlags".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||(window.posthog=[]));
@@ -246,6 +335,38 @@
   </script>
 </head>
 <body>
+
+  <!-- ── GDPR Cookie Consent Banner ── -->
+  <div id="cookieBanner" class="cookie-banner" role="dialog" aria-label="Cookie consent" style="display:none">
+    <div class="cookie-banner-inner">
+      <p class="cookie-text">
+        This site uses cookies for analytics (Google Analytics &amp; PostHog) to understand how visitors use it. No personal data is sold or shared with advertisers.
+        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" class="cookie-link">Privacy Policy</a>
+      </p>
+      <div class="cookie-actions">
+        <button class="cookie-btn cookie-btn-accept" id="cookieAccept">Accept</button>
+        <button class="cookie-btn cookie-btn-decline" id="cookieDecline">Decline</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function(){
+      var b=document.getElementById('cookieBanner');
+      if(!localStorage.getItem('cookie_consent')){
+        b.style.display='';
+        document.getElementById('cookieAccept').onclick=function(){
+          localStorage.setItem('cookie_consent','accepted');
+          b.style.display='none';
+          gtag('consent','update',{analytics_storage:'granted'});
+          _loadGA();
+        };
+        document.getElementById('cookieDecline').onclick=function(){
+          localStorage.setItem('cookie_consent','declined');
+          b.style.display='none';
+        };
+      }
+    })();
+  </script>
 
   <!-- Page Loader -->
   <div id="page-loader" aria-hidden="true">
@@ -351,13 +472,13 @@
         </a>
       </div>
       <div class="hero-socials">
-        <a href="https://www.linkedin.com/in/panoskokmotos/" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
+        <a href="https://www.linkedin.com/in/panoskokmotos/" target="_blank" rel="noopener me" title="LinkedIn" aria-label="LinkedIn">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
         </a>
-        <a href="https://x.com/panoskokmotoss" target="_blank" rel="noopener" title="Twitter / X" aria-label="Twitter / X">
+        <a href="https://x.com/panoskokmotoss" target="_blank" rel="noopener me" title="Twitter / X" aria-label="Twitter / X">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </a>
-        <a href="https://github.com/panoskokmotos" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">
+        <a href="https://github.com/panoskokmotos" target="_blank" rel="noopener me" title="GitHub" aria-label="GitHub">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
         </a>
         <a href="mailto:panagiotis.kokmotoss@gmail.com" title="Email" aria-label="Email">
@@ -722,7 +843,7 @@
               <a href="https://givelink.app/en" target="_blank" rel="noopener" class="chip chip-brand chip-icon-only" title="Website" aria-label="Website"><span class="chip-icon">🌐</span></a>
               <a href="https://apps.apple.com/gr/app/givelink-buy-donate-goods/id6449001865" target="_blank" rel="noopener" class="chip chip-brand chip-icon-only" title="App Store" aria-label="App Store"><span class="chip-icon"></span></a>
               <a href="https://play.google.com/store/apps/details?id=app.carexchange.carexchangeMobile" target="_blank" rel="noopener" class="chip chip-brand chip-icon-only" title="Play Store" aria-label="Play Store"><span class="chip-icon">▶</span></a>
-              <a href="https://www.instagram.com/givelink.app/" target="_blank" rel="noopener" class="chip chip-brand chip-icon-only" title="Instagram" aria-label="Instagram"><span class="chip-icon"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5z"/><path d="M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.8a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4z"/><circle cx="17.25" cy="6.75" r="1.2"/></svg></span></a>
+              <a href="https://www.instagram.com/givelink.app/" target="_blank" rel="noopener" class="chip chip-brand chip-icon-only" title="Instagram" aria-label="Instagram"><span class="chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span></a>
               <a href="https://www.facebook.com/givelinkapp" target="_blank" rel="noopener" class="chip chip-brand chip-icon-only" title="Facebook" aria-label="Facebook"><span class="chip-icon">f</span></a>
               <a href="https://www.tiktok.com/@givelink.app" target="_blank" rel="noopener" class="chip chip-brand chip-icon-only" title="TikTok" aria-label="TikTok"><span class="chip-icon">♪</span></a>
               <a href="https://pitchbook.com/profiles/company/703792-90" target="_blank" rel="noopener" class="chip chip-brand chip-icon-only" title="Pitchbook" aria-label="Pitchbook"><span class="chip-icon">↗</span></a>
@@ -968,16 +1089,19 @@
               <div class="proj-metric"><strong>$220K+</strong><span>Donated to Nonprofits</span></div>
               <div class="proj-metric"><strong>100+</strong><span>Charity Partners</span></div>
             </div>
-            <div class="store-badges">
-              <a href="https://apps.apple.com/gr/app/givelink-buy-donate-goods/id6449001865" target="_blank" rel="noopener" class="store-badge store-badge-apple"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg></a>
-              <a href="https://play.google.com/store/apps/details?id=app.carexchange.carexchangeMobile" target="_blank" rel="noopener" class="store-badge store-badge-google"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="#00C853" d="M3.2 2.9c-.5.5-.8 1.2-.8 2v14.2c0 .8.3 1.5.8 2l9-9.1-9-9.1z"/><path fill="#FFD600" d="M15.3 14.7 12 11.9l-2.2 2.2 2.2 2.2 3.3-1.6z"/><path fill="#FF3D00" d="M19.8 10.7 15.3 8.3 12 11.9l3.3 2.8 4.5-2.3c1.1-.6 1.1-1.2 0-1.7z"/><path fill="#2962FF" d="m15.3 8.3-3.3-1.6-2.2 2.2 2.2 3 3.3-3.6z"/></svg></a>
-              <a href="https://pitchbook.com/profiles/company/703792-90" target="_blank" rel="noopener" class="store-badge store-badge-pitchbook"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M21 21H3V3h9v2H5v14h14v-7h2v9zM21 3h-6v2h3.59L11 12.59l1.41 1.41L20 6.41V10h2V3z"/></svg></a>
+            <div class="store-badges-group">
+              <span class="store-badges-label">Download &amp; View</span>
+              <div class="store-badges">
+                <a href="https://apps.apple.com/gr/app/givelink-buy-donate-goods/id6449001865" target="_blank" rel="noopener" class="store-badge store-badge-apple" title="App Store" aria-label="App Store"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg></a>
+                <a href="https://play.google.com/store/apps/details?id=app.carexchange.carexchangeMobile" target="_blank" rel="noopener" class="store-badge store-badge-google" title="Google Play" aria-label="Google Play"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="#00C853" d="M3.2 2.9c-.5.5-.8 1.2-.8 2v14.2c0 .8.3 1.5.8 2l9-9.1-9-9.1z"/><path fill="#FFD600" d="M15.3 14.7 12 11.9l-2.2 2.2 2.2 2.2 3.3-1.6z"/><path fill="#FF3D00" d="M19.8 10.7 15.3 8.3 12 11.9l3.3 2.8 4.5-2.3c1.1-.6 1.1-1.2 0-1.7z"/><path fill="#2962FF" d="m15.3 8.3-3.3-1.6-2.2 2.2 2.2 3 3.3-3.6z"/></svg></a>
+                <a href="https://pitchbook.com/profiles/company/703792-90" target="_blank" rel="noopener" class="store-badge store-badge-pitchbook" title="PitchBook" aria-label="PitchBook"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M21 21H3V3h9v2H5v14h14v-7h2v9zM21 3h-6v2h3.59L11 12.59l1.41 1.41L20 6.41V10h2V3z"/></svg></a>
+              </div>
             </div>
             <div class="project-actions" style="margin-top:10px">
               <a href="https://givelink.app/en" target="_blank" rel="noopener" class="btn btn-visit-givelink">
-                <img src="assets/givelink-logo.png" alt="Givelink" class="btn-logo" loading="lazy" onerror="this.src='assets/givelink-logo.svg'" />
-                Visit Givelink
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                Website
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </a>
             </div>
           </div>
@@ -1011,7 +1135,7 @@
             </div>
             <div class="project-actions" style="margin-top:12px">
               <a href="https://open.spotify.com/show/3R2F6kjvzVh1QXmTvmUQEu" target="_blank" rel="noopener" class="btn btn-sm media-btn btn-spotify"><span class="media-icon">🎵</span></a>
-              <a href="https://podcasts.apple.com/gr/podcast/entrepreneurship-talks/id1686587675" target="_blank" rel="noopener" class="btn btn-sm media-btn btn-apple-podcast"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm0 4.8c2.7 0 5.2 1.1 7.1 2.9l-1.8 1.8c-1.4-1.3-3.3-2.1-5.3-2.1-4.3 0-7.8 3.5-7.8 7.8 0 1.9.7 3.7 1.9 5.1l-1.8 1.8C2.9 20 1.8 17.1 1.8 14c0-5.6 4.6-9.2 10.2-9.2zm0 3.6c1.8 0 3.5.7 4.7 1.9l-1.8 1.8c-.8-.7-1.8-1.1-2.9-1.1-2.5 0-4.6 2.1-4.6 4.6 0 1.1.4 2.1 1.1 2.9l-1.8 1.8C5.3 17.1 4.6 15.6 4.6 14c0-4.1 3.3-5.6 7.4-5.6zm0 4.2c1.3 0 2.4 1.1 2.4 2.4S13.3 17.4 12 17.4 9.6 16.3 9.6 15s1.1-2.4 2.4-2.4zm0 1.2c-.6 0-1.2.5-1.2 1.2s.5 1.2 1.2 1.2 1.2-.5 1.2-1.2-.6-1.2-1.2-1.2zm0 2.4c-.4 0-.7.1-1 .2.1 1.1.4 2 .7 2.7.1.3.2.3.3.3s.2 0 .3-.3c.3-.7.6-1.6.7-2.7-.3-.1-.6-.2-1-.2z"/></svg> Apple</a>
+              <a href="https://podcasts.apple.com/gr/podcast/entrepreneurship-talks/id1686587675" target="_blank" rel="noopener" class="btn btn-sm media-btn btn-apple-podcast"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm0 4.8c2.7 0 5.2 1.1 7.1 2.9l-1.8 1.8c-1.4-1.3-3.3-2.1-5.3-2.1-4.3 0-7.8 3.5-7.8 7.8 0 1.9.7 3.7 1.9 5.1l-1.8 1.8C2.9 20 1.8 17.1 1.8 14c0-5.6 4.6-9.2 10.2-9.2zm0 3.6c1.8 0 3.5.7 4.7 1.9l-1.8 1.8c-.8-.7-1.8-1.1-2.9-1.1-2.5 0-4.6 2.1-4.6 4.6 0 1.1.4 2.1 1.1 2.9l-1.8 1.8C5.3 17.1 4.6 15.6 4.6 14c0-4.1 3.3-5.6 7.4-5.6zm0 4.2c1.3 0 2.4 1.1 2.4 2.4S13.3 17.4 12 17.4 9.6 16.3 9.6 15s1.1-2.4 2.4-2.4zm0 1.2c-.6 0-1.2.5-1.2 1.2s.5 1.2 1.2 1.2 1.2-.5 1.2-1.2-.6-1.2-1.2-1.2zm0 2.4c-.4 0-.7.1-1 .2.1 1.1.4 2 .7 2.7.1.3.2.3.3.3s.2 0 .3-.3c.3-.7.6-1.6.7-2.7-.3-.1-.6-.2-1-.2z"/></svg></a>
               <a href="https://www.youtube.com/@Entrepreneurship_Talks" target="_blank" rel="noopener" class="btn btn-sm media-btn btn-youtube"><span class="media-icon">▶</span></a>
               <a href="https://www.instagram.com/entrepreneurshiptalks_gr/" target="_blank" rel="noopener" class="btn btn-sm media-btn btn-instagram"><span class="media-icon"><svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5z"/><path d="M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.8a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4z"/><circle cx="17.25" cy="6.75" r="1.2"/></svg></span></a>
               <a href="https://www.tiktok.com/@entrepreneurship_talks" target="_blank" rel="noopener" class="btn btn-sm media-btn btn-tiktok"><span class="media-icon">♪</span></a>
@@ -1343,8 +1467,49 @@
       </div>
       <!-- Inline booking calendar -->
       <div class="tidycal-wrap">
-        <iframe src="https://tidycal.com/givelink/panos?embedded=true" title="Book a call with Panos Kokmotos" width="100%" height="650" frameborder="0" loading="lazy" style="display:block;"></iframe>
+        <button class="tidycal-toggle" id="tidycalToggle" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Show inline calendar
+          <svg class="tidycal-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="tidycal-frame-wrap" id="tidycalFrame">
+          <iframe data-src="https://tidycal.com/givelink/panos?embedded=true" title="Book a call with Panos Kokmotos" width="100%" height="650" frameborder="0" style="display:block;"></iframe>
+        </div>
       </div>
+      <script>
+        (function(){
+          var btn = document.getElementById('tidycalToggle');
+          var frame = document.getElementById('tidycalFrame');
+          if (!btn || !frame) return;
+          var iframe = frame.querySelector('iframe');
+          var loaded = false;
+          function loadIframe() {
+            if (!loaded && iframe && iframe.dataset.src) {
+              iframe.src = iframe.dataset.src;
+              loaded = true;
+            }
+          }
+          // On mobile, hide by default; on desktop, show by default
+          function init() {
+            if (window.innerWidth < 768) {
+              frame.style.display = 'none';
+              btn.style.display = 'flex';
+            } else {
+              frame.style.display = 'block';
+              btn.style.display = 'none';
+              loadIframe();
+            }
+          }
+          btn.addEventListener('click', function() {
+            var open = btn.getAttribute('aria-expanded') === 'true';
+            btn.setAttribute('aria-expanded', String(!open));
+            frame.style.display = open ? 'none' : 'block';
+            if (!open) loadIframe();
+            btn.querySelector('.tidycal-toggle-label') && (btn.querySelector('.tidycal-toggle-label').textContent = open ? 'Show inline calendar' : 'Hide calendar');
+          });
+          init();
+          window.addEventListener('resize', init);
+      </script>
     </div>
   </section>
 
@@ -1354,14 +1519,52 @@
       <p class="section-eyebrow">A Filter</p>
       <h2 class="section-heading">This site is probably for you if…</h2>
       <div class="for-you-grid">
-        <div class="for-you-item"><span class="fyi-check">✓</span><span>You're building something you genuinely believe in, not just something that looks fundable</span></div>
-        <div class="for-you-item"><span class="fyi-check">✓</span><span>You're curious about in-kind giving, social impact, or what the future of nonprofits looks like</span></div>
-        <div class="for-you-item"><span class="fyi-check">✓</span><span>You want to be a guest on Entrepreneurship Talks</span></div>
-        <div class="for-you-item"><span class="fyi-check">✓</span><span>You found something here that made you think "I want to know this person"</span></div>
-        <div class="for-you-item"><span class="fyi-check">✓</span><span>You're a founder navigating a hard moment and need to talk to someone who gets it</span></div>
-        <div class="for-you-item"><span class="fyi-check">✓</span><span>You Googled me before a meeting and wanted to understand what actually drives me</span></div>
+        <div class="for-you-item">You're building something you genuinely believe in, not just something that looks fundable</div>
+        <div class="for-you-item">You're curious about in-kind giving, social impact, or what the future of nonprofits looks like</div>
+        <div class="for-you-item">You want to be a guest on Entrepreneurship Talks</div>
+        <div class="for-you-item">You found something here that made you think "I want to know this person"</div>
+        <div class="for-you-item">You're a founder navigating a hard moment and need to talk to someone who gets it</div>
+        <div class="for-you-item">You Googled me before a meeting and wanted to understand what actually drives me</div>
       </div>
       <p class="for-you-not">It's probably <em>not</em> for you if you want a polished pitch deck — that's <a href="https://givelink.app" target="_blank" rel="noopener">Givelink.app</a>.</p>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── -->
+  <section id="faq" class="section-alt">
+    <div class="container">
+      <p class="section-eyebrow">FAQ</p>
+      <h2 class="section-heading">Frequently Asked Questions</h2>
+      <div class="faq-list" id="faqList">
+        <div class="faq-item" data-animate>
+          <button class="faq-q" aria-expanded="false">What is Givelink and how does it work?</button>
+          <div class="faq-a"><p>Givelink is an in-kind donation platform that lets donors shop the specific goods nonprofits need most — from food to hygiene products — with step-by-step delivery tracking, photo confirmation, and real impact stories. Instead of cash donations, you give exactly what's needed, eliminating waste and ensuring 100% impact traceability. <a href="https://givelink.app/en" target="_blank" rel="noopener">Visit givelink.app →</a></p></div>
+        </div>
+        <div class="faq-item" data-animate>
+          <button class="faq-q" aria-expanded="false">How can I book a call or meeting with Panos?</button>
+          <div class="faq-a"><p>You can book a 30-minute call directly at <a href="https://tidycal.com/givelink/panos" target="_blank" rel="noopener">tidycal.com/givelink/panos</a>. Panos is open to conversations about Givelink partnerships, speaking invitations, podcast appearances, and connecting with founders working on hard problems.</p></div>
+        </div>
+        <div class="faq-item" data-animate>
+          <button class="faq-q" aria-expanded="false">What is Entrepreneurship Talks?</button>
+          <div class="faq-a"><p>Entrepreneurship Talks is a long-form podcast and community Panos co-founded in 2020, featuring conversations with founders, investors, and changemakers. With 60+ episodes, 350K+ views, 5+ live events, and a $100K+ grant secured, it has become one of Greece's leading entrepreneurship media platforms. Listen on <a href="https://open.spotify.com/show/3R2F6kjvzVh1QXmTvmUQEu" target="_blank" rel="noopener">Spotify</a> or <a href="https://www.youtube.com/@Entrepreneurship_Talks" target="_blank" rel="noopener">YouTube</a>.</p></div>
+        </div>
+        <div class="faq-item" data-animate>
+          <button class="faq-q" aria-expanded="false">Is Panos available for speaking engagements?</button>
+          <div class="faq-a"><p>Yes — Panos speaks on entrepreneurship, social impact, in-kind giving, AI, and the future of philanthropy. He has spoken at university events, startup competitions, and community forums across Europe and the US. Reach out via <a href="mailto:panagiotis.kokmotoss@gmail.com">email</a> or <a href="https://tidycal.com/givelink/panos" target="_blank" rel="noopener">book a call</a> to discuss your event.</p></div>
+        </div>
+        <div class="faq-item" data-animate>
+          <button class="faq-q" aria-expanded="false">What awards and recognition has Panos received?</button>
+          <div class="faq-a"><p>Panos has been named to <strong>Forbes 30 Under 30 Greece 2024</strong>, recognized as a <strong>WEF Global Shaper</strong> (San Francisco Hub), reached <strong>Top 4 in Europe at GSEA 2023</strong>, won the <strong>Pappajohn Business Plan Competition</strong>, and was selected among Europe's <strong>Top 15 Young Innovators</strong> by World Summit Awards Global, among other recognitions.</p></div>
+        </div>
+        <div class="faq-item" data-animate>
+          <button class="faq-q" aria-expanded="false">Where is Panos based?</button>
+          <div class="faq-a"><p>Panos splits his time between <strong>San Francisco, USA</strong> (where he's scaling Givelink and active in the WEF Global Shapers SF Hub) and <strong>Athens/Patras, Greece</strong> (where Entrepreneurship Talks and key partnerships are based). He's available for remote conversations globally and in-person meetings in both locations.</p></div>
+        </div>
+        <div class="faq-item" data-animate>
+          <button class="faq-q" aria-expanded="false">How can I invest in or partner with Givelink?</button>
+          <div class="faq-a"><p>Givelink is actively expanding in the US market and is open to conversations with aligned investors and strategic partners — especially nonprofits, foundations, and corporate CSR teams. If you believe in the future of in-kind giving, <a href="https://tidycal.com/givelink/panos" target="_blank" rel="noopener">book a call</a> or email <a href="mailto:panagiotis.kokmotoss@gmail.com">panagiotis.kokmotoss@gmail.com</a> to start a conversation.</p></div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1457,8 +1660,9 @@
           <button class="chat-new-btn" id="chatNewChat" title="New conversation" aria-label="Start new conversation">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="15" height="15"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           </button>
-          <button class="chat-size-btn" id="chatSizeToggle" title="Toggle button size" aria-label="Toggle AI button size">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+          <button class="chat-size-btn" id="chatSizeToggle" title="Make button bigger" aria-label="Toggle AI button size" aria-pressed="false">
+            <svg class="size-icon-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+            <svg class="size-icon-shrink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="display:none"><path d="M4 14h6v6M14 4h6v6M10 14l-7 7M21 3l-7 7"/></svg>
           </button>
           <button class="chat-close-btn" id="chatClose" aria-label="Close chat">✕</button>
         </div>
@@ -1510,6 +1714,23 @@
 
   <script src="script.js"></script>
   <script src="chat.js"></script>
+  <!-- FAQ accordion -->
+  <script>
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        // Close all others
+        document.querySelectorAll('.faq-q').forEach(b => {
+          b.setAttribute('aria-expanded', 'false');
+          b.nextElementSibling.classList.remove('open');
+        });
+        if (!expanded) {
+          btn.setAttribute('aria-expanded', 'true');
+          btn.nextElementSibling.classList.add('open');
+        }
+      });
+    });
+  </script>
   <!-- Service Worker registration -->
   <script>
     if ('serviceWorker' in navigator) {

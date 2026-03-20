@@ -34,6 +34,7 @@ function closeMenu() {
   hamburger.classList.remove('active');
   hamburger.setAttribute('aria-expanded', 'false');
   hamburger.setAttribute('aria-label', 'Menu');
+  document.body.classList.remove('nav-open');
   document.body.style.overflow = '';
 }
 
@@ -42,8 +43,13 @@ hamburger.addEventListener('click', () => {
   hamburger.classList.toggle('active', isOpen);
   hamburger.setAttribute('aria-expanded', isOpen);
   hamburger.setAttribute('aria-label', isOpen ? 'Close menu' : 'Menu');
-  if (isOpen) { document.body.style.overflow = 'hidden'; }
-  else { document.body.style.overflow = ''; }
+  if (isOpen) {
+    document.body.classList.add('nav-open');
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.classList.remove('nav-open');
+    document.body.style.overflow = '';
+  }
 });
 if (navMobileClose) {
   navMobileClose.addEventListener('click', closeMenu);
@@ -359,21 +365,22 @@ if (contactForm) {
   });
 }
 
-// ── Sticky mobile CTA (shows after scrolling past hero) ──
+// ── Sticky mobile CTA (shows after 30% scroll, hides at contact) ──
 (function() {
   const cta = document.getElementById('stickyCta');
   if (!cta) return;
-  const hero = document.getElementById('hero');
   const contact = document.getElementById('contact');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.target === hero && !e.isIntersecting) cta.classList.add('visible');
-      if (e.target === hero && e.isIntersecting) cta.classList.remove('visible');
-      if (e.target === contact && e.isIntersecting) cta.classList.remove('visible');
-    });
-  }, { threshold: 0.1 });
-  obs.observe(hero);
-  if (contact) obs.observe(contact);
+  function updateCta() {
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? window.scrollY / docHeight : 0;
+    const pastContact = contact && contact.getBoundingClientRect().top < window.innerHeight * 0.8;
+    if (pct >= 0.3 && !pastContact) {
+      cta.classList.add('visible');
+    } else {
+      cta.classList.remove('visible');
+    }
+  }
+  window.addEventListener('scroll', updateCta, { passive: true });
   cta.setAttribute('aria-hidden', 'false');
 })();
 
@@ -772,23 +779,6 @@ document.querySelectorAll('.award-flip').forEach(card => {
   }, { threshold: 0.1 });
 
   sectionObserver.observe(section);
-})();
-
-// ── Scroll progress bar ──
-(function initScrollProgress() {
-  const bar = document.createElement('div');
-  bar.id = 'scroll-progress';
-  document.body.prepend(bar);
-
-  function updateBar() {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    bar.style.width = pct + '%';
-  }
-
-  window.addEventListener('scroll', updateBar, { passive: true });
-  updateBar();
 })();
 
 // ── Awards show more toggle ──
