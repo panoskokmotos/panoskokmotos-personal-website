@@ -314,13 +314,15 @@
       <p class="chat-note">Powered by <a href="https://anthropic.com" target="_blank" rel="noopener">Claude AI</a></p>
     </div>
   </div>
-  <script src="script.js"></script>
-  <script src="chat.js"></script>
+  <script src="script.js?v=2"></script>
+  <script src="chat.js?v=2"></script>
   <script>
-    // ── Book AI: inject "Ask AI" button into each book card ──
-    document.querySelectorAll('.book-card').forEach(function(card) {
-      var title = card.querySelector('h4') ? card.querySelector('h4').textContent.trim() : '';
-      var author = card.querySelector('.book-author') ? card.querySelector('.book-author').textContent.trim() : '';
+    // ── Book AI: inject "Chat with AI" button into each book card ──
+    function injectBookAIBtn(card, titleSel, authorSel) {
+      var titleEl = card.querySelector(titleSel);
+      var authorEl = card.querySelector(authorSel);
+      var title = titleEl ? titleEl.textContent.trim() : '';
+      var author = authorEl ? authorEl.textContent.trim() : '';
       if (!title) return;
       var btn = document.createElement('button');
       btn.className = 'book-ai-btn';
@@ -336,7 +338,14 @@
       else {
         var shareBtn = card.querySelector('.book-share-x');
         if (shareBtn) shareBtn.parentNode.insertBefore(btn, shareBtn);
+        else card.appendChild(btn);
       }
+    }
+    document.querySelectorAll('.book-card').forEach(function(card) {
+      injectBookAIBtn(card, 'h4', '.book-author');
+    });
+    document.querySelectorAll('.bnr-card').forEach(function(card) {
+      injectBookAIBtn(card, 'h4.bnr-title', '.bnr-author');
     });
   </script>
 </body>

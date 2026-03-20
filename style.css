@@ -3258,23 +3258,29 @@ html[data-theme="light"] .logo-item:hover .logo-img { filter: grayscale(0) opaci
   background: #000; color: #fff; border-color: #000;
 }
 .book-ai-btn {
-  display: inline-flex; align-items: center; gap: 5px;
+  display: inline-flex; align-items: center; gap: 6px;
   align-self: flex-start;
-  margin-top: 8px; margin-right: 6px;
-  font-size: 0.74rem; font-weight: 700;
+  margin-top: 10px; margin-right: 6px;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.01em;
   color: var(--blue);
-  padding: 5px 12px;
-  border: 1px solid rgba(59,110,248,0.35);
+  padding: 6px 14px;
+  border: 1.5px solid rgba(59,110,248,0.4);
   border-radius: 20px;
-  background: rgba(59,110,248,0.07);
+  background: linear-gradient(135deg, rgba(59,110,248,0.1), rgba(109,40,217,0.06));
   cursor: pointer; font-family: inherit;
-  transition: all 0.18s; white-space: nowrap;
+  transition: all 0.2s; white-space: nowrap;
   width: fit-content;
+  box-shadow: 0 0 0 0 rgba(59,110,248,0);
 }
 .book-ai-btn:hover {
-  background: var(--blue); color: #fff; border-color: var(--blue);
+  background: linear-gradient(135deg, var(--blue), rgba(109,40,217,0.85));
+  color: #fff; border-color: transparent;
+  box-shadow: 0 4px 16px rgba(59,110,248,0.35);
+  transform: translateY(-1px);
 }
+.book-ai-btn:active { transform: translateY(0); }
 .book-ai-btn svg { flex-shrink: 0; }
+.book-ai-btn span { display: inline; }
 
 /* ── LinkedIn follow button ── */
 .btn-linkedin-follow {
@@ -4028,6 +4034,13 @@ html[data-theme="light"] .nav-mobile-close:hover { background: rgba(59,110,248,0
 }
 .chat-widget-lg .chat-toggle svg { width: 28px; height: 28px; }
 .chat-widget-lg .chat-badge { font-size: 0.6rem; padding: 2px 5px; }
+.chat-widget-lg .chat-panel {
+  width: 440px; max-height: 640px;
+  bottom: 84px;
+}
+@media (max-width: 520px) {
+  .chat-widget-lg .chat-panel { width: calc(100vw - 16px); right: -4px; }
+}
 
 /* ── Bold/italic inside chat bubbles ── */
 .chat-msg p strong { font-weight: 700; color: inherit; }
