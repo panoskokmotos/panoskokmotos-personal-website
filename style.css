@@ -5318,3 +5318,219 @@ a.podcast-item:hover {
 
 .tool-tab-panel { display: none; }
 .tool-tab-panel.active { display: block; }
+
+/* ══════════════════════════════════════════
+   WHAT WOULD $X DO — ENHANCED COMPONENTS
+   ══════════════════════════════════════════ */
+
+/* ── Section labels ── */
+.wxd-section { display: flex; flex-direction: column; gap: 12px; }
+.wxd-section-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ── Shared chip base ── */
+.wxd-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--bg-alt);
+  border: 1.5px solid var(--border);
+  border-radius: 99px;
+  color: var(--text-muted);
+  font-family: var(--font);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.12s;
+  white-space: nowrap;
+  user-select: none;
+}
+.wxd-chip:hover { border-color: rgba(59,110,248,0.4); color: var(--text); transform: translateY(-1px); }
+.wxd-chip-active {
+  background: rgba(59,110,248,0.15);
+  border-color: var(--blue);
+  color: var(--blue-light);
+}
+
+/* ── Amount chips row ── */
+.wxd-amount-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ── Custom amount input ── */
+.wxd-custom-amount { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.wxd-custom-label { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
+.wxd-custom-input-wrap { display: flex; align-items: center; gap: 0; }
+.wxd-dollar-sign {
+  background: var(--bg-alt);
+  border: 1.5px solid var(--border);
+  border-right: none;
+  border-radius: var(--radius) 0 0 var(--radius);
+  padding: 10px 10px 10px 14px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.wxd-custom-input {
+  border-radius: 0 var(--radius) var(--radius) 0 !important;
+  width: 120px !important;
+  padding-left: 8px !important;
+}
+
+/* ── Comparison line ── */
+.wxd-comparison {
+  font-size: 0.8rem;
+  color: var(--gold);
+  font-weight: 600;
+  min-height: 1.2em;
+  transition: opacity 0.3s;
+  opacity: 0;
+}
+
+/* ── Cause chips grid ── */
+.wxd-cause-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.wxd-cause-chip { font-size: 0.82rem; padding: 7px 14px; }
+
+/* ── Giving mode toggle ── */
+.wxd-toggle-section { flex-direction: row; align-items: center; gap: 16px; }
+.wxd-toggle {
+  display: inline-flex;
+  background: var(--bg-alt);
+  border: 1.5px solid var(--border);
+  border-radius: 99px;
+  padding: 3px;
+  gap: 2px;
+}
+.wxd-toggle-btn {
+  background: none;
+  border: none;
+  border-radius: 99px;
+  color: var(--text-muted);
+  font-family: var(--font);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 6px 18px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.wxd-toggle-active {
+  background: var(--blue);
+  color: #fff;
+}
+.wxd-monthly-note {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--blue-light);
+  min-height: 1.2em;
+}
+
+/* ── Result header actions ── */
+.wxd-result { padding: 24px; }
+.wxd-result-actions { display: flex; gap: 8px; align-items: center; }
+.wxd-share-btn {
+  background: rgba(29,155,240,0.1);
+  border-color: rgba(29,155,240,0.3);
+  color: #1d9bf0;
+}
+.wxd-share-btn:hover { background: rgba(29,155,240,0.2); }
+
+/* ── Scenario cards grid ── */
+.wxd-scenarios-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.wxd-scenario-card {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.35s var(--ease),
+    transform 0.35s var(--ease),
+    box-shadow 0.2s,
+    border-color 0.2s;
+  transition-delay: calc(var(--i) * 0.08s);
+}
+
+.wxd-scenario-card.wxd-scenario-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.wxd-scenario-card:hover {
+  border-color: rgba(59,110,248,0.3);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+
+.wxd-scenario-icon {
+  font-size: 2rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.wxd-scenario-body { flex: 1; min-width: 0; }
+
+.wxd-scenario-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.wxd-scenario-stat {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--blue-light);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.wxd-scenario-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ── Try another row ── */
+.wxd-try-another {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.wxd-try-label { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; }
+.wxd-try-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.wxd-try-chip { font-size: 0.78rem; padding: 5px 12px; }
+
+/* ── Responsive ── */
+@media (max-width: 500px) {
+  .wxd-amount-chips { gap: 6px; }
+  .wxd-chip { font-size: 0.8rem; padding: 6px 12px; }
+  .wxd-scenario-icon { font-size: 1.5rem; }
+  .wxd-scenario-stat { font-size: 1.1rem; }
+  .wxd-toggle-section { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
