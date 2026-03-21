@@ -116,6 +116,38 @@ sections.forEach(s => sectionObserver.observe(s));
 // ── Theme: dark mode locked ──
 document.documentElement.setAttribute('data-theme', 'dark');
 
+// ── Marquee drag-to-scroll ──
+document.querySelectorAll('.marquee-wrap').forEach(wrap => {
+  let isDown = false, startX = 0, scrollLeft = 0;
+
+  function dragStart(x) {
+    isDown = true;
+    startX = x - wrap.offsetLeft;
+    scrollLeft = wrap.scrollLeft;
+    wrap.classList.add('dragging');
+  }
+  function dragEnd() {
+    isDown = false;
+    wrap.classList.remove('dragging');
+  }
+  function dragMove(x) {
+    if (!isDown) return;
+    const walk = (x - wrap.offsetLeft - startX) * 1.5;
+    wrap.scrollLeft = scrollLeft - walk;
+  }
+
+  // Mouse
+  wrap.addEventListener('mousedown', e => { dragStart(e.pageX); });
+  wrap.addEventListener('mouseleave', dragEnd);
+  wrap.addEventListener('mouseup', dragEnd);
+  wrap.addEventListener('mousemove', e => { e.preventDefault(); dragMove(e.pageX); });
+
+  // Touch
+  wrap.addEventListener('touchstart', e => { dragStart(e.touches[0].pageX); }, { passive: true });
+  wrap.addEventListener('touchend', dragEnd);
+  wrap.addEventListener('touchmove', e => { dragMove(e.touches[0].pageX); }, { passive: true });
+});
+
 // ── Scroll progress bar ──
 const progressBar = document.getElementById('progress-bar');
 window.addEventListener('scroll', () => {

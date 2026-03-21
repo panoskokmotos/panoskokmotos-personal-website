@@ -51,7 +51,16 @@ function saveHistory() {
 }
 
 // ── Toggle open/close ──
-function openChat() { chatWidget.classList.add('open'); chatInput.focus(); }
+function openChat() {
+  chatWidget.classList.add('open');
+  // On mobile, delay focus so the panel animation finishes before keyboard opens
+  const isMobile = window.innerWidth <= 768 || ('ontouchstart' in window);
+  if (isMobile) {
+    setTimeout(() => { chatInput.focus(); chatMessages.scrollTop = chatMessages.scrollHeight; }, 320);
+  } else {
+    chatInput.focus();
+  }
+}
 function closeChat() { chatWidget.classList.remove('open'); }
 
 chatToggle.addEventListener('click', () => {
@@ -191,29 +200,22 @@ if (chatNewChat) chatNewChat.addEventListener('click', clearChat);
 // ── Book AI: open chat pre-loaded with a book question ──
 window.chatOpenWithBook = function(title, author) {
   openChat();
-  // Show book-specific starters instead of immediately sending
   const starters = document.getElementById('chatStarters');
   if (starters) {
-    starters.innerHTML = '<p class="chat-starters-label">Ask about <em>' + title + '</em></p>' +
+    const arrow = '<svg class="csc-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
+    const chip = (icon, text) =>
       '<button class="chat-starter-chip" onclick="useChatStarter(this)">' +
-        '<span class="csc-icon">\uD83D\uDCAD</span>' +
-        '<span class="csc-text">How did this book influence Panos\u2019 thinking?</span>' +
-        '<svg class="csc-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>' +
-      '</button>' +
-      '<button class="chat-starter-chip" onclick="useChatStarter(this)">' +
-        '<span class="csc-icon">\uD83D\uDCD6</span>' +
-        '<span class="csc-text">What are the key lessons from \u201c' + title + '\u201d?</span>' +
-        '<svg class="csc-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>' +
-      '</button>' +
-      '<button class="chat-starter-chip" onclick="useChatStarter(this)">' +
-        '<span class="csc-icon">\uD83D\uDE80</span>' +
-        '<span class="csc-text">How did \u201c' + title + '\u201d apply to Panos\u2019 work?</span>' +
-        '<svg class="csc-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>' +
+        '<span class="csc-icon">' + icon + '</span>' +
+        '<span class="csc-text">' + text + '</span>' + arrow +
       '</button>';
+    starters.innerHTML =
+      '<p class="chat-starters-label">Ask about <em>' + title + '</em></p>' +
+      chip('💬', 'How did this book shape Panos\u2019 thinking?') +
+      chip('🌟', 'What\u2019s the most surprising idea in \u201c' + title + '\u201d?') +
+      chip('🚀', 'How did this apply to building Givelink?');
     starters.classList.remove('hidden');
   }
-  // Pre-fill input with a contextual prompt
-  chatInput.value = 'Tell me about "' + title + '" by ' + author + ' \u2014 what did Panos take from it and how did it shape his thinking?';
+  chatInput.value = 'Tell me about \u201c' + title + '\u201d by ' + author + ' \u2014 what did Panos take from it and how did it shape his thinking?';
   chatInput.focus();
   chatInput.select();
 };

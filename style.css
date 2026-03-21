@@ -958,7 +958,9 @@ html[data-theme="light"] .skill-group h4 { color: rgba(255,255,255,0.5); }
   text-transform: uppercase; color: var(--text-muted);
   margin-bottom: 18px;
 }
-.marquee-wrap { overflow: hidden; }
+.marquee-wrap { overflow: hidden; cursor: grab; user-select: none; }
+.marquee-wrap.dragging { cursor: grabbing; }
+.marquee-wrap.dragging .marquee { animation-play-state: paused; }
 .marquee {
   display: flex; gap: 0; white-space: nowrap;
   animation: marquee 28s linear infinite;
@@ -3420,6 +3422,20 @@ html[data-theme="light"] .logo-item:hover .logo-img { filter: grayscale(0) opaci
 .book-share-x:hover {
   background: #000; color: #fff; border-color: #000;
 }
+.book-ask-ai {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: 8px; margin-left: 6px;
+  font-size: 0.74rem; font-weight: 700;
+  color: var(--blue);
+  padding: 4px 10px;
+  border: 1px solid rgba(59,110,248,0.3);
+  border-radius: 20px; background: rgba(59,110,248,0.07);
+  cursor: pointer; transition: all 0.18s;
+}
+.book-ask-ai:hover { background: rgba(59,110,248,0.15); border-color: var(--blue); }
+@media (max-width: 640px) {
+  .book-ask-ai { font-size: 0.7rem; padding: 5px 10px; margin-left: 0; display: flex; width: fit-content; margin-top: 8px; }
+}
 .book-ai-btn {
   display: inline-flex; align-items: center; gap: 6px;
   align-self: flex-start;
@@ -4817,6 +4833,11 @@ html[data-theme="light"] .timeline-item.tl-active .tl-card {
   display: flex; align-items: center; gap: 10px;
   background: rgba(255,255,255,0.04); border: 1px solid var(--border);
   border-radius: 10px; padding: 10px 12px;
+  text-decoration: none; color: inherit;
+  transition: background 0.18s, border-color 0.18s;
+}
+a.podcast-item:hover {
+  background: rgba(59,110,248,0.1); border-color: rgba(59,110,248,0.35);
 }
 .podcast-art {
   width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0;
