@@ -122,7 +122,10 @@
     <!-- ── Result ── -->
     <div class="tool-result wxd-result" id="result">
       <div class="tool-result-header">
-        <span class="tool-result-label" id="resultLabel">Your Impact Scenarios</span>
+        <div style="display:flex;flex-direction:column;gap:3px">
+          <span class="tool-result-label" id="resultLabel">Your Impact Scenarios</span>
+          <button class="wxd-new-search-btn" id="newSearchBtn">← New search</button>
+        </div>
         <div class="wxd-result-actions">
           <button class="tool-copy-btn wxd-share-btn" id="shareBtn">
             <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -412,6 +415,7 @@
     let selectedCause = '';
     let givingMode = 'onetime'; // 'onetime' | 'monthly'
     let loadingInterval = null;
+    let currentScenarios = [];
 
     // ── DOM refs ──
     const form = document.getElementById('toolForm');
@@ -464,6 +468,7 @@
         document.querySelectorAll('.wxd-cause-chip').forEach(c => c.classList.remove('wxd-chip-active'));
         chip.classList.add('wxd-chip-active');
         selectedCause = chip.dataset.value;
+        localStorage.setItem('wxd_last_cause', selectedCause);
       });
     });
 
@@ -488,6 +493,8 @@
 
     // ── Comparison lookup ──
     const comparisons = [
+      [5000, 'a used car'],
+      [2500, 'a week-long vacation'],
       [1000, 'a laptop'],
       [500, 'a flight'],
       [250, 'a weekend hotel night'],
@@ -496,6 +503,7 @@
       [25, 'a few streaming subscriptions'],
       [10, 'a lunch out'],
       [5, 'a fancy coffee'],
+      [1, 'a piece of gum'],
     ];
 
     function getComparison(amount) {
@@ -556,6 +564,7 @@
     });
 
     async function submitForm() {
+      if (submitBtn.disabled) return; // guard against double submit
       if (!selectedAmount || selectedAmount <= 0) {
         showError('Please select or enter a dollar amount.');
         return;
@@ -568,6 +577,7 @@
       setLoading(true);
       hideError();
       hideResult();
+      showSkeletonCards();
       document.getElementById('emptyStateExample').style.display = 'none';
       updateURLState();
 
@@ -650,7 +660,7 @@ Rules:
     // ── Parse structured Claude output ──
     function parseScenarios(text) {
       const blocks = text.split('---SCENARIO---').filter(s => s.trim() && !s.includes('---END---'));
-      return blocks.map(block => {
+      const scenarios = blocks.map(block => {
         const get = (key) => {
           const match = block.match(new RegExp(key + ':\\s*(.+)'));
           return match ? match[1].trim() : '';
@@ -663,6 +673,29 @@ Rules:
           best: get('best') === 'true',
         };
       }).filter(s => s.title || s.description).slice(0, 5);
+
+      // Enforce exactly one best: true
+      const bestCount = scenarios.filter(s => s.best).length;
+      if (bestCount === 0 && scenarios.length > 0) scenarios[0].best = true;
+      if (bestCount > 1) scenarios.forEach((s, i) => { if (i > 0) s.best = false; });
+
+      return scenarios;
+    }
+
+    // ── Skeleton loading cards ──
+    function showSkeletonCards() {
+      scenariosGrid.innerHTML = Array.from({length: 5}).map((_, i) => `
+        <div class="wxd-scenario-card wxd-skeleton-card" style="--i:${i}">
+          <div class="wxd-skel wxd-skel-icon"></div>
+          <div class="wxd-scenario-body">
+            <div class="wxd-skel wxd-skel-title"></div>
+            <div class="wxd-skel wxd-skel-stat"></div>
+            <div class="wxd-skel wxd-skel-desc"></div>
+            <div class="wxd-skel wxd-skel-desc" style="width:70%"></div>
+          </div>
+        </div>
+      `).join('');
+      result.classList.add('visible');
     }
 
     // ── Render scenario cards ──
@@ -710,20 +743,7 @@ Rules:
       renderAnnualSummary(scenarios);
       renderOrgRecs(selectedCause);
 
-      // Wire up dig-deeper buttons (event delegation)
-      scenariosGrid.addEventListener('click', (e) => {
-        const btn = e.target.closest('.wxd-dig-btn');
-        if (!btn) return;
-        const idx = parseInt(btn.dataset.index);
-        const scenario = scenarios[idx];
-        const panel = document.getElementById('dig-' + idx);
-        if (panel.classList.contains('open')) {
-          panel.classList.remove('open');
-          btn.textContent = '+ Learn more';
-        } else {
-          digDeeper(btn, scenario, idx);
-        }
-      });
+      currentScenarios = scenarios;
 
       result.classList.add('visible');
       result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -737,6 +757,7 @@ Rules:
       if (digDeeperCache[cacheKey]) {
         panel.innerHTML = `<div class="wxd-dig-text">${digDeeperCache[cacheKey]}</div>`;
         panel.classList.add('open');
+        btn.classList.add('wxd-dig-btn-open');
         btn.textContent = '− Show less';
         return;
       }
@@ -766,10 +787,12 @@ Be concise. Max 150 words total. Use bullet point "•" for each item.`;
         digDeeperCache[cacheKey] = html;
         panel.innerHTML = `<div class="wxd-dig-text">${html}</div>`;
         panel.classList.add('open');
+        btn.classList.add('wxd-dig-btn-open');
         btn.textContent = '− Show less';
       } catch {
         panel.innerHTML = `<div class="wxd-dig-text" style="color:var(--text-muted);font-style:italic">Couldn't load details. Try again.</div>`;
         panel.classList.add('open');
+        btn.classList.add('wxd-dig-btn-open');
         btn.textContent = '− Show less';
       } finally {
         btn.disabled = false;
@@ -856,17 +879,28 @@ Be concise. Max 150 words total. Use bullet point "•" for each item.`;
       });
     });
 
+    // ── New Search ──
+    document.getElementById('newSearchBtn').addEventListener('click', () => {
+      hideResult();
+      window.scrollTo({ top: form.offsetTop - 80, behavior: 'smooth' });
+    });
+
     // ── Share ──
-    shareBtn.addEventListener('click', () => {
-      const firstCard = scenariosGrid.querySelector('.wxd-scenario-card');
+    shareBtn.addEventListener('click', async () => {
+      const firstCard = scenariosGrid.querySelector('.wxd-scenario-card:not(.wxd-skeleton-card)');
       const statEl = firstCard?.querySelector('.wxd-scenario-stat');
       const titleEl = firstCard?.querySelector('.wxd-scenario-title');
       const stat = statEl?.textContent || '';
       const title = titleEl?.textContent || selectedCause;
       const amount = givingMode === 'monthly' ? `$${selectedAmount}/month` : `$${selectedAmount}`;
 
-      const tweet = `Did you know ${amount} could ${stat.toLowerCase()} for ${title.toLowerCase()}?\n\nFind out what your donation actually does → ${window.location.origin}/what-would-x-do.html`;
-      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}`, '_blank', 'noopener');
+      const tweetText = `Did you know ${amount} could ${stat.toLowerCase()} for ${title.toLowerCase()}?\n\nFind out what your donation actually does → ${window.location.origin}/what-would-x-do.html`;
+      const shareData = { title: 'What Would $X Do?', text: tweetText, url: window.location.href };
+
+      if (navigator.share && navigator.canShare?.(shareData)) {
+        try { await navigator.share(shareData); return; } catch {}
+      }
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank', 'noopener');
     });
 
     // ── URL state ──
@@ -913,6 +947,17 @@ Be concise. Max 150 words total. Use bullet point "•" for each item.`;
         });
       }
 
+      // Restore last cause from localStorage if no cause in URL
+      if (!cause) {
+        const lastCause = localStorage.getItem('wxd_last_cause');
+        if (lastCause) {
+          selectedCause = lastCause;
+          document.querySelectorAll('.wxd-cause-chip').forEach(c => {
+            c.classList.toggle('wxd-chip-active', c.dataset.value === lastCause);
+          });
+        }
+      }
+
       updateMonthlyNote();
 
       // Auto-submit if both params present
@@ -933,7 +978,12 @@ Be concise. Max 150 words total. Use bullet point "•" for each item.`;
       }
     }
 
-    function hideResult() { result.classList.remove('visible'); }
+    function hideResult() {
+      result.classList.remove('visible');
+      document.getElementById('annualSummary').style.display = 'none';
+      document.getElementById('orgRecs').innerHTML = '';
+      document.getElementById('actionCTA').style.display = 'none';
+    }
     function showError(msg) { errorBox.textContent = msg; errorBox.classList.add('visible'); }
     function hideError() { errorBox.classList.remove('visible'); }
 
@@ -967,6 +1017,21 @@ Be concise. Max 150 words total. Use bullet point "•" for each item.`;
       chip.addEventListener('click', () => {
         if (document.getElementById('embedBody').classList.contains('open')) updateEmbedCode();
       });
+    });
+
+    // ── Dig-deeper event delegation (registered once) ──
+    scenariosGrid.addEventListener('click', (e) => {
+      const btn = e.target.closest('.wxd-dig-btn');
+      if (!btn) return;
+      const idx = parseInt(btn.dataset.index);
+      const panel = document.getElementById('dig-' + idx);
+      if (panel.classList.contains('open')) {
+        panel.classList.remove('open');
+        btn.classList.remove('wxd-dig-btn-open');
+        btn.textContent = '+ Learn more';
+      } else {
+        digDeeper(btn, currentScenarios[idx], idx);
+      }
     });
 
     // ── Init ──

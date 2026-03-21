@@ -5380,7 +5380,10 @@ a.podcast-item:hover {
 }
 .wxd-custom-input {
   border-radius: 0 var(--radius) var(--radius) 0 !important;
-  width: 120px !important;
+  width: auto !important;
+  min-width: 80px;
+  flex: 1;
+  max-width: 160px;
   padding-left: 8px !important;
 }
 
@@ -5827,3 +5830,58 @@ a.podcast-item:hover {
   .wxd-org-right { flex-direction: row; align-items: center; }
   .wxd-action-cta { flex-direction: column; }
 }
+
+/* ── WXD WAVE 3 — Bug Fixes, UX Polish & Accessibility ── */
+
+/* Focus-visible states */
+.wxd-chip:focus-visible,
+.wxd-toggle-btn:focus-visible,
+.wxd-dig-btn:focus-visible,
+.wxd-action-btn-primary:focus-visible,
+.wxd-action-btn-secondary:focus-visible,
+.wxd-org-donate:focus-visible,
+.wxd-embed-toggle:focus-visible,
+.wxd-new-search-btn:focus-visible {
+  outline: 2px solid var(--blue-light);
+  outline-offset: 2px;
+}
+
+/* New search button */
+.wxd-new-search-btn {
+  background: none;
+  border: none;
+  font-family: var(--font);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
+}
+.wxd-new-search-btn:hover { color: var(--blue-light); }
+
+/* Dig-deeper open state */
+.wxd-dig-btn.wxd-dig-btn-open {
+  color: var(--blue-light);
+  border-color: rgba(59,110,248,0.4);
+  background: rgba(59,110,248,0.05);
+}
+
+/* Skeleton loading cards */
+.wxd-skeleton-card {
+  pointer-events: none;
+}
+.wxd-skel {
+  background: linear-gradient(90deg, var(--bg-alt) 25%, rgba(255,255,255,0.07) 50%, var(--bg-alt) 75%);
+  background-size: 200% 100%;
+  animation: wxd-shimmer 1.4s infinite;
+  border-radius: 6px;
+}
+@keyframes wxd-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.wxd-skel-icon  { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; margin-bottom: 12px; }
+.wxd-skel-title { height: 14px; width: 55%; margin-bottom: 10px; }
+.wxd-skel-stat  { height: 22px; width: 35%; margin-bottom: 8px; }
+.wxd-skel-desc  { height: 12px; width: 90%; margin-bottom: 4px; }
