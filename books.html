@@ -38,8 +38,8 @@
   <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
   <link rel="dns-prefetch" href="https://covers.openlibrary.org" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=20260321" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="180x180" href="assets/favicon-180.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png" />
@@ -190,8 +190,16 @@
         </div>
       </div>
 
+      <!-- ── Filter Tabs ── -->
+      <div class="books-filter-tabs" id="booksFilterTabs">
+        <button class="bft-tab active" data-filter="all">All</button>
+        <button class="bft-tab" data-filter="science">Science &amp; Future</button>
+        <button class="bft-tab" data-filter="philosophy">Philosophy &amp; Mindset</button>
+        <button class="bft-tab" data-filter="entrepreneurship">Entrepreneurship &amp; Execution</button>
+      </div>
+
       <div class="books-categories">
-        <div class="books-category" data-animate>
+        <div class="books-category" data-animate data-category="science">
           <h3 class="books-category-title">Science &amp; Future</h3>
           <div class="books-grid">
             <div class="book-card" data-animate><div class="book-cover-wrap skeleton-wrap"><img src="https://covers.openlibrary.org/b/isbn/9780140146905-L.jpg" alt="The Fabric of Reality cover" class="book-cover-img" loading="lazy" onerror="this.onerror=null;this.src='https://books.google.com/books/content?vid=ISBN9780140146905&printsec=frontcover&img=1&zoom=3'" /></div><div class="book-body"><h4>The Fabric of Reality</h4><p class="book-author">David Deutsch</p><ul class="book-highlights"><li>Reality is understood by connecting ideas across disciplines.</li><li>Good explanations are testable and survive serious criticism.</li><li>Progress starts when we challenge limits with better questions.</li></ul><a href="https://x.com/intent/tweet?text=Reality+is+understood+by+connecting+ideas+across+disciplines.+via+%40panoskokmotoss&url=https%3A%2F%2Fpanoskokmotos.com%2Fbooks.html" target="_blank" rel="noopener" class="book-share-x">Share on 𝕏</a><button class="book-ask-ai" onclick="var b=this.closest('.book-body');chatOpenWithBook(b.querySelector('h4').textContent,b.querySelector('.book-author').textContent)">💬 How did this shape me?</button></div></div>
@@ -200,7 +208,7 @@
             <div class="book-card" data-animate><div class="book-cover-wrap skeleton-wrap"><img src="https://covers.openlibrary.org/b/isbn/9780143037880-L.jpg" alt="The Singularity Is Near cover" class="book-cover-img" loading="lazy" onerror="this.onerror=null;this.src='https://books.google.com/books/content?vid=ISBN9780143037880&printsec=frontcover&img=1&zoom=3'" /></div><div class="book-body"><h4>The Singularity Is Near</h4><p class="book-author">Ray Kurzweil</p><ul class="book-highlights"><li>Technological change often compounds faster than intuition predicts.</li><li>Adapting early to exponential trends creates strategic advantage.</li><li>Human-centered innovation should scale capability without losing values.</li></ul><a href="https://x.com/intent/tweet?text=Technological+change+compounds+faster+than+intuition+predicts.+via+%40panoskokmotoss&url=https%3A%2F%2Fpanoskokmotos.com%2Fbooks.html" target="_blank" rel="noopener" class="book-share-x">Share on 𝕏</a><button class="book-ask-ai" onclick="var b=this.closest('.book-body');chatOpenWithBook(b.querySelector('h4').textContent,b.querySelector('.book-author').textContent)">💬 How did this shape me?</button></div></div>
           </div>
         </div>
-        <div class="books-category" data-animate>
+        <div class="books-category" data-animate data-category="philosophy">
           <h3 class="books-category-title">Philosophy &amp; Mindset</h3>
           <div class="books-grid">
             <div class="book-card" data-animate><div class="book-cover-wrap skeleton-wrap"><img src="https://covers.openlibrary.org/b/isbn/9781544514215-L.jpg" alt="The Almanack of Naval Ravikant cover" class="book-cover-img" loading="lazy" onerror="this.onerror=null;this.src='https://books.google.com/books/content?vid=ISBN9781544514215&printsec=frontcover&img=1&zoom=3'" /></div><div class="book-body"><h4>The Almanack of Naval Ravikant</h4><p class="book-author">Eric Jorgenson</p><ul class="book-highlights"><li>"Play long-term games with long-term people."</li><li>"Read what you love until you love to read."</li><li>"Happiness is a skill you can train."</li></ul><a href="https://x.com/intent/tweet?text=%22Play+long-term+games+with+long-term+people.%22+%E2%80%94+Naval+Ravikant+(via+%40panoskokmotoss)&url=https%3A%2F%2Fpanoskokmotos.com%2Fbooks.html" target="_blank" rel="noopener" class="book-share-x">Share on 𝕏</a><button class="book-ask-ai" onclick="var b=this.closest('.book-body');chatOpenWithBook(b.querySelector('h4').textContent,b.querySelector('.book-author').textContent)">💬 How did this shape me?</button></div></div>
@@ -209,7 +217,7 @@
             <div class="book-card" data-animate><div class="book-cover-wrap skeleton-wrap"><img src="https://covers.openlibrary.org/b/isbn/9780140449334-L.jpg" alt="Meditations cover" class="book-cover-img" loading="lazy" onerror="this.onerror=null;this.src='https://books.google.com/books/content?vid=ISBN9780140449334&printsec=frontcover&img=1&zoom=3'" /></div><div class="book-body"><h4>Meditations</h4><p class="book-author">Marcus Aurelius</p><ul class="book-highlights"><li>"You have power over your mind — not outside events."</li><li>"The obstacle is the way."</li><li>"Waste no more time arguing what a good man should be. Be one."</li></ul><a href="https://x.com/intent/tweet?text=%22You+have+power+over+your+mind+%E2%80%94+not+outside+events.%22+%E2%80%94+Marcus+Aurelius+(via+%40panoskokmotoss)&url=https%3A%2F%2Fpanoskokmotos.com%2Fbooks.html" target="_blank" rel="noopener" class="book-share-x">Share on 𝕏</a><button class="book-ask-ai" onclick="var b=this.closest('.book-body');chatOpenWithBook(b.querySelector('h4').textContent,b.querySelector('.book-author').textContent)">💬 How did this shape me?</button></div></div>
           </div>
         </div>
-        <div class="books-category" data-animate>
+        <div class="books-category" data-animate data-category="entrepreneurship">
           <h3 class="books-category-title">Entrepreneurship &amp; Execution</h3>
           <div class="books-grid">
             <div class="book-card" data-animate><div class="book-cover-wrap skeleton-wrap"><img src="https://covers.openlibrary.org/b/isbn/9781328683786-L.jpg" alt="Tools of Titans cover" class="book-cover-img" loading="lazy" onerror="this.onerror=null;this.src='https://books.google.com/books/content?vid=ISBN9781328683786&printsec=frontcover&img=1&zoom=3'" /></div><div class="book-body"><h4>Tools of Titans</h4><p class="book-author">Tim Ferriss</p><ul class="book-highlights"><li>World-class performance is built from repeatable daily systems.</li><li>Energy, focus, and reflection are strategic assets for founders.</li><li>Learning from many disciplines sharpens judgment under pressure.</li></ul><a href="https://x.com/intent/tweet?text=World-class+performance+is+built+from+repeatable+daily+systems.+via+%40panoskokmotoss&url=https%3A%2F%2Fpanoskokmotos.com%2Fbooks.html" target="_blank" rel="noopener" class="book-share-x">Share on 𝕏</a><button class="book-ask-ai" onclick="var b=this.closest('.book-body');chatOpenWithBook(b.querySelector('h4').textContent,b.querySelector('.book-author').textContent)">💬 How did this shape me?</button></div></div>
@@ -315,39 +323,61 @@
       <p class="chat-note">Powered by <a href="https://anthropic.com" target="_blank" rel="noopener">Claude AI</a></p>
     </div>
   </div>
-  <script src="script.js?v=2"></script>
-  <script src="chat.js?v=2"></script>
+  <script src="script.js?v=20260321"></script>
+  <script src="chat.js?v=20260321"></script>
   <script>
-    // ── Book AI: inject "Chat with AI" button into each book card ──
-    function injectBookAIBtn(card, titleSel, authorSel) {
-      var titleEl = card.querySelector(titleSel);
-      var authorEl = card.querySelector(authorSel);
-      var title = titleEl ? titleEl.textContent.trim() : '';
-      var author = authorEl ? authorEl.textContent.trim() : '';
-      if (!title) return;
-      var btn = document.createElement('button');
-      btn.className = 'book-ai-btn';
-      btn.setAttribute('aria-label', 'Chat about ' + title + ' with AI');
-      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>How did this shape me?</span>';
-      btn.onclick = function() {
-        if (typeof window.chatOpenWithBook === 'function') {
-          window.chatOpenWithBook(title, author);
-        }
-      };
-      var footer = card.querySelector('.book-footer');
-      if (footer) footer.insertBefore(btn, footer.firstChild);
-      else {
-        var shareBtn = card.querySelector('.book-share-x');
-        if (shareBtn) shareBtn.parentNode.insertBefore(btn, shareBtn);
-        else card.appendChild(btn);
+    // ── Book Filter Tabs ──
+    (function() {
+      var tabs = document.querySelectorAll('.bft-tab');
+      var categories = document.querySelectorAll('.books-category[data-category]');
+      tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          var filter = this.getAttribute('data-filter');
+          tabs.forEach(function(t) { t.classList.remove('active'); });
+          this.classList.add('active');
+          categories.forEach(function(cat) {
+            if (filter === 'all' || cat.getAttribute('data-category') === filter) {
+              cat.style.display = '';
+            } else {
+              cat.style.display = 'none';
+            }
+          });
+        });
+      });
+    })();
+
+    // ── Book Read Toggle ──
+    (function() {
+      var READ_KEY = 'books_read_v1';
+      function getRead() {
+        try { return JSON.parse(localStorage.getItem(READ_KEY)) || {}; } catch(e) { return {}; }
       }
-    }
-    document.querySelectorAll('.book-card').forEach(function(card) {
-      injectBookAIBtn(card, 'h4', '.book-author');
-    });
-    document.querySelectorAll('.bnr-card').forEach(function(card) {
-      injectBookAIBtn(card, 'h4.bnr-title', '.bnr-author');
-    });
+      function saveRead(obj) {
+        try { localStorage.setItem(READ_KEY, JSON.stringify(obj)); } catch(e) {}
+      }
+      document.querySelectorAll('.book-card').forEach(function(card) {
+        var titleEl = card.querySelector('h4');
+        if (!titleEl) return;
+        var key = titleEl.textContent.trim();
+        var read = getRead();
+        var btn = document.createElement('button');
+        btn.className = 'book-read-toggle' + (read[key] ? ' read' : '');
+        btn.setAttribute('aria-label', 'Mark as read');
+        btn.innerHTML = read[key] ? '✓ Read' : '+ I\'ve read this';
+        btn.onclick = function() {
+          var r = getRead();
+          r[key] = !r[key];
+          saveRead(r);
+          btn.className = 'book-read-toggle' + (r[key] ? ' read' : '');
+          btn.innerHTML = r[key] ? '✓ Read' : '+ I\'ve read this';
+          card.classList.toggle('book-card-read', !!r[key]);
+        };
+        if (read[key]) card.classList.add('book-card-read');
+        var askAi = card.querySelector('.book-ask-ai');
+        if (askAi) askAi.parentNode.insertBefore(btn, askAi.nextSibling);
+        else card.querySelector('.book-body').appendChild(btn);
+      });
+    })();
   </script>
 </body>
 </html>
