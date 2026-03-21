@@ -1252,7 +1252,13 @@ html[data-theme="light"] .skill-group h4 { color: rgba(255,255,255,0.5); }
   -webkit-backdrop-filter: blur(12px);
 }
 @media (max-width: 768px) {
-  .journey-xp-bar { position: relative; top: auto; z-index: auto; }
+  .journey-xp-bar {
+    position: sticky; top: 56px; z-index: 90;
+    padding: 10px 14px; gap: 6px;
+    border-radius: 0; border-left: none; border-right: none;
+    margin: 0 0 20px;
+  }
+  .journey-xp-pts { display: none; }
 }
 .journey-xp-labels {
   display: flex; justify-content: space-between; align-items: center;
@@ -1569,16 +1575,16 @@ html[data-theme="light"] .journey-xp-track {
 
 /* ── Chat nudge tooltip ── */
 .chat-nudge {
-  position: absolute; right: 70px; bottom: 50%;
-  transform: translateY(50%) translateX(8px);
-  background: rgba(15,20,40,0.95);
+  position: absolute; right: 74px; bottom: 50%;
+  transform: translateY(50%) translateX(10px);
+  background: linear-gradient(135deg, rgba(59,110,248,0.95), rgba(109,40,217,0.95));
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
   border-radius: 20px; padding: 9px 16px;
   font-size: 0.82rem; font-weight: 600; color: #fff;
   white-space: nowrap; pointer-events: none;
   opacity: 0; transition: opacity 0.4s, transform 0.4s;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 20px rgba(59,110,248,0.4), 0 2px 8px rgba(0,0,0,0.3);
 }
 .chat-nudge.show {
   opacity: 1; transform: translateY(50%) translateX(0);
@@ -1587,9 +1593,9 @@ html[data-theme="light"] .journey-xp-track {
   content: ''; position: absolute;
   right: -5px; top: 50%; transform: translateY(-50%) rotate(45deg);
   width: 9px; height: 9px;
-  background: rgba(15,20,40,0.95);
-  border-top: 1px solid rgba(255,255,255,0.12);
-  border-right: 1px solid rgba(255,255,255,0.12);
+  background: rgba(109,40,217,0.95);
+  border-top: 1px solid rgba(255,255,255,0.2);
+  border-right: 1px solid rgba(255,255,255,0.2);
 }
 
 .chat-messages {
@@ -1731,6 +1737,17 @@ html[data-theme="light"] .nav-logo { border-color: rgba(15,30,61,0.2); }
   border-left: 2px solid rgba(59,110,248,0.3);
   padding-left: 10px;
 }
+.ms-link {
+  display: inline-block;
+  font-size: 0.78rem;
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  margin-top: 6px;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+.ms-link:hover { opacity: 1; }
 
 @media (max-width: 640px) {
   .milestone { grid-template-columns: 52px 22px 1fr; }
@@ -2384,7 +2401,7 @@ html[data-theme="light"] .books-philosophy {
 #blog { background: var(--bg); }
 .blog-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
   margin-top: 12px;
 }
@@ -2582,7 +2599,7 @@ html[data-theme="light"] .now-section { background: #f7f9fc; }
 }
 .now-icon { font-size: 1.65rem; line-height: 1; }
 .now-body { padding: 20px 22px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
-.now-body h4 { font-size: 1rem; font-weight: 700; color: var(--navy); margin: 0; }
+.now-body h3, .now-body h4 { font-size: 1rem; font-weight: 700; color: var(--navy); margin: 0; }
 .now-body p { font-size: 0.86rem; color: var(--text-muted); line-height: 1.7; margin: 0; flex: 1; }
 .now-bullets { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; flex: 1; }
 .now-bullets li { position: relative; padding-left: 16px; font-size: 0.86rem; color: var(--text-muted); line-height: 1.55; }
@@ -2599,8 +2616,15 @@ html[data-theme="light"] .now-section { background: #f7f9fc; }
   white-space: nowrap;
 }
 html[data-theme="light"] .now-card-top { background: linear-gradient(135deg, rgba(59,110,248,0.05), transparent); }
+@media (min-width: 1280px) { .now-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 1000px) { .now-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px)  { .now-grid { grid-template-columns: 1fr; } .now-header { flex-direction: column; align-items: flex-start; } }
+@media (max-width: 560px)  {
+  .now-grid { grid-template-columns: 1fr; }
+  .now-header { flex-direction: column; align-items: flex-start; }
+  .now-card-top { padding: 14px 16px 10px; }
+  .now-body { padding: 14px 16px; gap: 6px; }
+  .now-bullets li { font-size: 0.83rem; }
+}
 
 /* ─────────────────────────────────────────
    STICKY MOBILE CTA
@@ -2675,11 +2699,15 @@ html[data-theme="light"] .sticky-cta { background: linear-gradient(to top, rgba(
    APPLE PODCAST BUTTON
 ───────────────────────────────────────── */
 .btn-apple-podcast {
-  background: #000 !important; color: #fff !important;
+  background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.75);
+  border-color: rgba(255,255,255,0.12);
   display: inline-flex; align-items: center; gap: 5px;
 }
-.btn-apple-podcast:hover { background: #222 !important; }
-html[data-theme="light"] .btn-apple-podcast { background: #1c1c1e !important; }
+.btn-apple-podcast:hover {
+  background: rgba(255,255,255,0.13); color: rgba(255,255,255,0.95);
+  border-color: rgba(255,255,255,0.28); transform: translateY(-2px);
+}
+html[data-theme="light"] .btn-apple-podcast { background: rgba(0,0,0,0.06); color: rgba(0,0,0,0.75); border-color: rgba(0,0,0,0.12); }
 
 /* ─────────────────────────────────────────
    ACCESSIBILITY — focus states
@@ -2798,6 +2826,7 @@ html[data-theme="light"] .btn-book-call { border-color: rgba(0,0,0,0.2); color: 
 .press-thumb-orangegrove { background: linear-gradient(135deg, #bf360c 0%, #e64a19 100%); color: #fff; }
 .press-thumb-patras      { background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%); color: #fff; }
 .press-thumb-naftemporiki { background: linear-gradient(135deg, #212121 0%, #424242 100%); color: #fff; }
+.press-thumb-podcast      { background: linear-gradient(135deg, #4a148c 0%, #7b1fa2 100%); color: #fff; }
 
 /* ─────────────────────────────────────────
    OPEN TO SECTION
@@ -2992,7 +3021,7 @@ html[data-theme="light"] .now-card {
   border-color: rgba(15,30,61,0.1);
   box-shadow: 0 2px 12px rgba(15,30,61,0.07);
 }
-html[data-theme="light"] .now-card h4 { color: var(--navy); }
+html[data-theme="light"] .now-card h3, html[data-theme="light"] .now-card h4 { color: var(--navy); }
 html[data-theme="light"] .now-card p { color: var(--text); }
 
 /* ── Leadership cards ── */
@@ -3169,6 +3198,7 @@ html[data-theme="light"] .footer-links a:hover { color: var(--navy); }
 .chat-starter-chip:nth-child(2) { animation: chip-in 0.3s 0.05s both; }
 .chat-starter-chip:nth-child(3) { animation: chip-in 0.3s 0.12s both; }
 .chat-starter-chip:nth-child(4) { animation: chip-in 0.3s 0.19s both; }
+.chat-starter-chip:nth-child(5) { animation: chip-in 0.3s 0.26s both; }
 @keyframes chip-in {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -3910,6 +3940,11 @@ html[data-theme="light"] .copy-email-btn { border-color: rgba(15,30,61,0.15); co
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   line-height: 1; letter-spacing: -0.02em;
 }
+.impact-eyebrow {
+  font-size: 0.65rem; font-weight: 800; letter-spacing: 0.12em;
+  text-transform: uppercase; color: rgba(255,255,255,0.45);
+  margin-bottom: 4px;
+}
 .impact-label-big {
   font-size: 1rem; font-weight: 600; color: rgba(255,255,255,0.85); margin-top: 6px;
   letter-spacing: 0.01em;
@@ -3958,33 +3993,37 @@ html[data-theme="light"] .copy-email-btn { border-color: rgba(15,30,61,0.15); co
 /* ── TidyCal embed ── */
 /* ── Tidycal inline calendar ── */
 .tidycal-wrap {
-  margin-top: 40px; border-radius: 20px; overflow: hidden;
+  margin-top: 32px; border-radius: 16px; overflow: hidden;
   border: 1px solid var(--border);
   max-width: 820px; margin-left: auto; margin-right: auto;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
 }
 .tidycal-frame-wrap { min-height: 120px; }
 .tidycal-toggle {
   display: flex; align-items: center; justify-content: center; gap: 10px;
-  width: 100%; padding: 16px 24px;
-  background: linear-gradient(135deg, rgba(59,110,248,0.08) 0%, rgba(109,40,217,0.06) 100%);
-  border: none; border-bottom: 1px solid var(--border);
-  color: var(--text); font-size: 0.95rem; font-weight: 600;
-  cursor: pointer; transition: background 0.2s;
+  width: 100%; padding: 18px 28px;
+  background: var(--bg-alt);
+  border: none; border-bottom: 1px solid transparent;
+  color: var(--text-muted); font-size: 0.9rem; font-weight: 600;
+  cursor: pointer; transition: background 0.2s, color 0.2s;
   font-family: inherit; letter-spacing: -0.01em;
 }
 .tidycal-toggle:hover {
-  background: linear-gradient(135deg, rgba(59,110,248,0.16) 0%, rgba(109,40,217,0.12) 100%);
+  background: rgba(59,110,248,0.06); color: var(--blue);
 }
-.tidycal-toggle svg:first-child { color: var(--blue); }
+.tidycal-toggle[aria-expanded="true"] {
+  color: var(--blue);
+  border-bottom-color: var(--border);
+  background: rgba(59,110,248,0.05);
+}
+.tidycal-toggle svg:first-child { color: inherit; opacity: 0.7; }
 .tidycal-chevron {
   margin-left: auto; transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
-  color: var(--text-muted);
+  opacity: 0.5;
 }
 .tidycal-toggle[aria-expanded="true"] .tidycal-chevron { transform: rotate(180deg); }
-html[data-theme="light"] .tidycal-toggle {
-  background: linear-gradient(135deg, rgba(59,110,248,0.06) 0%, rgba(109,40,217,0.04) 100%);
-}
+html[data-theme="light"] .tidycal-wrap { background: #fff; }
+html[data-theme="light"] .tidycal-toggle { background: #f8f9fc; color: var(--text-muted); }
 
 /* ── Award flip — mobile touch ── */
 @media (hover: none) {
@@ -4279,6 +4318,81 @@ html[data-theme="light"] .timeline-item.tl-active .tl-card {
 }
 .why-built-note strong { color: var(--text); font-weight: 700; }
 
+/* ── Naval Ravikant banner ── */
+.naval-banner {
+  margin: 0 auto 0;
+  padding: 0 0 0;
+}
+.naval-inner {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  background: linear-gradient(135deg, rgba(109,40,217,0.07) 0%, rgba(59,110,248,0.06) 100%);
+  border: 1px solid rgba(109,40,217,0.18);
+  border-radius: 16px;
+  padding: 28px 32px;
+  max-width: 720px;
+  margin: 40px auto 0;
+  position: relative;
+  overflow: hidden;
+}
+.naval-inner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--blue), #7c3aed, var(--blue));
+}
+.naval-quote-mark {
+  font-size: 4rem;
+  line-height: 1;
+  color: rgba(109,40,217,0.3);
+  font-family: Georgia, serif;
+  margin-top: -8px;
+  flex-shrink: 0;
+}
+.naval-heading {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(109,40,217,0.7);
+  margin: 0 0 4px;
+}
+.naval-name {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 12px;
+  letter-spacing: -0.02em;
+}
+.naval-text {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin: 0 0 12px;
+}
+.naval-quote {
+  font-size: 0.88rem;
+  font-style: italic;
+  color: var(--text-muted);
+  border-left: 2px solid rgba(109,40,217,0.4);
+  padding-left: 12px;
+  margin: 0 0 14px;
+  opacity: 0.85;
+}
+.naval-cta {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.6;
+}
+.naval-link {
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 /* ── Podcast page ── */
 .podcast-stats-strip {
   display: flex;
@@ -4543,3 +4657,63 @@ html[data-theme="light"] .timeline-item.tl-active .tl-card {
 /* ── SVG icon rendering consistency ── */
 .tl-links .chip-icon-only .chip-icon svg { display: block; }
 .media-icon svg { display: block; vertical-align: middle; }
+
+/* ── Chat panel: wider on large screens ── */
+@media (min-width: 1440px) {
+  .chat-panel { width: 480px; }
+  .chat-widget-lg .chat-panel { width: 520px; }
+}
+
+/* ── Chat button vs scroll-to-top: more separation on mobile ── */
+@media (max-width: 768px) {
+  .back-to-top { bottom: 88px; }
+}
+
+/* ── Naval banner: hide quote mark on mobile ── */
+@media (max-width: 600px) {
+  .naval-quote-mark { display: none; }
+  .naval-inner { padding: 22px 20px; gap: 0; }
+  .naval-name { font-size: 1.2rem; }
+}
+
+/* ── Press section: swipe hint on mobile ── */
+.press-swipe-hint {
+  display: none;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  opacity: 0.55;
+  margin-top: 10px;
+  letter-spacing: 0.04em;
+}
+@media (max-width: 600px) {
+  .press-swipe-hint { display: block; }
+}
+
+/* ── Logo marquee: scale down EU COMMISSION text on narrow screens ── */
+@media (max-width: 480px) {
+  .logo-svg.logo-eucom text { font-size: 7px !important; }
+  .logo-svg.logo-medc text  { font-size: 7px !important; }
+}
+
+/* ── Blog grid: 1-col on mobile (override) ── */
+@media (max-width: 600px) { .blog-grid { grid-template-columns: 1fr; } }
+
+/* ── X / Twitter embed section ── */
+.tweets-section {
+  margin-top: 56px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+.tweets-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.tweets-grid .twitter-tweet {
+  margin: 0 !important;
+  width: 100% !important;
+}
+@media (max-width: 900px) { .tweets-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .tweets-grid { grid-template-columns: 1fr; } }

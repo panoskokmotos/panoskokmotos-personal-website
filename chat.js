@@ -12,12 +12,14 @@ const chatNewChat  = document.getElementById('chatNewChat');
 const STORAGE_KEY = 'panos_chat_v1';
 let messages = []; // conversation history
 
-// ── Minimal markdown: bold & italic ──
+// ── Minimal markdown: bold, italic & clickable URLs ──
 function parseMarkdown(text) {
   // **bold** → <strong>
   text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   // *italic* (not inside bold)
   text = text.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+  // URLs → clickable links (before line break conversion)
+  text = text.replace(/(https?:\/\/[^\s<"']+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer" style="color:var(--blue);text-decoration:underline;text-underline-offset:2px;word-break:break-all;">$1</a>');
   // Line breaks
   text = text.replace(/\n/g, '<br>');
   return text;
