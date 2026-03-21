@@ -14,7 +14,7 @@
 <body class="tool-page">
 
   <header class="tool-header">
-    <a href="/#ai-lab" class="tool-back">
+    <a href="/ai-tools.html" class="tool-back">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
       panoskokmotos.com
     </a>
@@ -24,6 +24,12 @@
     <p class="tool-eyebrow">AI for Social Impact · Free Tool</p>
     <h1 class="tool-title">"Why Should I Give?" Personalizer</h1>
     <p class="tool-desc">Tell AI about your values, what you care about, and how you spend — it'll build a personalized case for giving that ties directly to who you already are. Converts skeptics.</p>
+
+    <!-- ── Empty state persona chips ── -->
+    <div id="wsigEmptyState" style="display:none;margin-bottom:28px">
+      <p class="wsig-empty-label">✨ Not sure where to start? Try a persona →</p>
+      <div class="wsig-persona-chips" id="personaChips"></div>
+    </div>
 
     <form class="tool-form" id="toolForm">
 
@@ -58,7 +64,7 @@
       <div class="tool-field">
         <label class="tool-label" for="spending">
           What do you spend money on regularly?
-          <span class="tool-hint"> — categories are fine</span>
+          <span class="tool-hint"> — optional, categories are fine</span>
         </label>
         <input
           id="spending"
@@ -92,22 +98,31 @@
 
     <div class="tool-loading" id="loading">
       <div class="tool-spinner"></div>
-      Personalizing your giving case…
+      <span id="loadingText">Finding causes that fit your life…</span>
     </div>
 
     <div class="tool-error" id="errorBox"></div>
 
     <div class="tool-result" id="result">
       <div class="tool-result-header">
-        <span class="tool-result-label">Your Personalized Case for Giving</span>
-        <button class="tool-copy-btn" id="copyBtn">Copy</button>
+        <div style="display:flex;flex-direction:column;gap:3px">
+          <span class="tool-result-label">Your Personalized Case for Giving</span>
+          <button class="wsig-new-profile-btn" id="newProfileBtn">← Try new profile</button>
+        </div>
+        <div class="wxd-result-actions">
+          <button class="tool-copy-btn wxd-share-btn" id="shareBtn">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            Share
+          </button>
+          <button class="tool-copy-btn" id="copyBtn">Copy</button>
+        </div>
       </div>
       <div class="tool-result-body" id="resultBody"></div>
     </div>
 
     <footer class="tool-footer">
       Built by <a href="/" target="_blank">Panos Kokmotos</a> · Part of the
-      <a href="/#ai-lab">AI for Social Impact Lab</a> ·
+      <a href="/ai-tools.html">AI for Social Impact Lab</a> ·
       Powered by Claude AI
     </footer>
   </main>
@@ -115,52 +130,115 @@
   <script>
     const WORKER_URL = 'https://ask-panos.panagiotis-kokmotoss.workers.dev/tool';
 
-    const form = document.getElementById('toolForm');
+    // ── DOM refs ──
+    const form      = document.getElementById('toolForm');
     const submitBtn = document.getElementById('submitBtn');
-    const loading = document.getElementById('loading');
-    const errorBox = document.getElementById('errorBox');
-    const result = document.getElementById('result');
+    const loading   = document.getElementById('loading');
+    const errorBox  = document.getElementById('errorBox');
+    const result    = document.getElementById('result');
     const resultBody = document.getElementById('resultBody');
-    const copyBtn = document.getElementById('copyBtn');
+    const copyBtn   = document.getElementById('copyBtn');
+    const shareBtn  = document.getElementById('shareBtn');
 
+    // ── Module-level state ──
+    let currentSections  = null;
+    let currentValues    = '';
+    let currentInterests = '';
+    let lastResultText   = '';
+    let loadingInterval  = null;
+    const digDeeperCache = {};
+
+    // ── Persona empty state data ──
+    const personaExamples = [
+      {
+        label: 'The Foodie', emoji: '🍳',
+        values: 'community, creativity, pleasure',
+        interests: 'cooking, restaurants, farmers markets, food culture',
+        spending: 'coffee, dining out, kitchen gear, cooking classes',
+        obstacle: "I don't have enough money to make a difference",
+      },
+      {
+        label: 'The Parent', emoji: '👨‍👧',
+        values: 'family, safety, education, future',
+        interests: 'parenting, school involvement, local community, kids activities',
+        spending: 'kids activities, groceries, school supplies, family trips',
+        obstacle: "I'll give more when I earn more",
+      },
+      {
+        label: 'The Gym Rat', emoji: '🏋️',
+        values: 'health, discipline, self-improvement, resilience',
+        interests: 'fitness, nutrition, running, sports, hiking',
+        spending: 'gym membership, supplements, gear, healthy food',
+        obstacle: "I haven't found a cause I'm truly passionate about",
+      },
+    ];
+
+    // ── Loading messages ──
+    const loadingMessages = [
+      'Finding causes that fit your life…',
+      'Connecting your values to real impact…',
+      'Building your personalized case…',
+      'Almost there…',
+    ];
+
+    function startLoadingMessages() {
+      let i = 0;
+      document.getElementById('loadingText').textContent = loadingMessages[0];
+      loadingInterval = setInterval(() => {
+        i = (i + 1) % loadingMessages.length;
+        document.getElementById('loadingText').textContent = loadingMessages[i];
+      }, 2000);
+    }
+
+    function stopLoadingMessages() {
+      clearInterval(loadingInterval);
+      loadingInterval = null;
+    }
+
+    // ── Form submit ──
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (submitBtn.disabled) return;
 
-      const values = document.getElementById('values').value.trim();
+      const values   = document.getElementById('values').value.trim();
       const interests = document.getElementById('interests').value.trim();
-      const spending = document.getElementById('spending').value.trim();
-      const obstacle = document.getElementById('obstacle').value;
+      const spending  = document.getElementById('spending').value.trim();
+      const obstacle  = document.getElementById('obstacle').value;
 
       if (!values || !interests) {
         showError('Please fill in at least your values and interests.');
         return;
       }
 
+      currentValues    = values;
+      currentInterests = interests;
+
       setLoading(true);
       hideError();
       hideResult();
+      showSkeletonSections();
 
-      const systemPrompt = `You are a warm, persuasive giving advisor who specializes in connecting people's existing values and lifestyle to causes they'd genuinely care about.
+      const systemPrompt = `You are a warm, persuasive giving advisor who connects people's existing values and lifestyle to causes they'd genuinely care about.
 
-Your job: take someone's values, interests, spending habits, and hesitations — and write them a personalized, compelling case for charitable giving. Make it feel personal, not preachy.
+Your job: write a personalized, compelling case for charitable giving. Make it feel like a letter to a friend — warm, direct, never preachy.
 
-Structure your response as:
+You MUST respond with exactly this structure and nothing else:
 
 **Why giving aligns with who you are**
-[2-3 sentences connecting their values directly to the act of giving]
+[2-3 sentences connecting their specific values and life directly to the act of giving]
 
 **Causes that match your world**
-[3 specific cause areas that connect to their interests/values — with a sentence each explaining the connection]
+CAUSE: [emoji] [cause name, 2-5 words] | [one sentence explaining the connection — start with "Because you..."]
+CAUSE: [emoji] [cause name, 2-5 words] | [one sentence]
+CAUSE: [emoji] [cause name, 2-5 words] | [one sentence]
 
 **The coffee test**
-[Reframe their spending: compare a small giving amount to something they already spend on, to show it's achievable]
+[Use their actual spending list. Format: "You already spend $X on [thing]. Giving $Y/month — less than one [thing] — could [specific impact]."]
 
-[If they shared a hesitation, address it directly in 1-2 honest sentences]
+${obstacle ? `[OBSTACLE_RESPONSE: Address this hesitation in 1-2 honest, non-defensive sentences: "${obstacle}"]` : ''}
 
 **One thing you could do today**
-[One small, concrete first step]
-
-Keep the tone warm, direct, and non-judgmental. Not preachy. Max 300 words.`;
+[One concrete first step, 1-2 sentences. Start with an action verb.]`;
 
       const userMessage = `My values: ${values}
 My interests/hobbies: ${interests}
@@ -180,8 +258,15 @@ Write my personalized case for giving.`;
         const data = await res.json();
         if (data.error) throw new Error(data.error);
 
-        showResult(data.result);
+        renderSections(data.result);
+
+        // Persist profile
+        try {
+          localStorage.setItem('wsig_last_profile', JSON.stringify({ values, interests, spending, obstacle }));
+        } catch {}
+
       } catch (err) {
+        hideResult();
         showError('Something went wrong. Please try again.');
         console.error(err);
       } finally {
@@ -189,33 +274,348 @@ Write my personalized case for giving.`;
       }
     });
 
+    // ── Section parser ──
+    function parseSections(text) {
+      const s = { why: '', causes: [], coffee: '', obstacle: '', today: '' };
+
+      const whyMatch = text.match(/\*\*Why giving aligns with who you are\*\*\s*([\s\S]*?)(?=\*\*Causes that match your world\*\*)/i);
+      if (whyMatch) s.why = whyMatch[1].trim();
+
+      const causesBlockMatch = text.match(/\*\*Causes that match your world\*\*\s*([\s\S]*?)(?=\*\*The coffee test\*\*)/i);
+      if (causesBlockMatch) {
+        const causeLines = (causesBlockMatch[1].match(/^CAUSE:\s*(.+)$/gm) || []);
+        s.causes = causeLines.map(line => {
+          const body = line.replace(/^CAUSE:\s*/, '');
+          const pipeIdx = body.indexOf('|');
+          if (pipeIdx === -1) return { icon: '✨', name: body.trim(), connection: '' };
+          const left = body.slice(0, pipeIdx).trim();
+          const connection = body.slice(pipeIdx + 1).trim();
+          const emojiMatch = left.match(/^(\p{Emoji_Presentation}|\p{Extended_Pictographic})\s*(.+)$/u);
+          if (emojiMatch) return { icon: emojiMatch[1], name: emojiMatch[2].trim(), connection };
+          // Fallback: first char as icon if it looks like an emoji, or use default
+          return { icon: '✨', name: left, connection };
+        }).filter(c => c.name);
+      }
+
+      const coffeeMatch = text.match(/\*\*The coffee test\*\*\s*([\s\S]*?)(?=\[OBSTACLE_RESPONSE|\*\*One thing you could do today\*\*)/i);
+      if (coffeeMatch) s.coffee = coffeeMatch[1].trim();
+
+      // Obstacle: inside [OBSTACLE_RESPONSE: ...] block
+      const obstacleMatch = text.match(/\[OBSTACLE_RESPONSE[:\s]*([\s\S]*?)\]/i);
+      if (obstacleMatch) s.obstacle = obstacleMatch[1].trim();
+
+      const todayMatch = text.match(/\*\*One thing you could do today\*\*\s*([\s\S]*?)(?:\[OBSTACLE|\*\*|$)/i);
+      if (todayMatch) s.today = todayMatch[1].trim();
+
+      return s;
+    }
+
+    // ── Render sections ──
+    function renderSections(text) {
+      const s = parseSections(text);
+      currentSections = s;
+
+      // Graceful fallback if parsing fails
+      if (!s.why && s.causes.length === 0) {
+        lastResultText = text.replace(/\*\*(.+?)\*\*/g, '$1');
+        resultBody.innerHTML = `<div class="wsig-fallback-body">${formatText(text)}</div>`;
+        result.classList.add('visible');
+        result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+      }
+
+      lastResultText = buildPlainText(s);
+      let html = '';
+
+      // Why panel
+      if (s.why) {
+        html += `
+          <div class="wsig-section wsig-why-panel">
+            <div class="wsig-section-eyebrow"><span class="wsig-icon">💡</span> Why giving aligns with who you are</div>
+            <p class="wsig-why-text">${escapeHtml(s.why)}</p>
+          </div>`;
+      }
+
+      // Cause cards
+      if (s.causes.length > 0) {
+        const cardsHtml = s.causes.map((c, i) => `
+          <div class="wsig-cause-card">
+            <div class="wsig-cause-header">
+              <span class="wsig-cause-icon">${escapeHtml(c.icon)}</span>
+              <div class="wsig-cause-body">
+                <p class="wsig-cause-name">${escapeHtml(c.name)}</p>
+                <p class="wsig-cause-connection">${escapeHtml(c.connection)}</p>
+              </div>
+            </div>
+            <button class="wsig-dig-btn" data-index="${i}" data-cause="${escapeHtml(c.name)}">+ Explore this cause</button>
+            <div class="wsig-dig-content" id="wsig-dig-${i}"></div>
+          </div>`).join('');
+        html += `
+          <div class="wsig-section">
+            <div class="wsig-section-eyebrow"><span class="wsig-icon">🗺️</span> Causes that match your world</div>
+            <div class="wsig-cause-cards">${cardsHtml}</div>
+          </div>`;
+      }
+
+      // Coffee test
+      if (s.coffee) {
+        html += `
+          <div class="wsig-section wsig-coffee-callout">
+            <div class="wsig-section-eyebrow"><span class="wsig-icon">☕</span> The coffee test</div>
+            <blockquote class="wsig-coffee-text">${escapeHtml(s.coffee)}</blockquote>
+          </div>`;
+      }
+
+      // Obstacle (optional)
+      if (s.obstacle) {
+        html += `
+          <div class="wsig-section wsig-obstacle-note">
+            <div class="wsig-section-eyebrow"><span class="wsig-icon">🤔</span> On your hesitation</div>
+            <p class="wsig-obstacle-text">${escapeHtml(s.obstacle)}</p>
+          </div>`;
+      }
+
+      // Today CTA
+      if (s.today) {
+        html += `
+          <div class="wsig-section wsig-today-cta">
+            <div class="wsig-section-eyebrow"><span class="wsig-icon">✅</span> One thing you could do today</div>
+            <p class="wsig-today-text">${escapeHtml(s.today)}</p>
+          </div>`;
+      }
+
+      // Where to start CTA
+      html += `
+        <div class="wsig-where-cta">
+          <div class="wsig-where-cta-text">
+            <strong>Ready to take the next step?</strong>
+            These resources make starting easy.
+          </div>
+          <div class="wsig-where-btns">
+            <a href="https://www.givewell.org" target="_blank" rel="noopener" class="wsig-cta-btn-primary">Explore GiveWell-vetted orgs →</a>
+            <a href="https://www.idealist.org" target="_blank" rel="noopener" class="wsig-cta-btn-secondary">Browse Idealist.org →</a>
+            <a href="/first-time-donor-coach.html" class="wsig-cta-btn-secondary">First-time donor guide →</a>
+          </div>
+        </div>`;
+
+      resultBody.innerHTML = html;
+      result.classList.add('visible');
+      result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function buildPlainText(s) {
+      const lines = [];
+      if (s.why) lines.push('Why giving aligns with who you are\n' + s.why);
+      if (s.causes.length) lines.push('Causes that match your world\n' + s.causes.map(c => `${c.icon} ${c.name}: ${c.connection}`).join('\n'));
+      if (s.coffee) lines.push('The coffee test\n' + s.coffee);
+      if (s.obstacle) lines.push('On your hesitation\n' + s.obstacle);
+      if (s.today) lines.push('One thing you could do today\n' + s.today);
+      return lines.join('\n\n');
+    }
+
+    // ── Skeleton loading ──
+    function showSkeletonSections() {
+      resultBody.innerHTML = `
+        <div class="wsig-skel-section">
+          <div class="wxd-skel wsig-skel-eyebrow"></div>
+          <div class="wxd-skel wsig-skel-line"></div>
+          <div class="wxd-skel wsig-skel-line" style="width:78%"></div>
+        </div>
+        <div class="wsig-skel-section">
+          <div class="wxd-skel wsig-skel-eyebrow"></div>
+          <div class="wsig-cause-cards">
+            ${[0,1,2].map(() => `
+              <div class="wsig-cause-card wsig-skeleton-card" style="display:flex;gap:12px;align-items:flex-start">
+                <div class="wxd-skel wsig-skel-cause-icon"></div>
+                <div style="flex:1">
+                  <div class="wxd-skel wsig-skel-cause-name"></div>
+                  <div class="wxd-skel wsig-skel-cause-conn"></div>
+                </div>
+              </div>`).join('')}
+          </div>
+        </div>
+        <div class="wsig-skel-section">
+          <div class="wxd-skel wsig-skel-eyebrow"></div>
+          <div class="wxd-skel wsig-skel-line"></div>
+          <div class="wxd-skel wsig-skel-line" style="width:85%"></div>
+        </div>`;
+      result.classList.add('visible');
+    }
+
+    // ── Dig deeper ──
+    async function digDeeper(btn, causeObj, idx) {
+      const cacheKey = `${causeObj.name}|${currentValues}`;
+      const panel = document.getElementById('wsig-dig-' + idx);
+
+      if (panel.classList.contains('open')) {
+        panel.classList.remove('open');
+        btn.classList.remove('wsig-dig-btn-open');
+        btn.textContent = '+ Explore this cause';
+        return;
+      }
+
+      if (digDeeperCache[cacheKey]) {
+        panel.innerHTML = `<div class="wsig-dig-text">${digDeeperCache[cacheKey]}</div>`;
+        panel.classList.add('open');
+        btn.classList.add('wsig-dig-btn-open');
+        btn.textContent = '− Show less';
+        return;
+      }
+
+      btn.innerHTML = '<span class="wxd-dig-spinner"></span> Loading…';
+      btn.disabled = true;
+
+      const systemPrompt = `You are a giving advisor. Be brief, specific, and practical.
+
+Given someone whose values are "${currentValues}" and interests are "${currentInterests}", considering giving to the cause: ${causeObj.name}
+
+Respond with exactly these 3 items:
+• Types of orgs to look at: [2-3 specific types of organizations active in this cause, e.g. "Direct service orgs that..."]
+• One thing this week: [One single concrete action sentence — something they can actually do in 5-10 minutes]
+• Why it's surprisingly impactful: [One specific, counterintuitive or little-known fact about real impact in this cause area]
+
+Max 80 words total. Use • bullets exactly as shown.`;
+
+      const userMessage = `Values: ${currentValues}\nInterests: ${currentInterests}\nCause: ${causeObj.name}`;
+
+      try {
+        const res = await fetch(WORKER_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ systemPrompt, userMessage }),
+        });
+        if (!res.ok) throw new Error('error');
+        const data = await res.json();
+        const html = formatDigText(data.result || '');
+        digDeeperCache[cacheKey] = html;
+        panel.innerHTML = `<div class="wsig-dig-text">${html}</div>`;
+        panel.classList.add('open');
+        btn.classList.add('wsig-dig-btn-open');
+        btn.textContent = '− Show less';
+      } catch {
+        panel.innerHTML = `<div class="wsig-dig-text" style="color:var(--text-muted);font-style:italic">Couldn't load details. Try again.</div>`;
+        panel.classList.add('open');
+        btn.classList.add('wsig-dig-btn-open');
+        btn.textContent = '− Show less';
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    // Dig deeper event delegation (registered once)
+    resultBody.addEventListener('click', (e) => {
+      const btn = e.target.closest('.wsig-dig-btn');
+      if (!btn) return;
+      const idx = parseInt(btn.dataset.index);
+      const causeObj = currentSections?.causes?.[idx];
+      if (causeObj) digDeeper(btn, causeObj, idx);
+    });
+
+    // ── Copy ──
     copyBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(resultBody.textContent).then(() => {
+      navigator.clipboard.writeText(lastResultText).then(() => {
         copyBtn.textContent = 'Copied!';
         setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
       });
     });
 
+    // ── Share ──
+    shareBtn.addEventListener('click', async () => {
+      const firstCause = currentSections?.causes?.[0];
+      const causeText = firstCause ? firstCause.name : 'giving';
+      const tweetText = `Just built my personalized case for giving to ${causeText} — took 30 seconds.\n\nFind yours → ${window.location.origin}/why-should-i-give.html`;
+      const shareData = { title: '"Why Should I Give?" Personalizer', text: tweetText, url: window.location.href };
+
+      if (navigator.share && navigator.canShare?.(shareData)) {
+        try { await navigator.share(shareData); return; } catch {}
+      }
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank', 'noopener');
+    });
+
+    // ── New profile ──
+    document.getElementById('newProfileBtn').addEventListener('click', () => {
+      hideResult();
+      window.scrollTo({ top: form.offsetTop - 80, behavior: 'smooth' });
+    });
+
+    // ── Helpers ──
     function setLoading(on) {
       submitBtn.disabled = on;
-      loading.classList.toggle('visible', on);
+      if (on) {
+        loading.classList.add('visible');
+        startLoadingMessages();
+      } else {
+        loading.classList.remove('visible');
+        stopLoadingMessages();
+      }
     }
 
-    function showResult(text) {
-      resultBody.innerHTML = formatText(text);
-      result.classList.add('visible');
-      result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    function hideResult() {
+      result.classList.remove('visible');
+      resultBody.innerHTML = '';
+      currentSections = null;
     }
 
-    function hideResult() { result.classList.remove('visible'); }
     function showError(msg) { errorBox.textContent = msg; errorBox.classList.add('visible'); }
-    function hideError() { errorBox.classList.remove('visible'); }
+    function hideError()    { errorBox.classList.remove('visible'); }
+
+    function escapeHtml(str) {
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
 
     function formatText(text) {
       return text
         .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
         .replace(/\n/g, '<br>');
     }
+
+    function formatDigText(text) {
+      return text
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/•/g, '<br>•')
+        .replace(/^\s*<br>/, '')
+        .replace(/\n/g, '<br>');
+    }
+
+    // ── Empty state persona cards ──
+    function showEmptyState() {
+      try {
+        if (localStorage.getItem('wsig_last_profile')) return;
+      } catch {}
+      const chips = document.getElementById('personaChips');
+      chips.innerHTML = personaExamples.map((p, i) => `
+        <button type="button" class="wsig-persona-chip" data-i="${i}">
+          ${p.emoji} ${p.label}
+          <span class="wsig-persona-preview">${p.values.split(',')[0].trim()} · ${p.interests.split(',')[0].trim()}</span>
+        </button>`).join('');
+      chips.querySelectorAll('.wsig-persona-chip').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const p = personaExamples[parseInt(btn.dataset.i)];
+          document.getElementById('values').value    = p.values;
+          document.getElementById('interests').value = p.interests;
+          document.getElementById('spending').value  = p.spending;
+          document.getElementById('obstacle').value  = p.obstacle;
+          form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+      document.getElementById('wsigEmptyState').style.display = '';
+    }
+
+    // ── localStorage restore ──
+    function restoreProfile() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('wsig_last_profile') || 'null');
+        if (!saved) return;
+        if (saved.values)    document.getElementById('values').value    = saved.values;
+        if (saved.interests) document.getElementById('interests').value = saved.interests;
+        if (saved.spending)  document.getElementById('spending').value  = saved.spending;
+        if (saved.obstacle)  document.getElementById('obstacle').value  = saved.obstacle;
+      } catch {}
+    }
+
+    // ── Init ──
+    restoreProfile();
+    showEmptyState();
   </script>
 </body>
 </html>
