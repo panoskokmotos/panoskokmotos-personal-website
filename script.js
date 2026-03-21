@@ -574,42 +574,6 @@ document.querySelectorAll('.skeleton-wrap img.book-cover-img').forEach(img => {
   });
 })();
 
-// ── Cobe globe (about section) ──
-(function() {
-  const canvas = document.getElementById('globe-canvas');
-  if (!canvas) return;
-  const script = document.createElement('script');
-  script.type = 'module';
-  script.textContent = `
-    import createGlobe from 'https://esm.sh/cobe@0.6.3';
-    const canvas = document.getElementById('globe-canvas');
-    if (!canvas) return;
-    const phi = { value: 0 };
-    const globe = createGlobe(canvas, {
-      devicePixelRatio: Math.min(window.devicePixelRatio, 2),
-      width: 260, height: 260,
-      phi: 0.4, theta: 0.2,
-      dark: 1, diffuse: 1.2,
-      scale: 1,
-      mapSamples: 12000,
-      mapBrightness: 6,
-      baseColor: [0.1, 0.2, 0.6],
-      markerColor: [0.23, 0.43, 0.97],
-      glowColor: [0.1, 0.2, 0.5],
-      markers: [
-        { location: [38.2466, 21.7346], size: 0.06 }, // Patras
-        { location: [37.9838, 23.7275], size: 0.06 }, // Athens
-        { location: [41.3851, 2.1734],  size: 0.05 }, // Barcelona
-        { location: [37.7749, -122.4194], size: 0.07 }, // San Francisco
-      ],
-      onRender(state) {
-        state.phi = phi.value;
-        phi.value += 0.004;
-      }
-    });
-  `;
-  document.head.appendChild(script);
-})();
 
 // ── Hero particle canvas ──
 (function() {
