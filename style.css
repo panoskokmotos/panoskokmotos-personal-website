@@ -680,6 +680,11 @@ body.nav-open { overflow: hidden; position: fixed; width: 100%; }
 ───────────────────────────────────────── */
 .edu-grid { display: flex; flex-direction: column; gap: 16px; }
 
+/* Hide high school card on desktop — too much detail for professional view */
+@media (min-width: 769px) {
+  .edu-card-secondary { display: none; }
+}
+
 .edu-card {
   background: var(--bg);
   border: 1px solid var(--border);
@@ -720,9 +725,10 @@ body.nav-open { overflow: hidden; position: fixed; width: 100%; }
 .award-emoji { font-size: 1.8rem; display: block; margin-bottom: 10px; }
 .award-card p { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; line-height: 1.5; }
 
-/* ── Awards collapse (mobile) ── */
-.awards-hidden-extra { display: contents; }
-.awards-show-more-wrap { display: none; text-align: center; margin-top: 20px; }
+/* ── Awards collapse (all breakpoints) ── */
+.awards-hidden-extra { display: none; }
+.awards-hidden-extra.open { display: contents; }
+.awards-show-more-wrap { display: block; text-align: center; margin-top: 20px; }
 .awards-show-more-btn {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 10px 24px; border-radius: 24px;
@@ -733,12 +739,6 @@ body.nav-open { overflow: hidden; position: fixed; width: 100%; }
 .awards-show-more-btn:hover { background: rgba(59,110,248,0.2); transform: translateY(-1px); }
 .awards-show-more-btn svg { transition: transform 0.3s; }
 .awards-show-more-btn.open svg { transform: rotate(180deg); }
-
-@media (max-width: 768px) {
-  .awards-hidden-extra { display: none; }
-  .awards-hidden-extra.open { display: contents; }
-  .awards-show-more-wrap { display: block; }
-}
 
 /* Leadership Strip */
 .leadership-strip {
@@ -4799,22 +4799,6 @@ html[data-theme="light"] .timeline-item.tl-active .tl-card {
 @media (max-width: 900px) { .tweets-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 600px) { .tweets-grid { grid-template-columns: 1fr; } }
 
-/* ── Awards mobile collapse: show 3, expand on tap ── */
-@media (max-width: 640px) {
-  .awards-grid .award-flip:nth-child(n+4) { display: none !important; }
-  .awards-grid.mobile-expanded .award-flip { display: block !important; }
-  .awards-mobile-btn-wrap { display: block; text-align: center; margin-top: 16px; }
-}
-.awards-mobile-btn-wrap { display: none; }
-.awards-mobile-btn {
-  background: rgba(59,110,248,0.08); border: 1px solid rgba(59,110,248,0.25);
-  color: var(--blue); border-radius: 20px; padding: 8px 20px;
-  font-size: 0.82rem; font-weight: 600; cursor: pointer;
-  display: inline-flex; align-items: center; gap: 6px; transition: background 0.2s;
-}
-.awards-mobile-btn:hover { background: rgba(59,110,248,0.15); }
-.awards-mobile-btn svg { transition: transform 0.3s; }
-.awards-mobile-btn.open svg { transform: rotate(180deg); }
 
 /* ── Marquee → static logo grid on mobile ── */
 @media (max-width: 480px) {
@@ -4834,6 +4818,10 @@ html[data-theme="light"] .timeline-item.tl-active .tl-card {
 /* ── Podcast artwork grid ── */
 .podcast-grid {
   display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px;
+}
+/* Show only top 2 podcasts on desktop to reduce clutter */
+@media (min-width: 769px) {
+  .now-card-podcasts .podcast-grid .podcast-item:nth-child(n+3) { display: none; }
 }
 .podcast-item {
   display: flex; align-items: center; gap: 10px;

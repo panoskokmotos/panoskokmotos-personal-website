@@ -3,8 +3,15 @@
  * With IP-based rate limiting (20 req/hour using in-memory Map)
  *
  * Deploy at: https://dash.cloudflare.com → Workers & Pages → Create Worker
- * Add env var ANTHROPIC_API_KEY in Settings → Variables
+ * Add env vars in Settings → Variables:
+ *   ANTHROPIC_API_KEY  — your Anthropic API key
+ *   NOTIFY_EMAIL       — email address to receive notifications (your personal email)
+ *   NOTIFY_SECRET      — a random secret string to protect the /notify endpoint
  * Then paste your worker URL into chat.js → WORKER_URL
+ *
+ * /notify endpoint: POST with { secret, event, data }
+ * Sends an email via MailChannels (free on Cloudflare Workers).
+ * Use to get notified of: contact form submissions, AI tool usage, etc.
  */
 
 const SYSTEM_PROMPT = `You are a friendly digital assistant on Panos Kokmotos's personal website.
@@ -112,6 +119,51 @@ export default {
     }
 
     const url = new URL(request.url);
+
+    // ── /notify route: send personal email notification ──
+    if (url.pathname === '/notify') {
+      try {
+        const { secret, event, data } = await request.json();
+
+        // Validate secret to prevent abuse
+        if (!env.NOTIFY_SECRET || secret !== env.NOTIFY_SECRET) {
+          return new Response(JSON.stringify({ ok: false, error: 'Unauthorized' }), {
+            status: 401, headers: { 'Content-Type': 'application/json', ...CORS_HEADERS },
+          });
+        }
+
+        const toEmail = env.NOTIFY_EMAIL || 'panagiotis.kokmotoss@gmail.com';
+        const subject = `[panoskokmotos.com] ${event || 'New notification'}`;
+        const bodyText = typeof data === 'object' ? JSON.stringify(data, null, 2) : String(data || '');
+        const bodyHtml = `<pre style="font-family:monospace;font-size:14px">${bodyText.replace(/</g,'&lt;')}</pre>
+          <p style="color:#666;font-size:12px">Sent by your Cloudflare Worker · panoskokmotos.com</p>`;
+
+        // Send via MailChannels (free on Cloudflare Workers — no signup required)
+        const mcRes = await fetch('https://api.mailchannels.net/tx/v1/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            personalizations: [{ to: [{ email: toEmail }] }],
+            from: { email: 'notify@panoskokmotos.com', name: 'panoskokmotos.com' },
+            subject,
+            content: [
+              { type: 'text/plain', value: bodyText },
+              { type: 'text/html', value: bodyHtml },
+            ],
+          }),
+        });
+
+        const ok = mcRes.status === 202;
+        return new Response(JSON.stringify({ ok }), {
+          status: ok ? 200 : 500,
+          headers: { 'Content-Type': 'application/json', ...CORS_HEADERS },
+        });
+      } catch (err) {
+        return new Response(JSON.stringify({ ok: false, error: 'Notification failed' }), {
+          status: 500, headers: { 'Content-Type': 'application/json', ...CORS_HEADERS },
+        });
+      }
+    }
 
     // ── /tool route: generic Claude call for Social Impact AI tools ──
     if (url.pathname === '/tool') {

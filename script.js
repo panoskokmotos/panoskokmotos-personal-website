@@ -375,10 +375,19 @@ if (contactForm) {
     btn.disabled = true;
     btn.classList.add('btn-loading');
     btn.innerHTML = '<span class="btn-spinner"></span>Sending…';
+    // Capture form data before reset
+    const formData = new FormData(contactForm);
+    const notifData = {
+      name: formData.get('name') || '—',
+      email: formData.get('email') || '—',
+      subject: formData.get('subject') || '—',
+      page: location.href,
+      time: new Date().toISOString(),
+    };
     try {
       const res = await fetch(contactForm.action, {
         method: 'POST',
-        body: new FormData(contactForm),
+        body: formData,
         headers: { 'Accept': 'application/json' },
       });
       if (res.ok) {
@@ -387,6 +396,8 @@ if (contactForm) {
         btn.classList.remove('btn-loading');
         success.classList.add('visible');
         success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        // Fire-and-forget: notify Panos via worker
+        sendSiteNotification('Contact Form Submission', notifData);
       } else {
         btn.disabled = false;
         btn.classList.remove('btn-loading');
@@ -907,3 +918,21 @@ function toggleAwardsMobile(btn) {
   wrap.addEventListener('touchmove', e => { if (dragging) moveDrag(e.touches[0].clientX); }, { passive: true });
   wrap.addEventListener('touchend', e => endDrag(e.changedTouches[0].clientX));
 })();
+
+
+// ── Personal notifications ──
+// Sends a notification to Panos via the Cloudflare Worker /notify endpoint.
+// Set NOTIFY_SECRET env var in the worker and update the secret below.
+// The secret is intentionally visible here — it only protects against random noise,
+// not determined attackers. The worker rate-limits requests.
+const NOTIFY_WORKER = "https://ask-panos.panagiotis-kokmotoss.workers.dev/notify";
+const NOTIFY_SECRET = ""; // Set this to match NOTIFY_SECRET in your Cloudflare Worker env var
+
+function sendSiteNotification(event, data) {
+  if (!NOTIFY_SECRET) return; // disabled until secret is configured
+  fetch(NOTIFY_WORKER, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ secret: NOTIFY_SECRET, event, data }),
+  }).catch(() => {}); // silent fail — never block the UI
+}
