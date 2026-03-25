@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
+  <script src="/tool-utils.js"></script>
   <link rel="icon" href="/favicon.ico" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="canonical" href="https://panoskokmotos.com/first-time-donor-coach.html" />
@@ -123,15 +124,7 @@
   </main>
 
   <script>
-    const WORKER_URL = 'https://ask-panos.panagiotis-kokmotoss.workers.dev/tool';
-
     const form = document.getElementById('toolForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const loading = document.getElementById('loading');
-    const errorBox = document.getElementById('errorBox');
-    const result = document.getElementById('result');
-    const resultBody = document.getElementById('resultBody');
-    const copyBtn = document.getElementById('copyBtn');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -184,17 +177,9 @@ Preferred giving style: ${style || 'not specified'}
 Build my personalized first-time giving plan.`;
 
       try {
-        const res = await fetch(WORKER_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ systemPrompt, userMessage }),
-        });
-
-        if (!res.ok) throw new Error(`Server error: ${res.status}`);
-        const data = await res.json();
-        if (data.error) throw new Error(data.error);
-
-        showResult(data.result);
+        const text = await callWorker(systemPrompt, userMessage);
+        showResult(text);
+        notifyToolUsed(document.title);
       } catch (err) {
         showError('Something went wrong. Please try again.');
         console.error(err);
@@ -203,33 +188,7 @@ Build my personalized first-time giving plan.`;
       }
     });
 
-    copyBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(resultBody.textContent).then(() => {
-        copyBtn.textContent = 'Copied!';
-        setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
-      });
-    });
-
-    function setLoading(on) {
-      submitBtn.disabled = on;
-      loading.classList.toggle('visible', on);
-    }
-
-    function showResult(text) {
-      resultBody.innerHTML = formatText(text);
-      result.classList.add('visible');
-      result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-
-    function hideResult() { result.classList.remove('visible'); }
-    function showError(msg) { errorBox.textContent = msg; errorBox.classList.add('visible'); }
-    function hideError() { errorBox.classList.remove('visible'); }
-
-    function formatText(text) {
-      return text
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\n/g, '<br>');
-    }
+    initCopyBtn();
   </script>
 </body>
 </html>

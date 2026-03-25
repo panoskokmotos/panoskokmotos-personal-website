@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
+  <script src="/tool-utils.js"></script>
   <link rel="icon" href="/favicon.ico" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="canonical" href="https://panoskokmotos.com/volunteer-match.html" />
@@ -140,26 +141,12 @@
   </main>
 
   <script>
-    const WORKER_URL = 'https://ask-panos.panagiotis-kokmotoss.workers.dev/tool';
-
     const form = document.getElementById('toolForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const loading = document.getElementById('loading');
-    const errorBox = document.getElementById('errorBox');
-    const result = document.getElementById('result');
     const matchesBody = document.getElementById('matchesBody');
     const emailBody = document.getElementById('emailBody');
     const copyBtn = document.getElementById('copyBtn');
 
-    // Tabs
-    document.querySelectorAll('.tool-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tool-tab-panel').forEach(p => p.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
-      });
-    });
+    initTabSwitcher();
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -211,29 +198,20 @@ My first name: ${yourName}
 Generate my 3 nonprofit matches and a draft intro email.`;
 
       try {
-        const res = await fetch(WORKER_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ systemPrompt, userMessage }),
-        });
-
-        if (!res.ok) throw new Error(`Server error: ${res.status}`);
-        const data = await res.json();
-        if (data.error) throw new Error(data.error);
-
-        const fullText = data.result;
+        const fullText = await callWorker(systemPrompt, userMessage);
         const splitIndex = fullText.indexOf('---EMAIL---');
 
         if (splitIndex !== -1) {
-          matchesBody.innerHTML = formatText(fullText.slice(0, splitIndex).trim());
-          emailBody.innerHTML = formatText(fullText.slice(splitIndex + 11).trim());
+          matchesBody.innerHTML = formatMarkdown(fullText.slice(0, splitIndex).trim());
+          emailBody.innerHTML = formatMarkdown(fullText.slice(splitIndex + 11).trim());
         } else {
-          matchesBody.innerHTML = formatText(fullText);
+          matchesBody.innerHTML = formatMarkdown(fullText);
           emailBody.innerHTML = '<em style="color:var(--text-muted)">Email draft not generated separately — see matches tab.</em>';
         }
 
-        result.classList.add('visible');
-        result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        document.getElementById('result').classList.add('visible');
+        document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        notifyToolUsed(document.title);
       } catch (err) {
         showError('Something went wrong. Please try again.');
         console.error(err);
@@ -249,21 +227,6 @@ Generate my 3 nonprofit matches and a draft intro email.`;
         setTimeout(() => { copyBtn.textContent = 'Copy All'; }, 2000);
       });
     });
-
-    function setLoading(on) {
-      submitBtn.disabled = on;
-      loading.classList.toggle('visible', on);
-    }
-
-    function hideResult() { result.classList.remove('visible'); }
-    function showError(msg) { errorBox.textContent = msg; errorBox.classList.add('visible'); }
-    function hideError() { errorBox.classList.remove('visible'); }
-
-    function formatText(text) {
-      return text
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\n/g, '<br>');
-    }
   </script>
 </body>
 </html>

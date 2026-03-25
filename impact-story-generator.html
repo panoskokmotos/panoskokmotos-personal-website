@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
+  <script src="/tool-utils.js"></script>
   <link rel="icon" href="/favicon.ico" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="canonical" href="https://panoskokmotos.com/impact-story-generator.html" />
@@ -147,12 +148,7 @@
   </main>
 
   <script>
-    const WORKER_URL = 'https://ask-panos.panagiotis-kokmotoss.workers.dev/tool';
-
     const form = document.getElementById('toolForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const loading = document.getElementById('loading');
-    const errorBox = document.getElementById('errorBox');
     const result = document.getElementById('result');
     const copyBtn = document.getElementById('copyBtn');
 
@@ -163,15 +159,7 @@
       oneliner: document.getElementById('onelinerBody'),
     };
 
-    // Tabs
-    document.querySelectorAll('.tool-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tool-tab-panel').forEach(p => p.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
-      });
-    });
+    initTabSwitcher();
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -226,17 +214,7 @@ Program/support provided: ${program || 'comprehensive support services'}
 Generate the 4 impact story formats.`;
 
       try {
-        const res = await fetch(WORKER_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ systemPrompt, userMessage }),
-        });
-
-        if (!res.ok) throw new Error(`Server error: ${res.status}`);
-        const data = await res.json();
-        if (data.error) throw new Error(data.error);
-
-        const text = data.result;
+        const text = await callWorker(systemPrompt, userMessage);
 
         // Parse sections
         const sections = {
@@ -248,20 +226,21 @@ Generate the 4 impact story formats.`;
 
         // Fallback: if markers not found, put everything in story tab
         if (!sections.story && !sections.email) {
-          panels.story.innerHTML = formatText(text);
+          panels.story.innerHTML = formatMarkdown(text);
           panels.email.innerHTML = '<em style="color:var(--text-muted)">See Full Story tab.</em>';
           panels.social.innerHTML = '<em style="color:var(--text-muted)">See Full Story tab.</em>';
           panels.oneliner.innerHTML = '<em style="color:var(--text-muted)">See Full Story tab.</em>';
         } else {
           Object.keys(panels).forEach(key => {
             panels[key].innerHTML = sections[key]
-              ? formatText(sections[key].trim())
+              ? formatMarkdown(sections[key].trim())
               : '<em style="color:var(--text-muted)">Not generated.</em>';
           });
         }
 
         result.classList.add('visible');
         result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        notifyToolUsed(document.title);
       } catch (err) {
         showError('Something went wrong. Please try again.');
         console.error(err);
@@ -286,21 +265,6 @@ Generate the 4 impact story formats.`;
       const end = text.indexOf(endMarker, contentStart);
       if (end === -1) return text.slice(contentStart);
       return text.slice(contentStart, end);
-    }
-
-    function setLoading(on) {
-      submitBtn.disabled = on;
-      loading.classList.toggle('visible', on);
-    }
-
-    function hideResult() { result.classList.remove('visible'); }
-    function showError(msg) { errorBox.textContent = msg; errorBox.classList.add('visible'); }
-    function hideError() { errorBox.classList.remove('visible'); }
-
-    function formatText(text) {
-      return text
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\n/g, '<br>');
     }
   </script>
 </body>

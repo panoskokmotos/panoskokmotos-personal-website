@@ -926,7 +926,7 @@ function toggleAwardsMobile(btn) {
 // The secret is intentionally visible here — it only protects against random noise,
 // not determined attackers. The worker rate-limits requests.
 const NOTIFY_WORKER = "https://ask-panos.panagiotis-kokmotoss.workers.dev/notify";
-const NOTIFY_SECRET = ""; // Set this to match NOTIFY_SECRET in your Cloudflare Worker env var
+const NOTIFY_SECRET = "panos-notify-2026-xyz"; // must match NOTIFY_SECRET in Cloudflare Worker env var
 
 function sendSiteNotification(event, data) {
   if (!NOTIFY_SECRET) return; // disabled until secret is configured

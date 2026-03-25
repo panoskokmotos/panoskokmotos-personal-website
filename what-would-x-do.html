@@ -12,6 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
+  <script src="/tool-utils.js"></script>
   <link rel="icon" href="/favicon.ico" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="canonical" href="https://panoskokmotos.com/what-would-x-do.html" />
@@ -191,7 +192,7 @@
   </main>
 
   <script>
-    const WORKER_URL = 'https://ask-panos.panagiotis-kokmotoss.workers.dev/tool';
+    const WORKER_URL = TOOL_WORKER_URL;
 
     // ── Evidence map (cause → [level per card 0..4]) ──
     // Levels: 'strong' | 'good' | 'emerging'
@@ -655,6 +656,7 @@ Rules:
 
         saveToHistory(selectedAmount, selectedCause, givingMode);
         renderScenarios(scenarios);
+        notifyToolUsed(document.title);
       } catch (err) {
         showError('Something went wrong. Please try again.');
         console.error(err);
