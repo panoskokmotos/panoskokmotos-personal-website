@@ -4,7 +4,7 @@
  */
 
 /* ── Constants ── */
-const TOOL_WORKER_URL    = 'https://ask-panos.panagiotis-kokmotoss.workers.dev/tool';
+const TOOL_WORKER_URL    = 'https://ask-panos.panagiotis-kokmotoss.workers.dev/api/v1/tool';
 const TOOL_NOTIFY_WORKER = 'https://ask-panos.panagiotis-kokmotoss.workers.dev/notify';
 const TOOL_NOTIFY_SECRET = 'panos-notify-2026-xyz';
 const TOOL_PROMPT_VERSION = 2; // bump when system prompts change significantly
@@ -634,7 +634,7 @@ const _JOURNEY_MAP = {
   '/nonprofit-health-checker.html':  { url: '/charity-comparison-engine.html',  icon: '⚖️', text: 'Want to compare this to another org? →' },
   '/neighborhood-giving-map.html':   { url: '/community-needs-map.html',        icon: '📍', text: 'See what community needs exist in that area →' },
   '/community-needs-map.html':       { url: '/neighborhood-giving-map.html',    icon: '🗺', text: 'Now see where giving flows in that city →' },
-  '/impact-story-generator.html':    { url: '/nonprofit-health-checker.html',   icon: '🔍', text: 'Check your nonprofit's health score →' },
+  '/impact-story-generator.html':    { url: '/nonprofit-health-checker.html',   icon: '🔍', text: "Check your nonprofit's health score →" },
 };
 function _injectJourneyCTA(text) {
   const result = document.getElementById('result');
