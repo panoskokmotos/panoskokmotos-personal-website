@@ -1,4 +1,4 @@
-const CACHE_NAME = 'panos-v2';
+const CACHE_NAME = 'panos-v4';
 const OFFLINE_URL = '/offline.html';
 
 const PRECACHE_ASSETS = [
@@ -7,9 +7,23 @@ const PRECACHE_ASSETS = [
   '/style.css',
   '/script.js',
   '/chat.js',
+  '/tool-utils.js',
   '/photo.webp',
   '/offline.html',
   '/manifest.json',
+  '/ai-tools.html',
+  '/donation-tax-estimator.html',
+  '/what-would-x-do.html',
+  '/why-should-i-give.html',
+  '/first-time-donor-coach.html',
+  '/charity-comparison-engine.html',
+  '/nonprofit-health-checker.html',
+  '/scam-nonprofit-detector.html',
+  '/volunteer-match.html',
+  '/what-can-i-donate.html',
+  '/impact-story-generator.html',
+  '/community-needs-map.html',
+  '/neighborhood-giving-map.html',
 ];
 
 // Install: precache core assets
@@ -31,12 +45,17 @@ self.addEventListener('activate', event => {
 });
 
 // Fetch strategy:
+// - Cloudflare Worker API → always network, never cache
 // - HTML → network-first (always get fresh HTML, fallback to cache, then offline page)
 // - Everything else → cache-first (fast, fallback to network)
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
 
   const url = new URL(event.request.url);
+
+  // Never cache Cloudflare Worker API calls
+  if (url.hostname.endsWith('.workers.dev')) return;
+
   const isHTML = event.request.headers.get('accept')?.includes('text/html');
   const isSameOrigin = url.origin === self.location.origin;
 

@@ -9,7 +9,57 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
+  <script src="/tool-utils.js"></script>
   <link rel="icon" href="/favicon.ico" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://panoskokmotos.com/volunteer-match.html" />
+  <meta property="og:url" content="https://panoskokmotos.com/volunteer-match.html" />
+  <meta property="og:image" content="https://panoskokmotos.com/og-ai-tools.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://panoskokmotos.com/og-ai-tools.png" />
+  <meta name="twitter:creator" content="@panoskokmotoss" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does Volunteer Match work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You enter your skills, availability, and causes you care about \u2014 AI matches you to 3 types of nonprofits that need what you offer, and drafts a ready-to-send intro email."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need a lot of free time to volunteer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The tool works for any availability \u2014 even a few hours per month or remote-only commitments."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if I'm not sure what skills I have to offer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "List anything: your job skills, hobbies, languages you speak, or physical abilities. Every skill has value to some type of organization."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the tool match me to specific organizations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It matches you to types of organizations, not specific ones \u2014 so you have a starting point to search locally."
+      }
+    }
+  ]
+}
+</script>
+  <link rel="prefetch" href="/what-can-i-donate.html" />
+  <link rel="prefetch" href="/community-needs-map.html" />
 </head>
 <body class="tool-page">
 
@@ -24,6 +74,25 @@
     <p class="tool-eyebrow">AI for Social Impact · Free Tool</p>
     <h1 class="tool-title">Volunteer Match</h1>
     <p class="tool-desc">Tell AI your skills, availability, and what causes matter to you — it'll match you to the types of nonprofits that need exactly what you offer, and draft an intro email you can send today.</p>
+
+    <!-- ── How it works ── -->
+    <div class="tool-how" aria-label="How this tool works">
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 1</span>
+        <span class="tool-how-title">Share your skills</span>
+        <span class="tool-how-desc">List your professional skills, hobbies, and availability.</span>
+      </div>
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 2</span>
+        <span class="tool-how-title">AI finds your matches</span>
+        <span class="tool-how-desc">3 nonprofit types that need exactly what you bring.</span>
+      </div>
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 3</span>
+        <span class="tool-how-title">Send your email today</span>
+        <span class="tool-how-desc">A warm, ready-to-send intro email — drafted for you.</span>
+      </div>
+    </div>
 
     <form class="tool-form" id="toolForm">
 
@@ -42,19 +111,25 @@
       </div>
 
       <div class="tool-field">
-        <label class="tool-label" for="availability">
-          Your availability
-          <span class="tool-hint"> — how much time can you offer?</span>
-        </label>
-        <select id="availability" class="tool-select" required>
-          <option value="">Select…</option>
-          <option value="a few hours per month">A few hours per month</option>
-          <option value="about 4 hours per week on weekends">Weekends only (~4 hrs/week)</option>
-          <option value="about 5-10 hours per week on evenings">Evenings during the week (5–10 hrs/week)</option>
-          <option value="about 10+ hours per week flexible">10+ hours/week (flexible)</option>
-          <option value="one-time project help">One-time project help only</option>
-          <option value="remote/online only">Remote / online only</option>
-        </select>
+        <label class="tool-label">Your availability</label>
+        <input type="hidden" id="availability" value="" />
+        <div class="vm-days-row" id="vmDays">
+          <button type="button" class="vm-day-btn" data-day="Mon">Mon</button>
+          <button type="button" class="vm-day-btn" data-day="Tue">Tue</button>
+          <button type="button" class="vm-day-btn" data-day="Wed">Wed</button>
+          <button type="button" class="vm-day-btn" data-day="Thu">Thu</button>
+          <button type="button" class="vm-day-btn" data-day="Fri">Fri</button>
+          <button type="button" class="vm-day-btn" data-day="Sat">Sat</button>
+          <button type="button" class="vm-day-btn" data-day="Sun">Sun</button>
+        </div>
+        <div class="vm-time-row" id="vmTimes">
+          <button type="button" class="vm-time-btn" data-time="mornings">Mornings</button>
+          <button type="button" class="vm-time-btn" data-time="afternoons">Afternoons</button>
+          <button type="button" class="vm-time-btn" data-time="evenings">Evenings</button>
+          <button type="button" class="vm-time-btn active" data-time="flexible">Flexible</button>
+          <button type="button" class="vm-time-btn" data-time="remote only">Remote only</button>
+        </div>
+        <p class="vm-availability-summary" id="vmSummary">Flexible schedule (please update above)</p>
       </div>
 
       <div class="tool-field">
@@ -96,6 +171,12 @@
         />
       </div>
 
+      <div class="tool-examples">
+        <span class="tool-examples-label">Try an example:</span>
+        <button type="button" class="tool-example-chip" data-fill-skills="software engineering, product management, data analysis" data-fill-availability="a few hours per week on weekends" data-fill-causes="youth digital literacy, education nonprofits" data-fill-location="San Francisco Bay Area" data-fill-yourName="Alex">Software engineer · weekends</button>
+        <button type="button" class="tool-example-chip" data-fill-skills="teaching, curriculum design, public speaking, writing" data-fill-availability="evenings and weekends, 3-4 hrs/week" data-fill-causes="literacy, after-school programs" data-fill-location="Chicago, IL" data-fill-yourName="Maria">Teacher · evenings</button>
+        <button type="button" class="tool-example-chip" data-fill-skills="graphic design, UX, Figma, social media content" data-fill-availability="flexible, 5-6 hrs/month" data-fill-causes="arts nonprofits, community organizations" data-fill-location="New York, NY" data-fill-yourName="Jordan">Designer · flexible</button>
+      </div>
       <button type="submit" class="tool-submit" id="submitBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         Match Me + Draft My Email
@@ -104,7 +185,7 @@
 
     <div class="tool-loading" id="loading">
       <div class="tool-spinner"></div>
-      Matching your skills to causes and drafting your email…
+      <span id="loadingText">Matching your skills to causes and drafting your email…</span>
     </div>
 
     <div class="tool-error" id="errorBox"></div>
@@ -125,35 +206,68 @@
         <div class="tool-result-body" id="emailBody"></div>
       </div>
     </div>
+      <div class="tool-result-actions">
+        <button class="tool-try-another" id="tryAnotherBtn">← Try another</button>
+        <div class="tool-share-group">
+          <button class="tool-share-x" id="shareXBtn"><svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.258 5.622L18.245 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> Share on X</button>
+          <button class="tool-share-link" id="shareLinkBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg> Copy link</button>
+        </div>
+      </div>
+    </div>
 
     <footer class="tool-footer">
       Built by <a href="/" target="_blank">Panos Kokmotos</a> · Part of the
       <a href="/#ai-lab">AI for Social Impact Lab</a> ·
       Powered by Claude AI
     </footer>
+    <div class="tool-usage-count" id="toolUsageCount"></div>
+    <div class="tool-related-wrap" id="toolRelated"></div>
+    <div class="tool-embed-wrap" id="toolEmbed"></div>
   </main>
 
   <script>
-    const WORKER_URL = 'https://ask-panos.panagiotis-kokmotoss.workers.dev/tool';
-
     const form = document.getElementById('toolForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const loading = document.getElementById('loading');
-    const errorBox = document.getElementById('errorBox');
-    const result = document.getElementById('result');
     const matchesBody = document.getElementById('matchesBody');
     const emailBody = document.getElementById('emailBody');
     const copyBtn = document.getElementById('copyBtn');
 
-    // Tabs
-    document.querySelectorAll('.tool-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tool-tab-panel').forEach(p => p.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+    initTabSwitcher();
+
+    /* ── Weekday + time picker ── */
+    (function() {
+      const hiddenAvail = document.getElementById('availability');
+      const summary = document.getElementById('vmSummary');
+      let selectedDays = [];
+      let selectedTime = 'flexible';
+
+      function updateAvailability() {
+        const dayStr = selectedDays.length ? selectedDays.join(', ') : 'any day';
+        const str = dayStr + ', ' + selectedTime;
+        hiddenAvail.value = str;
+        summary.textContent = str.charAt(0).toUpperCase() + str.slice(1);
+      }
+
+      document.getElementById('vmDays').addEventListener('click', e => {
+        const btn = e.target.closest('.vm-day-btn');
+        if (!btn) return;
+        btn.classList.toggle('active');
+        const day = btn.dataset.day;
+        if (btn.classList.contains('active')) selectedDays.push(day);
+        else selectedDays = selectedDays.filter(d => d !== day);
+        updateAvailability();
       });
-    });
+
+      document.getElementById('vmTimes').addEventListener('click', e => {
+        const btn = e.target.closest('.vm-time-btn');
+        if (!btn) return;
+        document.querySelectorAll('.vm-time-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedTime = btn.dataset.time;
+        updateAvailability();
+      });
+
+      updateAvailability();
+    })();
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -173,26 +287,13 @@
       hideError();
       hideResult();
 
-      const systemPrompt = `You are a volunteer placement expert and talented writer. Your job is to:
+      const systemPrompt = `You are a volunteer placement expert and talented writer. Your job is to match a volunteer's skills and availability to 3 ideal nonprofit types, then draft their intro email.
 
-1. Match a volunteer's skills and availability to 3 ideal types of nonprofits
-2. Draft a short, warm, compelling intro email they can send to volunteer coordinators
-
-PART 1 — MATCHES
-For each of 3 org types, write:
-**Match [number]: [Org type name]**
-Why it's a great fit: [1-2 sentences connecting their specific skills to this org's needs]
-What you'd likely do: [1-2 specific volunteer roles or tasks]
-
-PART 2 — DRAFT EMAIL
-Write a ready-to-send intro email. Use the volunteer's first name as the sender. The subject line should be concise and specific. The email should be warm, brief (under 150 words), and include a specific offer of help tied to their skills.
-
-Format the email section clearly with:
-Subject: [subject line]
-
-[email body]
-
-Separate the two parts with this exact text: ---EMAIL---
+Respond with ONLY valid JSON — no markdown, no code fences. Schema:
+{
+  "matches": "Formatted matches text. For each of 3 org types:\n**Match 1: [Org type name]**\nWhy it's a great fit: [1-2 sentences]\nWhat you'd likely do: [1-2 specific roles or tasks]\n\n(repeat for 2 and 3)",
+  "email": "Ready-to-send intro email. Start with: Subject: [concise subject line]\n\n[email body — warm, under 150 words, specific offer tied to their skills]"
+}
 
 Keep tone professional but human. Do NOT name specific real organizations.`;
 
@@ -205,31 +306,33 @@ My first name: ${yourName}
 Generate my 3 nonprofit matches and a draft intro email.`;
 
       try {
-        const res = await fetch(WORKER_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ systemPrompt, userMessage }),
-        });
+        const fullText = await callWorker(systemPrompt, userMessage);
+        let parsed = null;
+        try {
+          const clean = fullText.replace(/^```json\n?|```$/g, '').trim();
+          parsed = JSON.parse(clean);
+        } catch {}
 
-        if (!res.ok) throw new Error(`Server error: ${res.status}`);
-        const data = await res.json();
-        if (data.error) throw new Error(data.error);
-
-        const fullText = data.result;
-        const splitIndex = fullText.indexOf('---EMAIL---');
-
-        if (splitIndex !== -1) {
-          matchesBody.innerHTML = formatText(fullText.slice(0, splitIndex).trim());
-          emailBody.innerHTML = formatText(fullText.slice(splitIndex + 11).trim());
+        if (parsed && (parsed.matches || parsed.email)) {
+          matchesBody.innerHTML = formatMarkdown((parsed.matches || '').trim());
+          emailBody.innerHTML = parsed.email ? formatMarkdown(parsed.email.trim()) : '<em style="color:var(--text-muted)">Email not generated.</em>';
         } else {
-          matchesBody.innerHTML = formatText(fullText);
-          emailBody.innerHTML = '<em style="color:var(--text-muted)">Email draft not generated separately — see matches tab.</em>';
+          // Fallback: marker split
+          const splitIndex = fullText.indexOf('---EMAIL---');
+          if (splitIndex !== -1) {
+            matchesBody.innerHTML = formatMarkdown(fullText.slice(0, splitIndex).trim());
+            emailBody.innerHTML = formatMarkdown(fullText.slice(splitIndex + 11).trim());
+          } else {
+            matchesBody.innerHTML = formatMarkdown(fullText);
+            emailBody.innerHTML = '<em style="color:var(--text-muted)">See matches tab.</em>';
+          }
         }
 
-        result.classList.add('visible');
-        result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        document.getElementById('result').classList.add('visible');
+        document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        notifyToolUsed(document.title);
       } catch (err) {
-        showError('Something went wrong. Please try again.');
+        if (!err._shown) showError('Something went wrong. Please try again.');
         console.error(err);
       } finally {
         setLoading(false);
@@ -243,20 +346,73 @@ Generate my 3 nonprofit matches and a draft intro email.`;
         setTimeout(() => { copyBtn.textContent = 'Copy All'; }, 2000);
       });
     });
+  </script>
 
-    function setLoading(on) {
-      submitBtn.disabled = on;
-      loading.classList.toggle('visible', on);
-    }
-
-    function hideResult() { result.classList.remove('visible'); }
-    function showError(msg) { errorBox.textContent = msg; errorBox.classList.add('visible'); }
-    function hideError() { errorBox.classList.remove('visible'); }
-
-    function formatText(text) {
-      return text
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\n/g, '<br>');
+  <!-- ── AI Chat Widget ── -->
+  <div class="chat-widget" id="chatWidget">
+    <button class="chat-toggle" id="chatToggle" aria-label="Chat with Panos AI">
+      <svg class="chat-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <svg class="chat-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <span class="chat-badge">AI</span>
+    </button>
+    <div class="chat-panel" id="chatPanel">
+      <div class="chat-header">
+        <div class="chat-header-info">
+          <picture>
+            <source srcset="/photo.webp" type="image/webp" />
+            <img src="/photo.jpg" alt="Panos Kokmotos" class="chat-avatar" />
+          </picture>
+          <div class="chat-header-text">
+            <strong>Ask Panos</strong>
+            <span><span class="chat-status-dot"></span>AI · Usually replies instantly</span>
+          </div>
+        </div>
+        <div class="chat-header-actions">
+          <button class="chat-new-btn" id="chatNewChat" title="New conversation" aria-label="Start new conversation">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="15" height="15"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button class="chat-close-btn" id="chatClose" aria-label="Close chat">✕</button>
+        </div>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg bot">
+          <p>👋 Hi! I'm Panos's AI. Ask me about his work, Givelink, or the social impact tools!</p>
+        </div>
+      </div>
+      <div class="chat-starters" id="chatStarters">
+        <p class="chat-starters-label">Quick questions</p>
+        <button class="chat-starter-chip" onclick="useChatStarter(this)">
+          <span class="csc-icon">🚀</span>
+          <span class="csc-text">How does Givelink work?</span>
+          <svg class="csc-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+        <button class="chat-starter-chip" onclick="useChatStarter(this)">
+          <span class="csc-icon">📅</span>
+          <span class="csc-text">How can I book a call?</span>
+          <svg class="csc-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+        <button class="chat-starter-chip" onclick="useChatStarter(this)">
+          <span class="csc-icon">🏆</span>
+          <span class="csc-text">What is Panos known for?</span>
+          <svg class="csc-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+      </div>
+      <div class="chat-input-wrap">
+        <input type="text" id="chatInput" placeholder="Ask about Givelink, social impact, Panos…" autocomplete="off" />
+        <button id="chatSend" aria-label="Send">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+      <p class="chat-note">Powered by <a href="https://anthropic.com" target="_blank" rel="noopener">Claude AI</a></p>
+    </div>
+  </div>
+  <script src="/chat.js"></script>
+  <!-- Service Worker registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
     }
   </script>
 </body>

@@ -9,7 +9,47 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
+  <script src="/tool-utils.js"></script>
   <link rel="icon" href="/favicon.ico" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://panoskokmotos.com/community-needs-map.html" />
+  <meta property="og:url" content="https://panoskokmotos.com/community-needs-map.html" />
+  <meta property="og:image" content="https://panoskokmotos.com/og-ai-tools.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://panoskokmotos.com/og-ai-tools.png" />
+  <meta name="twitter:creator" content="@panoskokmotoss" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does the Community Needs Map do?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You describe what you observe in your community \u2014 hunger, housing instability, lack of services \u2014 and AI maps the underlying needs, surfaces gaps, and suggests types of organizations that could help."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who is this tool for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Residents, nonprofit workers, teachers, community organizers, donors, and local government staff who want to better understand and articulate community needs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this use real data about my community?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The AI uses patterns from its training data and your descriptions. For local data, we recommend also consulting your city's open data portal or community foundation reports."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body class="tool-page">
 
@@ -24,6 +64,25 @@
     <p class="tool-eyebrow">AI for Social Impact · Free Tool</p>
     <h1 class="tool-title">Community Needs Map</h1>
     <p class="tool-desc">You know your community better than any database. Describe what you're seeing on the ground — AI will map the underlying needs, identify patterns, surface gaps, and suggest concrete resources and org types that could help.</p>
+
+    <!-- ── How it works ── -->
+    <div class="tool-how" aria-label="How this tool works">
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 1</span>
+        <span class="tool-how-title">Describe what you see</span>
+        <span class="tool-how-desc">Share observations about your neighborhood or community.</span>
+      </div>
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 2</span>
+        <span class="tool-how-title">AI maps the roots</span>
+        <span class="tool-how-desc">Identifies patterns, systemic causes, and gaps.</span>
+      </div>
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 3</span>
+        <span class="tool-how-title">Know how to act</span>
+        <span class="tool-how-desc">3 tailored steps based on your role in the community.</span>
+      </div>
+    </div>
 
     <form class="tool-form" id="toolForm">
 
@@ -84,6 +143,12 @@
         </select>
       </div>
 
+      <div class="tool-examples">
+        <span class="tool-examples-label">Try an example:</span>
+        <button type="button" class="tool-example-chip" data-fill-location="East Oakland, CA" data-fill-observations="Families can't afford food, kids show up to school hungry, one food bank always overwhelmed, high unemployment since factories closed.">East Oakland, CA</button>
+        <button type="button" class="tool-example-chip" data-fill-location="Eastern Kentucky (Appalachia)" data-fill-observations="High opioid addiction rates, few treatment centers. Young people leaving. Limited internet. Few jobs after coal mines closed.">Rural Kentucky</button>
+        <button type="button" class="tool-example-chip" data-fill-location="South Bronx, New York" data-fill-observations="Overcrowded schools, few after-school programs, housing instability, many families doubled up. Limited green space and fresh food access.">South Bronx, NY</button>
+      </div>
       <button type="submit" class="tool-submit" id="submitBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
         Map My Community's Needs
@@ -92,7 +157,7 @@
 
     <div class="tool-loading" id="loading">
       <div class="tool-spinner"></div>
-      Mapping needs and identifying patterns…
+      <span id="loadingText">Mapping needs and identifying patterns…</span>
     </div>
 
     <div class="tool-error" id="errorBox"></div>
@@ -103,6 +168,17 @@
         <button class="tool-copy-btn" id="copyBtn">Copy</button>
       </div>
       <div class="tool-result-body" id="resultBody"></div>
+      <a class="tool-map-btn" id="toolMapBtn" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        Explore this area on OpenStreetMap
+      </a>
+      <div class="tool-result-actions">
+        <button class="tool-try-another" id="tryAnotherBtn">← Try another</button>
+        <div class="tool-share-group">
+          <button class="tool-share-x" id="shareXBtn"><svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.258 5.622L18.245 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> Share on X</button>
+          <button class="tool-share-link" id="shareLinkBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg> Copy link</button>
+        </div>
+      </div>
     </div>
 
     <footer class="tool-footer">
@@ -110,18 +186,13 @@
       <a href="/#ai-lab">AI for Social Impact Lab</a> ·
       Powered by Claude AI
     </footer>
+    <div class="tool-usage-count" id="toolUsageCount"></div>
+    <div class="tool-related-wrap" id="toolRelated"></div>
+    <div class="tool-embed-wrap" id="toolEmbed"></div>
   </main>
 
   <script>
-    const WORKER_URL = 'https://ask-panos.panagiotis-kokmotoss.workers.dev/tool';
-
     const form = document.getElementById('toolForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const loading = document.getElementById('loading');
-    const errorBox = document.getElementById('errorBox');
-    const result = document.getElementById('result');
-    const resultBody = document.getElementById('resultBody');
-    const copyBtn = document.getElementById('copyBtn');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -171,51 +242,96 @@ What I need most right now: ${whatYouWant}
 Build my community needs analysis.`;
 
       try {
-        const res = await fetch(WORKER_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ systemPrompt, userMessage }),
-        });
-
-        if (!res.ok) throw new Error(`Server error: ${res.status}`);
-        const data = await res.json();
-        if (data.error) throw new Error(data.error);
-
-        showResult(data.result);
+        const text = await callWorker(systemPrompt, userMessage);
+        showResult(text);
+        /* Wire map button */
+        const mapCity = document.getElementById('location').value.trim();
+        if (mapCity) {
+          const mapBtn = document.getElementById('toolMapBtn');
+          if (mapBtn) {
+            mapBtn.href = 'https://www.openstreetmap.org/search?query=' + encodeURIComponent(mapCity);
+            mapBtn.textContent = '';
+            mapBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Explore ${mapCity} on OpenStreetMap`;
+            mapBtn.classList.add('visible');
+          }
+        }
+        notifyToolUsed(document.title);
       } catch (err) {
-        showError('Something went wrong. Please try again.');
+        if (!err._shown) showError('Something went wrong. Please try again.');
         console.error(err);
       } finally {
         setLoading(false);
       }
     });
 
-    copyBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(resultBody.textContent).then(() => {
-        copyBtn.textContent = 'Copied!';
-        setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+    initCopyBtn();
+  </script>
+
+  <!-- ── AI Chat Widget ── -->
+  <div class="chat-widget" id="chatWidget">
+    <button class="chat-toggle" id="chatToggle" aria-label="Chat with Panos AI">
+      <svg class="chat-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <svg class="chat-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <span class="chat-badge">AI</span>
+    </button>
+    <div class="chat-panel" id="chatPanel">
+      <div class="chat-header">
+        <div class="chat-header-info">
+          <picture>
+            <source srcset="/photo.webp" type="image/webp" />
+            <img src="/photo.jpg" alt="Panos Kokmotos" class="chat-avatar" />
+          </picture>
+          <div class="chat-header-text">
+            <strong>Ask Panos</strong>
+            <span><span class="chat-status-dot"></span>AI · Usually replies instantly</span>
+          </div>
+        </div>
+        <div class="chat-header-actions">
+          <button class="chat-new-btn" id="chatNewChat" title="New conversation" aria-label="Start new conversation">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="15" height="15"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button class="chat-close-btn" id="chatClose" aria-label="Close chat">✕</button>
+        </div>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg bot">
+          <p>👋 Hi! I'm Panos's AI. Ask me about his work, Givelink, or the social impact tools!</p>
+        </div>
+      </div>
+      <div class="chat-starters" id="chatStarters">
+        <p class="chat-starters-label">Quick questions</p>
+        <button class="chat-starter-chip" onclick="useChatStarter(this)">
+          <span class="csc-icon">🚀</span>
+          <span class="csc-text">How does Givelink work?</span>
+          <svg class="csc-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+        <button class="chat-starter-chip" onclick="useChatStarter(this)">
+          <span class="csc-icon">📅</span>
+          <span class="csc-text">How can I book a call?</span>
+          <svg class="csc-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+        <button class="chat-starter-chip" onclick="useChatStarter(this)">
+          <span class="csc-icon">🏆</span>
+          <span class="csc-text">What is Panos known for?</span>
+          <svg class="csc-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+      </div>
+      <div class="chat-input-wrap">
+        <input type="text" id="chatInput" placeholder="Ask about Givelink, social impact, Panos…" autocomplete="off" />
+        <button id="chatSend" aria-label="Send">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+      <p class="chat-note">Powered by <a href="https://anthropic.com" target="_blank" rel="noopener">Claude AI</a></p>
+    </div>
+  </div>
+  <script src="/chat.js"></script>
+  <!-- Service Worker registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
       });
-    });
-
-    function setLoading(on) {
-      submitBtn.disabled = on;
-      loading.classList.toggle('visible', on);
-    }
-
-    function showResult(text) {
-      resultBody.innerHTML = formatText(text);
-      result.classList.add('visible');
-      result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-
-    function hideResult() { result.classList.remove('visible'); }
-    function showError(msg) { errorBox.textContent = msg; errorBox.classList.add('visible'); }
-    function hideError() { errorBox.classList.remove('visible'); }
-
-    function formatText(text) {
-      return text
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\n/g, '<br>');
     }
   </script>
 </body>

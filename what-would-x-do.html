@@ -12,7 +12,58 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
+  <script src="/tool-utils.js"></script>
   <link rel="icon" href="/favicon.ico" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://panoskokmotos.com/what-would-x-do.html" />
+  <meta property="og:url" content="https://panoskokmotos.com/what-would-x-do.html" />
+  <meta property="og:image" content="https://panoskokmotos.com/og-ai-tools.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://panoskokmotos.com/og-ai-tools.png" />
+  <meta name="twitter:creator" content="@panoskokmotoss" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does the 'What Would $X Do?' tool work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You enter a donation amount and AI calculates its real-world impact across different types of causes \u2014 from meals served to trees planted \u2014 so you can see exactly what your money does."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this tool free to use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, completely free. No account, no payment, no login required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use this to decide where to donate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The tool helps you compare impact across cause areas so you can make a more informed, confident giving decision."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What AI powers this tool?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It's powered by Claude AI by Anthropic, one of the most capable and safety-focused AI models available."
+      }
+    }
+  ]
+}
+</script>
+  <link rel="prefetch" href="/charity-comparison-engine.html" />
+  <link rel="prefetch" href="/nonprofit-health-checker.html" />
+  <link rel="prefetch" href="/donation-tax-estimator.html" />
 </head>
 <body class="tool-page">
 
@@ -40,6 +91,25 @@
     <div id="historySection" style="display:none;margin-bottom:20px">
       <p class="wxd-history-label">Recent searches:</p>
       <div id="historyChips" class="wxd-history-chips"></div>
+    </div>
+
+    <!-- ── How it works ── -->
+    <div class="tool-how" aria-label="How this tool works">
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 1</span>
+        <span class="tool-how-title">Enter amount + cause</span>
+        <span class="tool-how-desc">Pick any dollar amount and a cause area you care about.</span>
+      </div>
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 2</span>
+        <span class="tool-how-title">AI models impact</span>
+        <span class="tool-how-desc">Claude analyzes 5 types of orgs and maps real-world outcomes.</span>
+      </div>
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 3</span>
+        <span class="tool-how-title">See scenarios</span>
+        <span class="tool-how-desc">Get concrete comparisons — meals, trees, tutoring hours, and more.</span>
+      </div>
     </div>
 
     <form class="tool-form" id="toolForm">
@@ -182,10 +252,13 @@
         <p class="wxd-embed-note">The embed auto-selects the cause you have active. Change the cause chip above and re-open this panel to update the URL.</p>
       </div>
     </div>
+    <div class="tool-usage-count" id="toolUsageCount"></div>
+    <div class="tool-related-wrap" id="toolRelated"></div>
+    <div class="tool-embed-wrap" id="toolEmbed"></div>
   </main>
 
   <script>
-    const WORKER_URL = 'https://ask-panos.panagiotis-kokmotoss.workers.dev/tool';
+    const WORKER_URL = TOOL_WORKER_URL;
 
     // ── Evidence map (cause → [level per card 0..4]) ──
     // Levels: 'strong' | 'good' | 'emerging'
@@ -625,9 +698,11 @@ Rules:
 - All others must have best: false
 - stat must be a striking, specific number (not vague)
 - description must start with a verb and be vivid, not generic
-- Use real benchmarks (e.g. $1 = ~5 meals at a food bank, $50 = ~1 month clean water for a family via water purification programs)
 - Do NOT name specific real organizations
-- Do NOT add any text before the first ---SCENARIO--- or after ---END---`;
+- Do NOT add any text before the first ---SCENARIO--- or after ---END---
+
+Cause-specific benchmarks to use:
+${_causeContext}`;
 
       const userMessage = isMonthly
         ? `Donation: $${selectedAmount}/month (=$${annualAmount}/year recurring)\nCause: ${selectedCause}\n\nGenerate 5 impact scenarios showing annual impact.`
@@ -649,8 +724,9 @@ Rules:
 
         saveToHistory(selectedAmount, selectedCause, givingMode);
         renderScenarios(scenarios);
+        notifyToolUsed(document.title);
       } catch (err) {
-        showError('Something went wrong. Please try again.');
+        if (!err._shown) showError('Something went wrong. Please try again.');
         console.error(err);
       } finally {
         setLoading(false);
@@ -1039,6 +1115,74 @@ Be concise. Max 150 words total. Use bullet point "•" for each item.`;
     loadHistory();
     updateComparison(selectedAmount); // show comparison for default $50
     loadFromURL();
+  </script>
+
+  <!-- ── AI Chat Widget ── -->
+  <div class="chat-widget" id="chatWidget">
+    <button class="chat-toggle" id="chatToggle" aria-label="Chat with Panos AI">
+      <svg class="chat-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <svg class="chat-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <span class="chat-badge">AI</span>
+    </button>
+    <div class="chat-panel" id="chatPanel">
+      <div class="chat-header">
+        <div class="chat-header-info">
+          <picture>
+            <source srcset="/photo.webp" type="image/webp" />
+            <img src="/photo.jpg" alt="Panos Kokmotos" class="chat-avatar" />
+          </picture>
+          <div class="chat-header-text">
+            <strong>Ask Panos</strong>
+            <span><span class="chat-status-dot"></span>AI · Usually replies instantly</span>
+          </div>
+        </div>
+        <div class="chat-header-actions">
+          <button class="chat-new-btn" id="chatNewChat" title="New conversation" aria-label="Start new conversation">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="15" height="15"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button class="chat-close-btn" id="chatClose" aria-label="Close chat">✕</button>
+        </div>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg bot">
+          <p>👋 Hi! I'm Panos's AI. Ask me about his work, Givelink, or the social impact tools!</p>
+        </div>
+      </div>
+      <div class="chat-starters" id="chatStarters">
+        <p class="chat-starters-label">Quick questions</p>
+        <button class="chat-starter-chip" onclick="useChatStarter(this)">
+          <span class="csc-icon">🚀</span>
+          <span class="csc-text">How does Givelink work?</span>
+          <svg class="csc-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+        <button class="chat-starter-chip" onclick="useChatStarter(this)">
+          <span class="csc-icon">📅</span>
+          <span class="csc-text">How can I book a call?</span>
+          <svg class="csc-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+        <button class="chat-starter-chip" onclick="useChatStarter(this)">
+          <span class="csc-icon">🏆</span>
+          <span class="csc-text">What is Panos known for?</span>
+          <svg class="csc-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+      </div>
+      <div class="chat-input-wrap">
+        <input type="text" id="chatInput" placeholder="Ask about Givelink, social impact, Panos…" autocomplete="off" />
+        <button id="chatSend" aria-label="Send">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+      <p class="chat-note">Powered by <a href="https://anthropic.com" target="_blank" rel="noopener">Claude AI</a></p>
+    </div>
+  </div>
+  <script src="/chat.js"></script>
+  <!-- Service Worker registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
   </script>
 </body>
 </html>

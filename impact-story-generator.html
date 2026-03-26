@@ -9,7 +9,57 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
+  <script src="/tool-utils.js"></script>
   <link rel="icon" href="/favicon.ico" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://panoskokmotos.com/impact-story-generator.html" />
+  <meta property="og:url" content="https://panoskokmotos.com/impact-story-generator.html" />
+  <meta property="og:image" content="https://panoskokmotos.com/og-ai-tools.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://panoskokmotos.com/og-ai-tools.png" />
+  <meta name="twitter:creator" content="@panoskokmotoss" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the Impact Story Generator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It's a free AI writing tool for nonprofits. You input a beneficiary situation (before and after your program) and AI writes a compelling donor-facing story in 4 formats: full story, email version, social post, and one-liner."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to be a professional writer to use this?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Just describe the situation in plain language \u2014 AI handles the storytelling. Always review and personalize before publishing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use this for grant writing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The 'Formal' tone option is optimized for grant reports and institutional donors."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the generated story ready to publish as-is?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We recommend humanizing AI-generated content with your own voice and verifying all details before publishing."
+      }
+    }
+  ]
+}
+</script>
+  <link rel="prefetch" href="/community-needs-map.html" />
+  <link rel="prefetch" href="/neighborhood-giving-map.html" />
 </head>
 <body class="tool-page">
 
@@ -24,6 +74,25 @@
     <p class="tool-eyebrow">AI for Social Impact · Free Tool</p>
     <h1 class="tool-title">Impact Story Generator</h1>
     <p class="tool-desc">For nonprofits and fundraisers: input a real beneficiary situation (before &amp; after) plus your program details — AI writes a compelling donor-facing story in 4 formats: full story, email version, social post, and a one-liner.</p>
+
+    <!-- ── How it works ── -->
+    <div class="tool-how" aria-label="How this tool works">
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 1</span>
+        <span class="tool-how-title">Describe before + after</span>
+        <span class="tool-how-desc">Who was helped? What changed thanks to your program?</span>
+      </div>
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 2</span>
+        <span class="tool-how-title">AI writes 4 versions</span>
+        <span class="tool-how-desc">Full story, email, social post, and a one-liner.</span>
+      </div>
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 3</span>
+        <span class="tool-how-title">Publish with confidence</span>
+        <span class="tool-how-desc">Review, personalize, and use across all your channels.</span>
+      </div>
+    </div>
 
     <form class="tool-form" id="toolForm">
 
@@ -95,6 +164,33 @@
         ></textarea>
       </div>
 
+      <div class="tool-examples">
+        <span class="tool-examples-label">Try an example:</span>
+        <button type="button" class="tool-example-chip" data-fill-orgName="SF-Marin Food Bank" data-fill-beneficiary="a single mother of three children" data-fill-before="Regularly skipped meals to ensure her kids had enough. Anxious about making rent after job loss." data-fill-after="Has reliable access to weekly food boxes. Her kids now eat breakfast every morning." data-fill-program="weekly food distribution and wraparound case management">Food bank family</button>
+        <button type="button" class="tool-example-chip" data-fill-beneficiary="a 9th grader who was falling behind in school" data-fill-before="Reading at a 5th grade level, at risk of dropping out, disengaged and skipping classes." data-fill-after="Caught up to grade level in 6 months, applied for a summer enrichment program, re-engaged." data-fill-program="one-on-one tutoring twice a week and peer mentorship" data-fill-orgName="">Youth tutoring</button>
+        <button type="button" class="tool-example-chip" data-fill-orgName="City Mission Shelter" data-fill-beneficiary="a 52-year-old veteran experiencing homelessness" data-fill-before="Living under a freeway overpass for 14 months. Untreated PTSD. No income or ID." data-fill-after="Placed in transitional housing. Receiving VA benefits. Enrolled in job training program." data-fill-program="emergency shelter, mental health support, and benefits navigation">Homeless shelter</button>
+      </div>
+      <div class="tool-field">
+        <label class="tool-label">Story tone</label>
+        <div class="isg-tone-row" id="isgToneRow">
+          <button type="button" class="isg-tone-btn active" data-tone="Heartfelt and emotionally resonant — human first, statistics second. Move the donor.">
+            <span class="isg-tone-icon">❤️</span>
+            <span class="isg-tone-name">Heartfelt</span>
+            <span class="isg-tone-desc">Emotionally resonant, human-first</span>
+          </button>
+          <button type="button" class="isg-tone-btn" data-tone="Professional and formal — appropriate for annual reports, grant reports, and institutional donors. Evidence-forward.">
+            <span class="isg-tone-icon">📋</span>
+            <span class="isg-tone-name">Formal</span>
+            <span class="isg-tone-desc">Annual reports, grant writing</span>
+          </button>
+          <button type="button" class="isg-tone-btn" data-tone="Punchy and social-media ready — short sentences, bold hook, designed to stop the scroll. Optimized for Instagram and LinkedIn.">
+            <span class="isg-tone-icon">📱</span>
+            <span class="isg-tone-name">Social-ready</span>
+            <span class="isg-tone-desc">Stop-the-scroll, Instagram/LinkedIn</span>
+          </button>
+        </div>
+      </div>
+
       <button type="submit" class="tool-submit" id="submitBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
         Generate Impact Story
@@ -103,7 +199,7 @@
 
     <div class="tool-loading" id="loading">
       <div class="tool-spinner"></div>
-      Writing your impact story in 4 formats…
+      <span id="loadingText">Writing your impact story in 4 formats…</span>
     </div>
 
     <div class="tool-error" id="errorBox"></div>
@@ -132,23 +228,39 @@
         <div class="tool-result-body" id="onelinerBody"></div>
       </div>
     </div>
+      <div class="tool-result-actions">
+        <button class="tool-try-another" id="tryAnotherBtn">← Try another</button>
+        <div class="tool-share-group">
+          <button class="tool-share-x" id="shareXBtn"><svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.258 5.622L18.245 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> Share on X</button>
+          <button class="tool-share-link" id="shareLinkBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg> Copy link</button>
+        </div>
+      </div>
+    </div>
 
     <footer class="tool-footer">
       Built by <a href="/" target="_blank">Panos Kokmotos</a> · Part of the
       <a href="/#ai-lab">AI for Social Impact Lab</a> ·
       Powered by Claude AI · Always humanize AI-generated content with your own voice before publishing.
     </footer>
+    <div class="tool-usage-count" id="toolUsageCount"></div>
+    <div class="tool-related-wrap" id="toolRelated"></div>
+    <div class="tool-embed-wrap" id="toolEmbed"></div>
   </main>
 
   <script>
-    const WORKER_URL = 'https://ask-panos.panagiotis-kokmotoss.workers.dev/tool';
-
     const form = document.getElementById('toolForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const loading = document.getElementById('loading');
-    const errorBox = document.getElementById('errorBox');
     const result = document.getElementById('result');
     const copyBtn = document.getElementById('copyBtn');
+
+    /* ── Tone selector ── */
+    let selectedTone = 'Heartfelt and emotionally resonant — human first, statistics second. Move the donor.';
+    document.getElementById('isgToneRow').addEventListener('click', function(e) {
+      const btn = e.target.closest('.isg-tone-btn');
+      if (!btn) return;
+      this.querySelectorAll('.isg-tone-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedTone = btn.dataset.tone;
+    });
 
     const panels = {
       story: document.getElementById('storyBody'),
@@ -157,15 +269,7 @@
       oneliner: document.getElementById('onelinerBody'),
     };
 
-    // Tabs
-    document.querySelectorAll('.tool-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tool-tab-panel').forEach(p => p.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
-      });
-    });
+    initTabSwitcher();
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -205,6 +309,8 @@ A punchy social media post, under 280 characters. Hook in the first 5 words. Can
 **ONE-LINER** (after ---ONELINER---):
 A single powerful sentence that captures the transformation. Under 20 words. This is for letterheads, annual reports, and donor stewardship.
 
+Tone: ${selectedTone}
+
 Rules:
 - Never use the beneficiary's real name — use their description or a pseudonym
 - Keep it emotionally resonant but factually grounded
@@ -220,44 +326,45 @@ Program/support provided: ${program || 'comprehensive support services'}
 Generate the 4 impact story formats.`;
 
       try {
-        const res = await fetch(WORKER_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ systemPrompt, userMessage }),
-        });
+        const text = await callWorker(systemPrompt, userMessage);
 
-        if (!res.ok) throw new Error(`Server error: ${res.status}`);
-        const data = await res.json();
-        if (data.error) throw new Error(data.error);
+        // Parse JSON response
+        let sections = null;
+        try {
+          const clean = text.replace(/^```json\n?|```$/g, '').trim();
+          sections = JSON.parse(clean);
+        } catch {}
 
-        const text = data.result;
-
-        // Parse sections
-        const sections = {
-          story: extractSection(text, '---STORY---', '---EMAIL---'),
-          email: extractSection(text, '---EMAIL---', '---SOCIAL---'),
-          social: extractSection(text, '---SOCIAL---', '---ONELINER---'),
-          oneliner: extractSection(text, '---ONELINER---', null),
-        };
-
-        // Fallback: if markers not found, put everything in story tab
-        if (!sections.story && !sections.email) {
-          panels.story.innerHTML = formatText(text);
-          panels.email.innerHTML = '<em style="color:var(--text-muted)">See Full Story tab.</em>';
-          panels.social.innerHTML = '<em style="color:var(--text-muted)">See Full Story tab.</em>';
-          panels.oneliner.innerHTML = '<em style="color:var(--text-muted)">See Full Story tab.</em>';
-        } else {
+        if (sections && (sections.story || sections.email)) {
           Object.keys(panels).forEach(key => {
             panels[key].innerHTML = sections[key]
-              ? formatText(sections[key].trim())
+              ? formatMarkdown(sections[key].trim())
               : '<em style="color:var(--text-muted)">Not generated.</em>';
           });
+        } else {
+          // Fallback to marker-based parsing
+          const storyRaw = extractSection(text, '---STORY---', '---EMAIL---');
+          const emailRaw = extractSection(text, '---EMAIL---', '---SOCIAL---');
+          const socialRaw = extractSection(text, '---SOCIAL---', '---ONELINER---');
+          const onelinerRaw = extractSection(text, '---ONELINER---', null);
+          if (storyRaw || emailRaw) {
+            panels.story.innerHTML = formatMarkdown((storyRaw || text).trim());
+            panels.email.innerHTML = emailRaw ? formatMarkdown(emailRaw.trim()) : '<em style="color:var(--text-muted)">See Full Story tab.</em>';
+            panels.social.innerHTML = socialRaw ? formatMarkdown(socialRaw.trim()) : '<em style="color:var(--text-muted)">See Full Story tab.</em>';
+            panels.oneliner.innerHTML = onelinerRaw ? formatMarkdown(onelinerRaw.trim()) : '<em style="color:var(--text-muted)">See Full Story tab.</em>';
+          } else {
+            panels.story.innerHTML = formatMarkdown(text);
+            ['email','social','oneliner'].forEach(k => {
+              panels[k].innerHTML = '<em style="color:var(--text-muted)">See Full Story tab.</em>';
+            });
+          }
         }
 
         result.classList.add('visible');
         result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        notifyToolUsed(document.title);
       } catch (err) {
-        showError('Something went wrong. Please try again.');
+        if (!err._shown) showError('Something went wrong. Please try again.');
         console.error(err);
       } finally {
         setLoading(false);
@@ -281,20 +388,73 @@ Generate the 4 impact story formats.`;
       if (end === -1) return text.slice(contentStart);
       return text.slice(contentStart, end);
     }
+  </script>
 
-    function setLoading(on) {
-      submitBtn.disabled = on;
-      loading.classList.toggle('visible', on);
-    }
-
-    function hideResult() { result.classList.remove('visible'); }
-    function showError(msg) { errorBox.textContent = msg; errorBox.classList.add('visible'); }
-    function hideError() { errorBox.classList.remove('visible'); }
-
-    function formatText(text) {
-      return text
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\n/g, '<br>');
+  <!-- ── AI Chat Widget ── -->
+  <div class="chat-widget" id="chatWidget">
+    <button class="chat-toggle" id="chatToggle" aria-label="Chat with Panos AI">
+      <svg class="chat-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <svg class="chat-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <span class="chat-badge">AI</span>
+    </button>
+    <div class="chat-panel" id="chatPanel">
+      <div class="chat-header">
+        <div class="chat-header-info">
+          <picture>
+            <source srcset="/photo.webp" type="image/webp" />
+            <img src="/photo.jpg" alt="Panos Kokmotos" class="chat-avatar" />
+          </picture>
+          <div class="chat-header-text">
+            <strong>Ask Panos</strong>
+            <span><span class="chat-status-dot"></span>AI · Usually replies instantly</span>
+          </div>
+        </div>
+        <div class="chat-header-actions">
+          <button class="chat-new-btn" id="chatNewChat" title="New conversation" aria-label="Start new conversation">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="15" height="15"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button class="chat-close-btn" id="chatClose" aria-label="Close chat">✕</button>
+        </div>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg bot">
+          <p>👋 Hi! I'm Panos's AI. Ask me about his work, Givelink, or the social impact tools!</p>
+        </div>
+      </div>
+      <div class="chat-starters" id="chatStarters">
+        <p class="chat-starters-label">Quick questions</p>
+        <button class="chat-starter-chip" onclick="useChatStarter(this)">
+          <span class="csc-icon">🚀</span>
+          <span class="csc-text">How does Givelink work?</span>
+          <svg class="csc-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+        <button class="chat-starter-chip" onclick="useChatStarter(this)">
+          <span class="csc-icon">📅</span>
+          <span class="csc-text">How can I book a call?</span>
+          <svg class="csc-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+        <button class="chat-starter-chip" onclick="useChatStarter(this)">
+          <span class="csc-icon">🏆</span>
+          <span class="csc-text">What is Panos known for?</span>
+          <svg class="csc-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+      </div>
+      <div class="chat-input-wrap">
+        <input type="text" id="chatInput" placeholder="Ask about Givelink, social impact, Panos…" autocomplete="off" />
+        <button id="chatSend" aria-label="Send">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+      <p class="chat-note">Powered by <a href="https://anthropic.com" target="_blank" rel="noopener">Claude AI</a></p>
+    </div>
+  </div>
+  <script src="/chat.js"></script>
+  <!-- Service Worker registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
     }
   </script>
 </body>

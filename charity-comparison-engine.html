@@ -9,7 +9,50 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
+  <script src="/tool-utils.js"></script>
   <link rel="icon" href="/favicon.ico" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://panoskokmotos.com/charity-comparison-engine.html" />
+  <meta property="og:url" content="https://panoskokmotos.com/charity-comparison-engine.html" />
+  <meta property="og:image" content="https://panoskokmotos.com/og-ai-tools.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://panoskokmotos.com/og-ai-tools.png" />
+  <meta name="twitter:creator" content="@panoskokmotoss" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does the Charity Comparison Engine do?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It compares two charities or cause areas side-by-side, analyzing mission focus, typical overhead, measurement practices, and which might be a better fit for your giving goals."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I compare any two charities?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can compare types of organizations or named charities. The AI will analyze what's publicly known about their models and trade-offs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this replace Charity Navigator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No \u2014 it complements it. Use Charity Navigator for verified financial data. Use this tool to understand strategic trade-offs and find the better fit for your values."
+      }
+    }
+  ]
+}
+</script>
+  <link rel="prefetch" href="/nonprofit-health-checker.html" />
+  <link rel="prefetch" href="/scam-nonprofit-detector.html" />
+  <link rel="prefetch" href="/donation-tax-estimator.html" />
 </head>
 <body class="tool-page">
 
@@ -24,6 +67,25 @@
     <p class="tool-eyebrow">AI for Social Impact · Free Tool</p>
     <h1 class="tool-title">Charity Comparison Engine</h1>
     <p class="tool-desc">Pick a cause and tell AI what matters most to you as a donor — it'll compare the main types of organizations working in that space by effectiveness, overhead, reach, and approach. GiveWell, but in plain English and built around your priorities.</p>
+
+    <!-- ── How it works ── -->
+    <div class="tool-how" aria-label="How this tool works">
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 1</span>
+        <span class="tool-how-title">Name two options</span>
+        <span class="tool-how-desc">Enter two charities or cause areas you're choosing between.</span>
+      </div>
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 2</span>
+        <span class="tool-how-title">AI runs the comparison</span>
+        <span class="tool-how-desc">Analyzes mission, model, overhead, and strategic fit.</span>
+      </div>
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 3</span>
+        <span class="tool-how-title">Make a better choice</span>
+        <span class="tool-how-desc">Walk away with a clear, reasoned giving decision.</span>
+      </div>
+    </div>
 
     <form class="tool-form" id="toolForm">
 
@@ -84,6 +146,28 @@
         </select>
       </div>
 
+      <!-- Comparison mode toggle -->
+      <div class="cmp-toggle-wrap">
+        <button type="button" class="cmp-toggle-btn" id="cmpToggle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Compare two causes side-by-side
+        </button>
+      </div>
+      <div class="cmp-extra-field" id="cmpExtraField" style="display:none">
+        <div class="tool-field">
+          <label class="tool-label" for="causeB">Second cause area to compare against</label>
+          <input id="causeB" class="tool-input" type="text"
+            placeholder="e.g. clean water access, mental health support, refugee aid" />
+        </div>
+        <p class="cmp-hint">Results will appear side-by-side for easy comparison.</p>
+      </div>
+
+      <div class="tool-examples">
+        <span class="tool-examples-label">Try an example:</span>
+        <button type="button" class="tool-example-chip" data-fill-cause="hunger relief and food insecurity" data-fill-priority="direct, measurable impact (most lives helped per dollar)" data-fill-geoFocus="global">Hunger relief</button>
+        <button type="button" class="tool-example-chip" data-fill-cause="climate change and clean energy" data-fill-priority="long-term systems change">Climate change</button>
+        <button type="button" class="tool-example-chip" data-fill-cause="early childhood education" data-fill-priority="underserved communities" data-fill-geoFocus="United States">Childhood education</button>
+      </div>
       <button type="submit" class="tool-submit" id="submitBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
         Compare Org Types
@@ -92,7 +176,7 @@
 
     <div class="tool-loading" id="loading">
       <div class="tool-spinner"></div>
-      Comparing approaches and building your breakdown…
+      <span id="loadingText">Comparing approaches and building your breakdown…</span>
     </div>
 
     <div class="tool-error" id="errorBox"></div>
@@ -103,6 +187,13 @@
         <button class="tool-copy-btn" id="copyBtn">Copy</button>
       </div>
       <div class="tool-result-body" id="resultBody"></div>
+      <div class="tool-result-actions">
+        <button class="tool-try-another" id="tryAnotherBtn">← Try another</button>
+        <div class="tool-share-group">
+          <button class="tool-share-x" id="shareXBtn"><svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.258 5.622L18.245 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> Share on X</button>
+          <button class="tool-share-link" id="shareLinkBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg> Copy link</button>
+        </div>
+      </div>
     </div>
 
     <footer class="tool-footer">
@@ -110,18 +201,13 @@
       <a href="/#ai-lab">AI for Social Impact Lab</a> ·
       Powered by Claude AI
     </footer>
+    <div class="tool-usage-count" id="toolUsageCount"></div>
+    <div class="tool-related-wrap" id="toolRelated"></div>
+    <div class="tool-embed-wrap" id="toolEmbed"></div>
   </main>
 
   <script>
-    const WORKER_URL = 'https://ask-panos.panagiotis-kokmotoss.workers.dev/tool';
-
     const form = document.getElementById('toolForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const loading = document.getElementById('loading');
-    const errorBox = document.getElementById('errorBox');
-    const result = document.getElementById('result');
-    const resultBody = document.getElementById('resultBody');
-    const copyBtn = document.getElementById('copyBtn');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -178,52 +264,135 @@ My experience level: ${donorExperience}
 
 Compare the main org types and approaches in this space.`;
 
+      const causeB = document.getElementById('causeB')?.value?.trim();
+
+      if (causeB) {
+        // Comparison mode: run both causes in parallel, show side-by-side
+        const userMessageB = `Cause area: ${causeB}\nMy top priority as a donor: ${priority}\nGeographic focus: ${geoFocus || 'no preference'}\nMy experience level: ${donorExperience}\n\nCompare the main org types and approaches in this space.`;
+        try {
+          const [textA, textB] = await Promise.all([
+            callWorker(systemPrompt, userMessage),
+            _callWorkerFallback(systemPrompt, userMessageB),
+          ]);
+          // Show side-by-side comparison
+          const result = document.getElementById('result');
+          const resultBody = document.getElementById('resultBody');
+          if (result && resultBody) {
+            resultBody.innerHTML = `
+              <div class="cmp-grid">
+                <div class="cmp-col">
+                  <div class="cmp-col-label">📌 ${cause}</div>
+                  ${formatMarkdown(textA)}
+                </div>
+                <div class="cmp-col">
+                  <div class="cmp-col-label">📌 ${causeB}</div>
+                  ${formatMarkdown(textB)}
+                </div>
+              </div>`;
+            result.classList.add('visible');
+            result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+          notifyToolUsed(document.title);
+        } catch (err) {
+          if (!err._shown) showError('Something went wrong. Please try again.');
+        } finally {
+          setLoading(false);
+        }
+        return;
+      }
+
       try {
-        const res = await fetch(WORKER_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ systemPrompt, userMessage }),
-        });
-
-        if (!res.ok) throw new Error(`Server error: ${res.status}`);
-        const data = await res.json();
-        if (data.error) throw new Error(data.error);
-
-        showResult(data.result);
+        const text = await callWorker(systemPrompt, userMessage);
+        showResult(text);
+        notifyToolUsed(document.title);
       } catch (err) {
-        showError('Something went wrong. Please try again.');
+        if (!err._shown) showError('Something went wrong. Please try again.');
         console.error(err);
       } finally {
         setLoading(false);
       }
     });
 
-    copyBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(resultBody.textContent).then(() => {
-        copyBtn.textContent = 'Copied!';
-        setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
-      });
+    initCopyBtn();
+
+    // Comparison mode toggle
+    document.getElementById('cmpToggle')?.addEventListener('click', function() {
+      const field = document.getElementById('cmpExtraField');
+      const on = field.style.display === 'none';
+      field.style.display = on ? '' : 'none';
+      this.classList.toggle('active', on);
+      this.innerHTML = on
+        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Cancel comparison'
+        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Compare two causes side-by-side';
+      if (on) document.getElementById('causeB')?.focus();
     });
+  </script>
 
-    function setLoading(on) {
-      submitBtn.disabled = on;
-      loading.classList.toggle('visible', on);
-    }
-
-    function showResult(text) {
-      resultBody.innerHTML = formatText(text);
-      result.classList.add('visible');
-      result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-
-    function hideResult() { result.classList.remove('visible'); }
-    function showError(msg) { errorBox.textContent = msg; errorBox.classList.add('visible'); }
-    function hideError() { errorBox.classList.remove('visible'); }
-
-    function formatText(text) {
-      return text
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\n/g, '<br>');
+  <!-- ── AI Chat Widget ── -->
+  <div class="chat-widget" id="chatWidget">
+    <button class="chat-toggle" id="chatToggle" aria-label="Chat with Panos AI">
+      <svg class="chat-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <svg class="chat-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <span class="chat-badge">AI</span>
+    </button>
+    <div class="chat-panel" id="chatPanel">
+      <div class="chat-header">
+        <div class="chat-header-info">
+          <picture>
+            <source srcset="/photo.webp" type="image/webp" />
+            <img src="/photo.jpg" alt="Panos Kokmotos" class="chat-avatar" />
+          </picture>
+          <div class="chat-header-text">
+            <strong>Ask Panos</strong>
+            <span><span class="chat-status-dot"></span>AI · Usually replies instantly</span>
+          </div>
+        </div>
+        <div class="chat-header-actions">
+          <button class="chat-new-btn" id="chatNewChat" title="New conversation" aria-label="Start new conversation">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="15" height="15"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button class="chat-close-btn" id="chatClose" aria-label="Close chat">✕</button>
+        </div>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg bot">
+          <p>👋 Hi! I'm Panos's AI. Ask me about his work, Givelink, or the social impact tools!</p>
+        </div>
+      </div>
+      <div class="chat-starters" id="chatStarters">
+        <p class="chat-starters-label">Quick questions</p>
+        <button class="chat-starter-chip" onclick="useChatStarter(this)">
+          <span class="csc-icon">🚀</span>
+          <span class="csc-text">How does Givelink work?</span>
+          <svg class="csc-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+        <button class="chat-starter-chip" onclick="useChatStarter(this)">
+          <span class="csc-icon">📅</span>
+          <span class="csc-text">How can I book a call?</span>
+          <svg class="csc-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+        <button class="chat-starter-chip" onclick="useChatStarter(this)">
+          <span class="csc-icon">🏆</span>
+          <span class="csc-text">What is Panos known for?</span>
+          <svg class="csc-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </button>
+      </div>
+      <div class="chat-input-wrap">
+        <input type="text" id="chatInput" placeholder="Ask about Givelink, social impact, Panos…" autocomplete="off" />
+        <button id="chatSend" aria-label="Send">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+      <p class="chat-note">Powered by <a href="https://anthropic.com" target="_blank" rel="noopener">Claude AI</a></p>
+    </div>
+  </div>
+  <script src="/chat.js"></script>
+  <!-- Service Worker registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
     }
   </script>
 </body>

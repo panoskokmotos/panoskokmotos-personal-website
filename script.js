@@ -95,7 +95,7 @@ const counterObserver = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) { animateCounter(e.target); counterObserver.unobserve(e.target); }
   });
-}, { threshold: 0.5 });
+}, { threshold: 0.15 });
 document.querySelectorAll('.impact-num').forEach(el => counterObserver.observe(el));
 
 // ── Active nav link on scroll ──
@@ -375,10 +375,19 @@ if (contactForm) {
     btn.disabled = true;
     btn.classList.add('btn-loading');
     btn.innerHTML = '<span class="btn-spinner"></span>Sending…';
+    // Capture form data before reset
+    const formData = new FormData(contactForm);
+    const notifData = {
+      name: formData.get('name') || '—',
+      email: formData.get('email') || '—',
+      subject: formData.get('subject') || '—',
+      page: location.href,
+      time: new Date().toISOString(),
+    };
     try {
       const res = await fetch(contactForm.action, {
         method: 'POST',
-        body: new FormData(contactForm),
+        body: formData,
         headers: { 'Accept': 'application/json' },
       });
       if (res.ok) {
@@ -387,6 +396,8 @@ if (contactForm) {
         btn.classList.remove('btn-loading');
         success.classList.add('visible');
         success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        // Fire-and-forget: notify Panos via worker
+        sendSiteNotification('Contact Form Submission', notifData);
       } else {
         btn.disabled = false;
         btn.classList.remove('btn-loading');
@@ -448,9 +459,11 @@ document.querySelectorAll('.skeleton-wrap img.book-cover-img').forEach(img => {
   });
 })();
 
-// ── AI Chat: proactive trigger (once per session, after 15s idle) ──
+// ── AI Chat: proactive trigger (once per session, after 15s idle — desktop only) ──
 (function() {
   if (sessionStorage.getItem('chat_proactive_done')) return;
+  // Never auto-open on mobile/touch — intrusive on small screens
+  if (window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768) return;
   const widget = document.getElementById('chatWidget');
   const toggle = document.getElementById('chatToggle');
   if (!widget || !toggle) return;
@@ -907,3 +920,21 @@ function toggleAwardsMobile(btn) {
   wrap.addEventListener('touchmove', e => { if (dragging) moveDrag(e.touches[0].clientX); }, { passive: true });
   wrap.addEventListener('touchend', e => endDrag(e.changedTouches[0].clientX));
 })();
+
+
+// ── Personal notifications ──
+// Sends a notification to Panos via the Cloudflare Worker /notify endpoint.
+// Set NOTIFY_SECRET env var in the worker and update the secret below.
+// The secret is intentionally visible here — it only protects against random noise,
+// not determined attackers. The worker rate-limits requests.
+const NOTIFY_WORKER = "https://ask-panos.panagiotis-kokmotoss.workers.dev/notify";
+const NOTIFY_SECRET = "panos-notify-2026-xyz"; // must match NOTIFY_SECRET in Cloudflare Worker env var
+
+function sendSiteNotification(event, data) {
+  if (!NOTIFY_SECRET) return; // disabled until secret is configured
+  fetch(NOTIFY_WORKER, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ secret: NOTIFY_SECRET, event, data }),
+  }).catch(() => {}); // silent fail — never block the UI
+}
