@@ -111,6 +111,12 @@
         />
       </div>
 
+      <div class="tool-examples">
+        <span class="tool-examples-label">Try an example:</span>
+        <button type="button" class="tool-example-chip" data-fill-orgName="American Veterans Aid Society" data-fill-howFound="email I received" data-fill-context="appeared after Veterans Day asking for gift card donations" data-fill-gut="The name sounds very similar to a well-known org">Suspicious email charity</button>
+        <button type="button" class="tool-example-chip" data-fill-orgName="Children's Cancer Relief Fund" data-fill-howFound="social media post or ad" data-fill-context="celebrity-endorsed post on Instagram" data-fill-gut="Can't find them on Charity Navigator">Social media fund</button>
+        <button type="button" class="tool-example-chip" data-fill-orgName="Local Police Support Foundation" data-fill-howFound="door-to-door or in-person solicitation" data-fill-context="person came to my door saying they support local police" data-fill-gut="Paid me a compliment and used high-pressure tactics">Door-to-door</button>
+      </div>
       <button type="submit" class="tool-submit" id="submitBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
         Check for Scam Signals
@@ -119,7 +125,7 @@
 
     <div class="tool-loading" id="loading">
       <div class="tool-spinner"></div>
-      Scanning for fraud patterns and warning signals…
+      <span id="loadingText">Scanning for fraud patterns and warning signals…</span>
     </div>
 
     <div class="tool-error" id="errorBox"></div>
@@ -130,6 +136,13 @@
         <button class="tool-copy-btn" id="copyBtn">Copy</button>
       </div>
       <div class="tool-result-body" id="resultBody"></div>
+      <div class="tool-result-actions">
+        <button class="tool-try-another" id="tryAnotherBtn">← Try another</button>
+        <div class="tool-share-group">
+          <button class="tool-share-x" id="shareXBtn"><svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.258 5.622L18.245 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> Share on X</button>
+          <button class="tool-share-link" id="shareLinkBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg> Copy link</button>
+        </div>
+      </div>
     </div>
 
     <footer class="tool-footer">
@@ -137,6 +150,9 @@
       <a href="/#ai-lab">AI for Social Impact Lab</a> ·
       Powered by Claude AI
     </footer>
+    <div class="tool-usage-count" id="toolUsageCount"></div>
+    <div class="tool-related-wrap" id="toolRelated"></div>
+    <div class="tool-embed-wrap" id="toolEmbed"></div>
   </main>
 
   <style>

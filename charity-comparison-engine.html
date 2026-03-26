@@ -92,6 +92,12 @@
         </select>
       </div>
 
+      <div class="tool-examples">
+        <span class="tool-examples-label">Try an example:</span>
+        <button type="button" class="tool-example-chip" data-fill-cause="hunger relief and food insecurity" data-fill-priority="direct, measurable impact (most lives helped per dollar)" data-fill-geoFocus="global">Hunger relief</button>
+        <button type="button" class="tool-example-chip" data-fill-cause="climate change and clean energy" data-fill-priority="long-term systems change">Climate change</button>
+        <button type="button" class="tool-example-chip" data-fill-cause="early childhood education" data-fill-priority="underserved communities" data-fill-geoFocus="United States">Childhood education</button>
+      </div>
       <button type="submit" class="tool-submit" id="submitBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
         Compare Org Types
@@ -100,7 +106,7 @@
 
     <div class="tool-loading" id="loading">
       <div class="tool-spinner"></div>
-      Comparing approaches and building your breakdown…
+      <span id="loadingText">Comparing approaches and building your breakdown…</span>
     </div>
 
     <div class="tool-error" id="errorBox"></div>
@@ -111,6 +117,13 @@
         <button class="tool-copy-btn" id="copyBtn">Copy</button>
       </div>
       <div class="tool-result-body" id="resultBody"></div>
+      <div class="tool-result-actions">
+        <button class="tool-try-another" id="tryAnotherBtn">← Try another</button>
+        <div class="tool-share-group">
+          <button class="tool-share-x" id="shareXBtn"><svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.258 5.622L18.245 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> Share on X</button>
+          <button class="tool-share-link" id="shareLinkBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg> Copy link</button>
+        </div>
+      </div>
     </div>
 
     <footer class="tool-footer">
@@ -118,6 +131,9 @@
       <a href="/#ai-lab">AI for Social Impact Lab</a> ·
       Powered by Claude AI
     </footer>
+    <div class="tool-usage-count" id="toolUsageCount"></div>
+    <div class="tool-related-wrap" id="toolRelated"></div>
+    <div class="tool-embed-wrap" id="toolEmbed"></div>
   </main>
 
   <script>

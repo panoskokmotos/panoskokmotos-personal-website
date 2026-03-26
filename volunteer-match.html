@@ -104,6 +104,12 @@
         />
       </div>
 
+      <div class="tool-examples">
+        <span class="tool-examples-label">Try an example:</span>
+        <button type="button" class="tool-example-chip" data-fill-skills="software engineering, product management, data analysis" data-fill-availability="a few hours per week on weekends" data-fill-causes="youth digital literacy, education nonprofits" data-fill-location="San Francisco Bay Area" data-fill-yourName="Alex">Software engineer · weekends</button>
+        <button type="button" class="tool-example-chip" data-fill-skills="teaching, curriculum design, public speaking, writing" data-fill-availability="evenings and weekends, 3-4 hrs/week" data-fill-causes="literacy, after-school programs" data-fill-location="Chicago, IL" data-fill-yourName="Maria">Teacher · evenings</button>
+        <button type="button" class="tool-example-chip" data-fill-skills="graphic design, UX, Figma, social media content" data-fill-availability="flexible, 5-6 hrs/month" data-fill-causes="arts nonprofits, community organizations" data-fill-location="New York, NY" data-fill-yourName="Jordan">Designer · flexible</button>
+      </div>
       <button type="submit" class="tool-submit" id="submitBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         Match Me + Draft My Email
@@ -112,7 +118,7 @@
 
     <div class="tool-loading" id="loading">
       <div class="tool-spinner"></div>
-      Matching your skills to causes and drafting your email…
+      <span id="loadingText">Matching your skills to causes and drafting your email…</span>
     </div>
 
     <div class="tool-error" id="errorBox"></div>
@@ -133,12 +139,23 @@
         <div class="tool-result-body" id="emailBody"></div>
       </div>
     </div>
+      <div class="tool-result-actions">
+        <button class="tool-try-another" id="tryAnotherBtn">← Try another</button>
+        <div class="tool-share-group">
+          <button class="tool-share-x" id="shareXBtn"><svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.258 5.622L18.245 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> Share on X</button>
+          <button class="tool-share-link" id="shareLinkBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg> Copy link</button>
+        </div>
+      </div>
+    </div>
 
     <footer class="tool-footer">
       Built by <a href="/" target="_blank">Panos Kokmotos</a> · Part of the
       <a href="/#ai-lab">AI for Social Impact Lab</a> ·
       Powered by Claude AI
     </footer>
+    <div class="tool-usage-count" id="toolUsageCount"></div>
+    <div class="tool-related-wrap" id="toolRelated"></div>
+    <div class="tool-embed-wrap" id="toolEmbed"></div>
   </main>
 
   <script>

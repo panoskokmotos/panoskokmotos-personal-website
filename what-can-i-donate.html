@@ -67,6 +67,12 @@ kitchenware"
         />
       </div>
 
+      <div class="tool-examples">
+        <span class="tool-examples-label">Try an example:</span>
+        <button type="button" class="tool-example-chip" data-fill-items="2 winter coats, men's dress shoes size 11, children's books (box)" data-fill-location="San Francisco, CA">Coats &amp; books · SF</button>
+        <button type="button" class="tool-example-chip" data-fill-items="old laptop (working), USB cables, iPad cracked screen, computer monitor" data-fill-location="">Tech gear</button>
+        <button type="button" class="tool-example-chip" data-fill-items="baby clothes (0-12 months), stroller, unused kitchenware, toys" data-fill-location="">Baby &amp; kitchen items</button>
+      </div>
       <button type="submit" class="tool-submit" id="submitBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
         Match My Donations
@@ -75,7 +81,7 @@ kitchenware"
 
     <div class="tool-loading" id="loading">
       <div class="tool-spinner"></div>
-      Finding the best homes for your items…
+      <span id="loadingText">Finding the best homes for your items…</span>
     </div>
 
     <div class="tool-error" id="errorBox"></div>
@@ -86,6 +92,13 @@ kitchenware"
         <button class="tool-copy-btn" id="copyBtn">Copy</button>
       </div>
       <div class="tool-result-body" id="resultBody"></div>
+      <div class="tool-result-actions">
+        <button class="tool-try-another" id="tryAnotherBtn">← Try another</button>
+        <div class="tool-share-group">
+          <button class="tool-share-x" id="shareXBtn"><svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.258 5.622L18.245 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> Share on X</button>
+          <button class="tool-share-link" id="shareLinkBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg> Copy link</button>
+        </div>
+      </div>
     </div>
 
     <footer class="tool-footer">
@@ -94,6 +107,9 @@ kitchenware"
       This tool is inspired by <a href="https://givelink.app/en" target="_blank" rel="noopener">Givelink</a>, the in-kind donation platform ·
       Powered by Claude AI
     </footer>
+    <div class="tool-usage-count" id="toolUsageCount"></div>
+    <div class="tool-related-wrap" id="toolRelated"></div>
+    <div class="tool-embed-wrap" id="toolEmbed"></div>
   </main>
 
   <script>

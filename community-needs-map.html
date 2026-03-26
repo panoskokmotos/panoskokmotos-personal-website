@@ -92,6 +92,12 @@
         </select>
       </div>
 
+      <div class="tool-examples">
+        <span class="tool-examples-label">Try an example:</span>
+        <button type="button" class="tool-example-chip" data-fill-location="East Oakland, CA" data-fill-observations="Families can't afford food, kids show up to school hungry, one food bank always overwhelmed, high unemployment since factories closed.">East Oakland, CA</button>
+        <button type="button" class="tool-example-chip" data-fill-location="Eastern Kentucky (Appalachia)" data-fill-observations="High opioid addiction rates, few treatment centers. Young people leaving. Limited internet. Few jobs after coal mines closed.">Rural Kentucky</button>
+        <button type="button" class="tool-example-chip" data-fill-location="South Bronx, New York" data-fill-observations="Overcrowded schools, few after-school programs, housing instability, many families doubled up. Limited green space and fresh food access.">South Bronx, NY</button>
+      </div>
       <button type="submit" class="tool-submit" id="submitBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
         Map My Community's Needs
@@ -100,7 +106,7 @@
 
     <div class="tool-loading" id="loading">
       <div class="tool-spinner"></div>
-      Mapping needs and identifying patterns…
+      <span id="loadingText">Mapping needs and identifying patterns…</span>
     </div>
 
     <div class="tool-error" id="errorBox"></div>
@@ -111,6 +117,13 @@
         <button class="tool-copy-btn" id="copyBtn">Copy</button>
       </div>
       <div class="tool-result-body" id="resultBody"></div>
+      <div class="tool-result-actions">
+        <button class="tool-try-another" id="tryAnotherBtn">← Try another</button>
+        <div class="tool-share-group">
+          <button class="tool-share-x" id="shareXBtn"><svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.258 5.622L18.245 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> Share on X</button>
+          <button class="tool-share-link" id="shareLinkBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg> Copy link</button>
+        </div>
+      </div>
     </div>
 
     <footer class="tool-footer">
@@ -118,6 +131,9 @@
       <a href="/#ai-lab">AI for Social Impact Lab</a> ·
       Powered by Claude AI
     </footer>
+    <div class="tool-usage-count" id="toolUsageCount"></div>
+    <div class="tool-related-wrap" id="toolRelated"></div>
+    <div class="tool-embed-wrap" id="toolEmbed"></div>
   </main>
 
   <script>
