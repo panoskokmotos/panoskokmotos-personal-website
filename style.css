@@ -4084,11 +4084,35 @@ html[data-theme="light"] .tidycal-toggle { background: #f8f9fc; color: var(--tex
   .book-share-x { font-size: 0.62rem; padding: 3px 7px; margin-top: auto; }
 }
 
-/* ── Chat widget height cap on small phones ── */
-@media (max-width: 480px) {
-  #chatWidget { max-height: 60vh; }
-  .chat-messages { max-height: calc(60vh - 120px); }
-  .chat-widget-inner { height: 60vh; }
+/* ── Chat widget: bigger button + full-screen panel on mobile ── */
+@media (max-width: 767px) {
+  /* Bigger FAB button — easier to tap */
+  .chat-toggle {
+    width: 58px;
+    height: 58px;
+    bottom: 18px;
+    right: 18px;
+  }
+  .chat-toggle svg { width: 26px; height: 26px; }
+  .chat-badge { font-size: 0.58rem; padding: 2px 5px; }
+
+  /* Panel fills most of the screen without covering the toggle */
+  .chat-panel {
+    width: calc(100vw - 24px) !important;
+    max-height: calc(100dvh - 90px);
+    bottom: 76px;
+    right: 12px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  .chat-messages {
+    flex: 1;
+    max-height: none;
+    overflow-y: auto;
+  }
+  /* Hide nudge bubble on mobile — takes up space */
+  .chat-nudge { display: none !important; }
 }
 
 /* ── Nav logo + hamburger — 320px safeguard ── */
@@ -6351,6 +6375,101 @@ html[data-theme="light"] .temb-code code { color: #2850c8; }
 }
 .temb-copy:hover { background: #2d5de8; }
 
+/* ── Embed widget: platform tabs ── */
+.temb-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.temb-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 5px 12px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.temb-tab:hover { border-color: var(--accent); color: var(--accent); }
+.temb-tab.active {
+  border-color: var(--accent);
+  background: rgba(59,110,248,0.1);
+  color: var(--accent);
+}
+.temb-tab-panel { display: none; }
+.temb-tab-panel.active { display: block; }
+.temb-instruction {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  line-height: 1.55;
+}
+.temb-instruction strong { color: var(--text); }
+
+/* ── What-can-I-donate: category chips + condition ── */
+.wcd-cats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.wcd-cats-label {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.wcd-cat {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 4px 11px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.13s, background 0.13s, transform 0.1s;
+  user-select: none;
+}
+.wcd-cat:hover { border-color: var(--accent); color: var(--accent); background: rgba(59,110,248,0.07); }
+.wcd-cat.active { background: rgba(59,110,248,0.15); border-color: var(--accent); color: var(--accent); transform: scale(0.97); }
+html[data-theme="light"] .wcd-cat { background: rgba(0,0,0,0.03); }
+
+.wcd-condition-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 4px;
+}
+.wcd-cond-chip {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 5px 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.13s, background 0.13s, color 0.13s;
+}
+.wcd-cond-chip:hover { border-color: var(--accent); color: var(--accent); }
+.wcd-cond-chip.active {
+  border-color: #22c55e;
+  background: rgba(34,197,94,0.1);
+  color: #4ade80;
+}
+html[data-theme="light"] .wcd-cond-chip.active { color: #16a34a; background: rgba(34,197,94,0.08); }
+
 /* ── Mobile responsive overrides ── */
 @media (max-width: 600px) {
   .trel-grid { grid-template-columns: 1fr; }
@@ -6360,4 +6479,7 @@ html[data-theme="light"] .temb-code code { color: #2850c8; }
   .tool-share-x,
   .tool-share-link { flex: 1; justify-content: center; }
   .tool-examples { gap: 6px; }
+  .wcd-cats { gap: 5px; }
+  .wcd-cat { font-size: 0.72rem; padding: 4px 9px; }
+  .wcd-cond-chip { font-size: 0.74rem; padding: 4px 11px; }
 }

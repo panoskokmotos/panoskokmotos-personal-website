@@ -321,18 +321,60 @@ function initRelatedTools() {
 function initEmbed() {
   const wrap = document.getElementById('toolEmbed');
   if (!wrap) return;
-  const url  = window.location.origin + window.location.pathname;
-  const code = `<iframe src="${url}" width="100%" height="700" frameborder="0" loading="lazy" style="border-radius:12px;border:1px solid rgba(255,255,255,0.08)"></iframe>`;
-  const safe = code.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const url = window.location.origin + window.location.pathname;
+
+  const platforms = [
+    {
+      id: 'html',
+      label: 'Custom HTML',
+      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>`,
+      code: `<iframe src="${url}" width="100%" height="700" frameborder="0" loading="lazy" style="border-radius:12px;border:1px solid #eee"></iframe>`,
+      instruction: 'Paste anywhere in your HTML page.',
+    },
+    {
+      id: 'wp',
+      label: 'WordPress',
+      icon: `<svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM3.5 12c0-1.15.22-2.25.61-3.26L7.86 19.6A8.51 8.51 0 0 1 3.5 12zm8.5 8.5c-.78 0-1.53-.11-2.24-.31l2.38-6.9 2.44 6.68c.02.04.04.08.06.11A8.54 8.54 0 0 1 12 20.5zm1.17-12.45l2.03 6.07-2.84.08-.06-.18-1.82-5.19c.46-.02.9-.05 1.35-.08.48-.03.94-.08 1.34-.7zm1.41 8.33l2.44-7.08c.38-.97.51-1.74.51-2.43 0-.25-.02-.47-.05-.68A8.51 8.51 0 0 1 20.5 12a8.5 8.5 0 0 1-5.92 8.38z"/></svg>`,
+      code: `<iframe src="${url}" width="100%" height="700" frameborder="0" loading="lazy" style="border-radius:12px;border:1px solid #eee"></iframe>`,
+      instruction: 'In the WordPress editor, add a <strong>Custom HTML</strong> block and paste the code.',
+    },
+    {
+      id: 'wix',
+      label: 'Wix',
+      icon: `<svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M21 5H3c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 11l-5-5 1.4-1.4L12 13.2l7.6-7.6L21 7l-9 9z"/></svg>`,
+      code: `<iframe src="${url}" width="100%" height="700" frameborder="0" loading="lazy" style="border-radius:12px;border:1px solid #eee"></iframe>`,
+      instruction: 'In Wix Editor, add an <strong>Embed &gt; HTML iframe</strong> element, then paste the code.',
+    },
+    {
+      id: 'webflow',
+      label: 'Webflow',
+      icon: `<svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M17.114 0S13.8 7.116 10.097 9.68H4.743L3 15.998h4.057l-1.828 8.002S15.22 12.587 19.714 7.988h-5.23L17.113 0z"/></svg>`,
+      code: `<iframe src="${url}" width="100%" height="700" frameborder="0" loading="lazy" style="border-radius:12px;border:1px solid #eee"></iframe>`,
+      instruction: 'In Webflow, add an <strong>HTML Embed</strong> element from the Add panel (+), then paste the code.',
+    },
+  ];
+
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
   wrap.innerHTML = `
     <button class="temb-toggle" id="_embToggle">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
       Embed this tool on your site
     </button>
     <div class="temb-body" id="_embBody">
-      <p class="temb-desc">Paste this snippet on your nonprofit's website to embed the tool:</p>
-      <div class="temb-code"><code>${safe}</code></div>
-      <button class="temb-copy" id="_embCopy">Copy code</button>
+      <p class="temb-desc">Add this free tool to your nonprofit website — no account needed.</p>
+      <div class="temb-tabs" id="_embTabs">
+        ${platforms.map((p, i) => `
+          <button class="temb-tab${i === 0 ? ' active' : ''}" data-tab="${p.id}">
+            ${p.icon} ${p.label}
+          </button>`).join('')}
+      </div>
+      ${platforms.map((p, i) => `
+        <div class="temb-tab-panel${i === 0 ? ' active' : ''}" id="_embPanel_${p.id}">
+          <p class="temb-instruction">${p.instruction}</p>
+          <div class="temb-code"><code id="_embCode_${p.id}">${esc(p.code)}</code></div>
+          <button class="temb-copy" data-platform="${p.id}">Copy code</button>
+        </div>`).join('')}
     </div>`;
 
   document.getElementById('_embToggle').addEventListener('click', function () {
@@ -340,10 +382,26 @@ function initEmbed() {
     const open = body.classList.toggle('visible');
     this.classList.toggle('open', open);
   });
-  document.getElementById('_embCopy').addEventListener('click', function () {
-    navigator.clipboard.writeText(code).then(() => {
-      this.textContent = 'Copied!';
-      setTimeout(() => { this.textContent = 'Copy code'; }, 2200);
+
+  // Tab switching
+  document.getElementById('_embTabs').addEventListener('click', function(e) {
+    const btn = e.target.closest('.temb-tab');
+    if (!btn) return;
+    const tab = btn.dataset.tab;
+    wrap.querySelectorAll('.temb-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+    wrap.querySelectorAll('.temb-tab-panel').forEach(p => p.classList.toggle('active', p.id === `_embPanel_${tab}`));
+  });
+
+  // Copy buttons
+  wrap.addEventListener('click', function(e) {
+    const btn = e.target.closest('.temb-copy');
+    if (!btn) return;
+    const pid = btn.dataset.platform;
+    const platform = platforms.find(p => p.id === pid);
+    if (!platform) return;
+    navigator.clipboard.writeText(platform.code).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy code'; }, 2200);
     });
   });
 }

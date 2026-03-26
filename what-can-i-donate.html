@@ -40,6 +40,20 @@
           What do you have to donate?
           <span class="tool-hint"> — list items, one per line or comma-separated</span>
         </label>
+
+        <!-- Category quick-add chips -->
+        <div class="wcd-cats" id="wcdCats">
+          <span class="wcd-cats-label">Quick add:</span>
+          <button type="button" class="wcd-cat" data-items="winter coat, summer clothes, shoes, t-shirts, jeans">👕 Clothing</button>
+          <button type="button" class="wcd-cat" data-items="laptop (working), tablet, smartphone, USB cables, monitor">💻 Tech</button>
+          <button type="button" class="wcd-cat" data-items="baby clothes (0–12 months), stroller, baby toys, crib">🍼 Baby &amp; Kids</button>
+          <button type="button" class="wcd-cat" data-items="pots and pans, dishes, kitchen appliances, cutlery">🍳 Kitchen</button>
+          <button type="button" class="wcd-cat" data-items="children's books, novels, textbooks, magazines">📚 Books</button>
+          <button type="button" class="wcd-cat" data-items="sofa, dining table, chairs, desk, bookshelf">🛋️ Furniture</button>
+          <button type="button" class="wcd-cat" data-items="bicycle, yoga mat, dumbbells, sports shoes">🏋️ Sports</button>
+          <button type="button" class="wcd-cat" data-items="art supplies, musical instruments, board games, toys">🎨 Hobbies</button>
+        </div>
+
         <textarea
           id="items"
           class="tool-textarea"
@@ -49,9 +63,20 @@ men's dress shoes size 11
 children's books
 old laptop (working)
 kitchenware"
-          rows="6"
+          rows="5"
           required
         ></textarea>
+      </div>
+
+      <!-- Condition selector -->
+      <div class="tool-field">
+        <label class="tool-label">Overall condition</label>
+        <div class="wcd-condition-chips" id="wcdCondition">
+          <button type="button" class="wcd-cond-chip active" data-condition="good condition, clean and ready to donate">Good condition</button>
+          <button type="button" class="wcd-cond-chip" data-condition="gently used, functional but shows some wear">Gently used</button>
+          <button type="button" class="wcd-cond-chip" data-condition="mixed condition — some items are great, others need minor repairs">Mixed</button>
+          <button type="button" class="wcd-cond-chip" data-condition="some items may be broken or need repair">Needs repair</button>
+        </div>
       </div>
 
       <div class="tool-field">
@@ -68,7 +93,7 @@ kitchenware"
       </div>
 
       <div class="tool-examples">
-        <span class="tool-examples-label">Try an example:</span>
+        <span class="tool-examples-label">Full examples:</span>
         <button type="button" class="tool-example-chip" data-fill-items="2 winter coats, men's dress shoes size 11, children's books (box)" data-fill-location="San Francisco, CA">Coats &amp; books · SF</button>
         <button type="button" class="tool-example-chip" data-fill-items="old laptop (working), USB cables, iPad cracked screen, computer monitor" data-fill-location="">Tech gear</button>
         <button type="button" class="tool-example-chip" data-fill-items="baby clothes (0-12 months), stroller, unused kitchenware, toys" data-fill-location="">Baby &amp; kitchen items</button>
@@ -115,6 +140,29 @@ kitchenware"
   <script>
     const form = document.getElementById('toolForm');
 
+    // ── Category quick-add chips ──
+    document.getElementById('wcdCats').addEventListener('click', function(e) {
+      const btn = e.target.closest('.wcd-cat');
+      if (!btn) return;
+      const textarea = document.getElementById('items');
+      const newItems = btn.dataset.items;
+      const current = textarea.value.trim();
+      textarea.value = current ? current + '\n' + newItems : newItems;
+      textarea.focus();
+      btn.classList.add('active');
+      setTimeout(() => btn.classList.remove('active'), 600);
+    });
+
+    // ── Condition chips ──
+    let selectedCondition = 'good condition, clean and ready to donate';
+    document.getElementById('wcdCondition').addEventListener('click', function(e) {
+      const btn = e.target.closest('.wcd-cond-chip');
+      if (!btn) return;
+      this.querySelectorAll('.wcd-cond-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedCondition = btn.dataset.condition;
+    });
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -146,9 +194,11 @@ How to donate: [Practical tip]
 
 After all items, add a short encouraging note: "Everything you listed has value to someone who needs it."
 
-Be practical, warm, and specific. Do NOT name specific real organizations. Focus on org types (e.g., "domestic violence shelters", "after-school programs", "homeless shelters", "free clothing pantries").`;
+Be practical, warm, and specific. Do NOT name specific real organizations. Focus on org types (e.g., "domestic violence shelters", "after-school programs", "homeless shelters", "free clothing pantries").
+Take item condition into account — if items need repair, mention repair-accepting programs or thrift stores.`;
 
-      const userMessage = `Items to donate: ${items}${location ? `\nLocation: ${location}` : ''}
+      const userMessage = `Items to donate: ${items}
+Condition: ${selectedCondition}${location ? `\nLocation: ${location}` : ''}
 
 Match each item to the best type of nonprofit and tell me how to donate it.`;
 

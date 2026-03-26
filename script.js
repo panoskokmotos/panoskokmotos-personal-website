@@ -95,7 +95,7 @@ const counterObserver = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) { animateCounter(e.target); counterObserver.unobserve(e.target); }
   });
-}, { threshold: 0.5 });
+}, { threshold: 0.15 });
 document.querySelectorAll('.impact-num').forEach(el => counterObserver.observe(el));
 
 // ── Active nav link on scroll ──
@@ -459,9 +459,11 @@ document.querySelectorAll('.skeleton-wrap img.book-cover-img').forEach(img => {
   });
 })();
 
-// ── AI Chat: proactive trigger (once per session, after 15s idle) ──
+// ── AI Chat: proactive trigger (once per session, after 15s idle — desktop only) ──
 (function() {
   if (sessionStorage.getItem('chat_proactive_done')) return;
+  // Never auto-open on mobile/touch — intrusive on small screens
+  if (window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768) return;
   const widget = document.getElementById('chatWidget');
   const toggle = document.getElementById('chatToggle');
   if (!widget || !toggle) return;
