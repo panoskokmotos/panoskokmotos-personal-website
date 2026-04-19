@@ -278,12 +278,52 @@ function _showMilestoneToast(count, toolName) {
   setTimeout(close, 5000);
 }
 
+function _showThinResultTip(text) {
+  if (!text || text.trim().length >= 120) return;
+  const resultEl = document.getElementById('result');
+  if (!resultEl || document.getElementById('_thinTip')) return;
+  const tip = document.createElement('p');
+  tip.id = '_thinTip';
+  tip.className = 'tool-tip-banner';
+  tip.textContent = '💡 This response looks brief — try adding more detail to your inputs for a richer result.';
+  resultEl.appendChild(tip);
+}
+
+function attachLiveValidation(inputEl, opts) {
+  if (!inputEl) return;
+  const { min = -Infinity, max = Infinity,
+          msgEmpty = 'This field is required.',
+          msgInvalid = 'Please enter a valid value.' } = opts || {};
+  let errEl = document.getElementById(inputEl.id + '_err');
+  if (!errEl) {
+    errEl = document.createElement('span');
+    errEl.id = inputEl.id + '_err';
+    errEl.className = 'input-error-msg';
+    errEl.setAttribute('role', 'alert');
+    inputEl.parentNode.appendChild(errEl);
+  }
+  function validate() {
+    const raw = inputEl.value.trim();
+    const val = parseFloat(raw);
+    const submitBtn = document.getElementById('submitBtn');
+    let msg = '';
+    if (raw === '') msg = msgEmpty;
+    else if (isNaN(val) || val < min || val > max) msg = msgInvalid;
+    errEl.textContent = msg;
+    inputEl.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    if (submitBtn) submitBtn.disabled = !!msg;
+  }
+  inputEl.addEventListener('input', validate);
+}
+window.attachLiveValidation = attachLiveValidation;
+
 /* ── Standard UI helpers (complex tools override with local versions) ── */
 function setLoading(on) {
   const btn       = document.getElementById('submitBtn');
   const loadingEl = document.getElementById('loading');
   if (btn) btn.disabled = on;
   if (loadingEl) loadingEl.classList.toggle('visible', on);
+  if (on) { const tip = document.getElementById('_thinTip'); if (tip) tip.remove(); }
 
   /* Progress bar */
   let pb = document.getElementById('_tpb');
@@ -350,6 +390,7 @@ function showResult(text) {
   /* Inject extras after each result show */
   setTimeout(() => {
     _injectResultExtras(text);
+    _showThinResultTip(text);
     _saveToHistory(text);
     _renderHistoryBtn();
   }, 80);

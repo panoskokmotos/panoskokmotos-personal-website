@@ -322,6 +322,12 @@
       });
     });
 
+    attachLiveValidation(document.getElementById('donationAmount'), {
+      min: 1, max: 500000,
+      msgEmpty: 'Please enter a donation amount.',
+      msgInvalid: 'Please enter a valid amount (1–500,000).',
+    });
+
     document.getElementById('toolForm').addEventListener('submit', async (e) => {
       e.preventDefault();
 

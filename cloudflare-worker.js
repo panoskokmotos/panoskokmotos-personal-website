@@ -123,6 +123,20 @@ function checkRateLimit(ip) {
   return true; // allowed
 }
 
+// ── Stricter rate limit for /email-result (3 emails/IP/hour) ──
+const emailRateLimitStore = new Map();
+function checkEmailRateLimit(ip) {
+  const now = Date.now();
+  const entry = emailRateLimitStore.get(ip);
+  if (!entry || now > entry.resetAt) {
+    emailRateLimitStore.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    return true;
+  }
+  if (entry.count >= 3) return false;
+  entry.count++;
+  return true;
+}
+
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -233,6 +247,11 @@ export default {
 
     // ── /email-result route: send AI result to user's email ──
     if (url.pathname === '/email-result') {
+      if (!checkEmailRateLimit(ip)) {
+        return new Response(JSON.stringify({ ok: false, error: 'Too many email requests. Please wait before sending again.' }), {
+          status: 429, headers: { 'Content-Type': 'application/json', ...CORS_HEADERS },
+        });
+      }
       try {
         const { email, tool, result, url: pageUrl, subscribe } = await request.json();
         if (!email || !email.includes('@')) {

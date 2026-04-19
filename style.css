@@ -2,6 +2,34 @@
    PANOS KOKMOTOS — Personal Website v2
    ══════════════════════════════════════════ */
 
+/*
+ * TABLE OF CONTENTS
+ * ─────────────────────────────────────────
+ *  1. Reset & Tokens ................   8
+ *  2. Page Loader ...................  42
+ *  3. Navbar ........................ 130
+ *  4. Buttons & Chips .............. 178
+ *  5. Hero section ................. 335
+ *  6. About section ................ 478
+ *  7. Journey / Milestones ......... 555
+ *  8. Experience timeline .......... 619
+ *  9. Education .................... 681
+ * 10. Awards ....................... 711
+ * 11. Press / Media ................ 773
+ * 12. Books ........................ 844
+ * 13. Contact & Forms .............. 950
+ * 14. Chat widget ................. 1244
+ * 15. AI Tool pages ............... 1429
+ * 16. Search modal ................ 1672
+ * 17. Footer ...................... 1945
+ * 18. Light mode overrides ........ 2060
+ * 19. Animations & Keyframes ...... 2168
+ * 20. Responsive / Mobile ......... 2410
+ * 21. Page-specific (static pages) 2973
+ * 22. New component styles ........ 3247
+ * ─────────────────────────────────────────
+ */
+
 /* ── Reset & Tokens ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 *:focus { outline: none; }
@@ -2039,6 +2067,21 @@ html[data-theme="light"] .nav-logo { border-color: rgba(15,30,61,0.2); }
   margin-left: auto; transition: background 0.2s;
 }
 .chat-retry-btn:hover { background: rgba(239,68,68,0.15); }
+
+.tool-tip-banner {
+  margin-top: 16px; padding: 12px 16px;
+  background: rgba(96,144,255,0.08);
+  border: 1px solid rgba(96,144,255,0.25);
+  border-radius: 10px;
+  font-size: 0.88rem; color: var(--blue-light);
+  animation: success-in 0.3s ease both;
+}
+
+.input-error-msg {
+  display: block; margin-top: 5px;
+  font-size: 0.8rem; color: #f87171;
+  min-height: 1.1em;
+}
 
 /* light mode inputs */
 html[data-theme="light"] .contact-form input,

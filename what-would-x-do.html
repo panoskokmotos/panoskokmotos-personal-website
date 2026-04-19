@@ -138,6 +138,7 @@
               min="1"
               max="1000000"
               placeholder="e.g. 75"
+              required
             />
           </div>
         </div>
@@ -524,6 +525,11 @@
         updateComparison(val);
         updateMonthlyNote();
       }
+    });
+    attachLiveValidation(customAmountInput, {
+      min: 1, max: 1000000,
+      msgEmpty: '',
+      msgInvalid: 'Please enter an amount between $1 and $1,000,000.',
     });
 
     function setActiveAmountChip(chip) {
