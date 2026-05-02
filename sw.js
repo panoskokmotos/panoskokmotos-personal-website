@@ -1,4 +1,4 @@
-const CACHE_NAME = 'panos-v4';
+const CACHE_NAME = 'panos-v5';
 const OFFLINE_URL = '/offline.html';
 
 const PRECACHE_ASSETS = [
@@ -24,6 +24,8 @@ const PRECACHE_ASSETS = [
   '/impact-story-generator.html',
   '/community-needs-map.html',
   '/neighborhood-giving-map.html',
+  '/grant-finder.html',
+  '/thank-you-letter-generator.html',
 ];
 
 // Install: precache core assets

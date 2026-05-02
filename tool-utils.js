@@ -68,6 +68,16 @@ const _RELATED_TOOLS = {
     { url: '/charity-comparison-engine.html', icon: '⚖️',  name: 'Charity Comparison',      chip: 'Donors',     cls: 'tuc-d' },
     { url: '/impact-story-generator.html',    icon: '✍️',  name: 'Impact Story Generator',  chip: 'Nonprofits', cls: 'tuc-n' },
   ],
+  '/grant-finder.html': [
+    { url: '/impact-story-generator.html',    icon: '✍️',  name: 'Impact Story Generator',  chip: 'Nonprofits', cls: 'tuc-n' },
+    { url: '/nonprofit-health-checker.html',  icon: '🔍',  name: 'Nonprofit Health Checker', chip: 'Donors',     cls: 'tuc-d' },
+    { url: '/community-needs-map.html',       icon: '🗺️', name: 'Community Needs Map',     chip: 'Nonprofits', cls: 'tuc-n' },
+  ],
+  '/thank-you-letter-generator.html': [
+    { url: '/grant-finder.html',              icon: '🔍',  name: 'Grant Finder',             chip: 'Nonprofits', cls: 'tuc-n' },
+    { url: '/impact-story-generator.html',    icon: '✍️',  name: 'Impact Story Generator',  chip: 'Nonprofits', cls: 'tuc-n' },
+    { url: '/nonprofit-health-checker.html',  icon: '🔍',  name: 'Nonprofit Health Checker', chip: 'Donors',     cls: 'tuc-d' },
+  ],
 };
 
 /* ── Usage counter seeds ── */
@@ -83,6 +93,8 @@ const _USAGE_SEEDS = {
   '/impact-story-generator.html':     672,
   '/community-needs-map.html':        589,
   '/neighborhood-giving-map.html':    543,
+  '/grant-finder.html':               312,
+  '/thank-you-letter-generator.html': 198,
 };
 
 /* ── Loading messages ── */
@@ -376,9 +388,12 @@ function _injectResultExtras(text) {
   _injectRating();
   _injectDownloadBtn();
   _injectPrintBtn();
+  _injectCopyMarkdownBtn();
+  _injectSaveBookmarkBtn();
   _injectShareCard();
   _injectGoDeeperBtn();
   _injectAskAbout();
+  _injectReadTimeBadge(text);
   _injectConfidenceBadge(text);
   _injectRefineInput();
   _injectFollowUpChat();
@@ -387,6 +402,7 @@ function _injectResultExtras(text) {
   _injectDisclaimer();
   _injectSourceLinks();
   _injectExplainTooltips();
+  _injectScrollToTop();
   _injectJourneyCTA(text);
   _injectEmailCapture();
 }
@@ -481,8 +497,8 @@ function initShareBtns() {
   }
 
   if (linkBtn) {
-    const _linkIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>`;
-    const _checkIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M20 6L9 17l-5-5"/></svg>`;
+    const _linkIcon = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>`;
+    const _checkIcon = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M20 6L9 17l-5-5"/></svg>`;
     linkBtn.addEventListener('click', () => {
       navigator.clipboard.writeText(window.location.href).then(() => {
         linkBtn.innerHTML = _checkIcon + ' Copied!';
@@ -497,7 +513,7 @@ function initShareBtns() {
     const waBtn = document.createElement('button');
     waBtn.id = 'shareWABtn';
     waBtn.className = 'tool-share-wa';
-    waBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M5.077 19.617A11.965 11.965 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10a11.965 11.965 0 01-5.617-1.383L2 22l2.078-4.383z"/></svg> WhatsApp`;
+    waBtn.innerHTML = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M5.077 19.617A11.965 11.965 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10a11.965 11.965 0 01-5.617-1.383L2 22l2.078-4.383z"/></svg> WhatsApp`;
     waBtn.addEventListener('click', () => {
       const title = document.querySelector('h1.tool-title')?.textContent?.trim() || document.title;
       const url   = window.location.href;
@@ -554,28 +570,28 @@ function initEmbed() {
     {
       id: 'html',
       label: 'Custom HTML',
-      icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>`,
+      icon: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>`,
       code: `<iframe src="${url}" width="100%" height="700" frameborder="0" loading="lazy" style="border-radius:12px;border:1px solid #eee"></iframe>`,
       instruction: 'Paste anywhere in your HTML page.',
     },
     {
       id: 'wp',
       label: 'WordPress',
-      icon: `<svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM3.5 12c0-1.15.22-2.25.61-3.26L7.86 19.6A8.51 8.51 0 0 1 3.5 12zm8.5 8.5c-.78 0-1.53-.11-2.24-.31l2.38-6.9 2.44 6.68c.02.04.04.08.06.11A8.54 8.54 0 0 1 12 20.5zm1.17-12.45l2.03 6.07-2.84.08-.06-.18-1.82-5.19c.46-.02.9-.05 1.35-.08.48-.03.94-.08 1.34-.7zm1.41 8.33l2.44-7.08c.38-.97.51-1.74.51-2.43 0-.25-.02-.47-.05-.68A8.51 8.51 0 0 1 20.5 12a8.5 8.5 0 0 1-5.92 8.38z"/></svg>`,
+      icon: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM3.5 12c0-1.15.22-2.25.61-3.26L7.86 19.6A8.51 8.51 0 0 1 3.5 12zm8.5 8.5c-.78 0-1.53-.11-2.24-.31l2.38-6.9 2.44 6.68c.02.04.04.08.06.11A8.54 8.54 0 0 1 12 20.5zm1.17-12.45l2.03 6.07-2.84.08-.06-.18-1.82-5.19c.46-.02.9-.05 1.35-.08.48-.03.94-.08 1.34-.7zm1.41 8.33l2.44-7.08c.38-.97.51-1.74.51-2.43 0-.25-.02-.47-.05-.68A8.51 8.51 0 0 1 20.5 12a8.5 8.5 0 0 1-5.92 8.38z"/></svg>`,
       code: `<iframe src="${url}" width="100%" height="700" frameborder="0" loading="lazy" style="border-radius:12px;border:1px solid #eee"></iframe>`,
       instruction: 'In the WordPress editor, add a <strong>Custom HTML</strong> block and paste the code.',
     },
     {
       id: 'wix',
       label: 'Wix',
-      icon: `<svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M21 5H3c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 11l-5-5 1.4-1.4L12 13.2l7.6-7.6L21 7l-9 9z"/></svg>`,
+      icon: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M21 5H3c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 11l-5-5 1.4-1.4L12 13.2l7.6-7.6L21 7l-9 9z"/></svg>`,
       code: `<iframe src="${url}" width="100%" height="700" frameborder="0" loading="lazy" style="border-radius:12px;border:1px solid #eee"></iframe>`,
       instruction: 'In Wix Editor, add an <strong>Embed &gt; HTML iframe</strong> element, then paste the code.',
     },
     {
       id: 'webflow',
       label: 'Webflow',
-      icon: `<svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M17.114 0S13.8 7.116 10.097 9.68H4.743L3 15.998h4.057l-1.828 8.002S15.22 12.587 19.714 7.988h-5.23L17.113 0z"/></svg>`,
+      icon: `<svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M17.114 0S13.8 7.116 10.097 9.68H4.743L3 15.998h4.057l-1.828 8.002S15.22 12.587 19.714 7.988h-5.23L17.113 0z"/></svg>`,
       code: `<iframe src="${url}" width="100%" height="700" frameborder="0" loading="lazy" style="border-radius:12px;border:1px solid #eee"></iframe>`,
       instruction: 'In Webflow, add an <strong>HTML Embed</strong> element from the Add panel (+), then paste the code.',
     },
@@ -585,7 +601,7 @@ function initEmbed() {
 
   wrap.innerHTML = `
     <button class="temb-toggle" id="_embToggle">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
       Embed this tool on your site
     </button>
     <div class="temb-body" id="_embBody">
@@ -639,7 +655,7 @@ function _injectDisclaimer() {
   if (!result || result.querySelector('._disclaimer')) return;
   const p = document.createElement('p');
   p.className = 'tool-disclaimer _disclaimer';
-  p.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> AI-generated analysis. Always verify with official sources before making giving decisions.`;
+  p.innerHTML = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> AI-generated analysis. Always verify with official sources before making giving decisions.`;
   const body = result.querySelector('.tool-result-body');
   if (body) body.insertAdjacentElement('afterend', p);
 }
@@ -721,7 +737,7 @@ function _injectEmailCapture() {
   wrap.className = 'tool-email-cap';
   wrap.innerHTML = `
     <span class="tool-email-cap-label">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M4 4h16v16H4z"/><path d="m4 7 8 6 8-6"/></svg>
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M4 4h16v16H4z"/><path d="m4 7 8 6 8-6"/></svg>
       Email me this result
     </span>
     <div class="tool-email-cap-row">
@@ -820,7 +836,7 @@ function _renderHistoryBtn() {
       const form = document.getElementById('toolForm');
       if (form) form.insertAdjacentElement('afterend', btn);
     }
-    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 106 5.3L3 8"/><path d="M12 7v5l4 2"/></svg> Recent results <span class="tool-hist-badge">${hist.length}</span>`;
+    btn.innerHTML = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 106 5.3L3 8"/><path d="M12 7v5l4 2"/></svg> Recent results <span class="tool-hist-badge">${hist.length}</span>`;
     btn.onclick = _openHistoryDrawer;
   } catch {}
 }
@@ -897,7 +913,7 @@ function _injectDownloadBtn() {
   btn.className = 'tool-download-btn';
   btn.title = 'Download as .txt';
   btn.setAttribute('aria-label', 'Download result');
-  btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download`;
+  btn.innerHTML = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download`;
   copyBtn.insertAdjacentElement('afterend', btn);
   btn.addEventListener('click', () => {
     const body = document.getElementById('resultBody');
@@ -921,7 +937,7 @@ function _injectPrintBtn() {
   btn.className = 'tool-print-btn';
   btn.title = 'Print / Save as PDF';
   btn.setAttribute('aria-label', 'Print result');
-  btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Print`;
+  btn.innerHTML = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Print`;
   const dlBtn = document.getElementById('_dlBtn');
   if (dlBtn) dlBtn.insertAdjacentElement('afterend', btn);
   else copyBtn.insertAdjacentElement('afterend', btn);
@@ -1195,7 +1211,7 @@ function _injectShareCard() {
   btn.id = '_cardBtn';
   btn.className = 'tool-card-btn';
   btn.title = 'Download as shareable image';
-  btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg> Save image`;
+  btn.innerHTML = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg> Save image`;
   const dlBtn = document.getElementById('_dlBtn');
   (dlBtn || copyBtn).insertAdjacentElement('afterend', btn);
   btn.addEventListener('click', () => {
@@ -1356,7 +1372,7 @@ function _initVoiceInput() {
     btn.className = 'tool-voice-btn';
     btn.title = 'Speak your input';
     btn.setAttribute('aria-label', 'Voice input');
-    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>`;
+    btn.innerHTML = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>`;
     wrap.appendChild(btn);
     let rec = null;
     btn.addEventListener('click', () => {
@@ -1672,9 +1688,247 @@ function _restoreOfflineResult() {
     if (!result || !body) return;
     const banner = document.createElement('div');
     banner.className = 'tool-offline-banner';
-    banner.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0 1 19 12.55M5 12.55a10.94 10.94 0 0 1 5.17-2.39M10.71 5.05A16 16 0 0 1 22.56 9M1.42 9a15.91 15.91 0 0 1 4.7-2.88M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg> You're offline — showing your last saved result`;
+    banner.innerHTML = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0 1 19 12.55M5 12.55a10.94 10.94 0 0 1 5.17-2.39M10.71 5.05A16 16 0 0 1 22.56 9M1.42 9a15.91 15.91 0 0 1 4.7-2.88M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg> You're offline — showing your last saved result`;
     body.innerHTML = saved.html;
     result.insertAdjacentElement('beforebegin', banner);
     result.classList.add('visible');
   } catch {}
+}
+
+/* ══════════════════════════════════════════════
+   Phase 8 — New Feature JS
+   ══════════════════════════════════════════════ */
+
+/* ── Named Bookmarks (upgrade to history drawer) ── */
+const _SAVED_KEY = () => 'saved_' + window.location.pathname.replace(/[^a-z0-9]/gi, '_');
+
+function _injectSaveBookmarkBtn() {
+  const result = document.getElementById('result');
+  if (!result || result.querySelector('#_saveBookmarkBtn')) return;
+  const btn = document.createElement('button');
+  btn.id = '_saveBookmarkBtn';
+  btn.className = 'tool-bookmark-btn';
+  btn.type = 'button';
+  btn.innerHTML = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Save`;
+  const copyBtn = document.getElementById('copyBtn');
+  if (copyBtn) copyBtn.insertAdjacentElement('afterend', btn);
+  else result.querySelector('.tool-result-actions')?.appendChild(btn);
+
+  btn.addEventListener('click', () => {
+    const body = document.getElementById('resultBody');
+    if (!body) return;
+    const name = prompt('Name this saved result:', document.querySelector('h1.tool-title')?.textContent?.trim() || 'Saved result');
+    if (!name) return;
+    try {
+      const saved = JSON.parse(localStorage.getItem(_SAVED_KEY()) || '[]');
+      saved.unshift({ name, html: body.innerHTML, text: body.innerText, t: Date.now() });
+      if (saved.length > 20) saved.splice(20);
+      localStorage.setItem(_SAVED_KEY(), JSON.stringify(saved));
+      btn.innerHTML = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M20 6L9 17l-5-5"/></svg> Saved!`;
+      setTimeout(() => {
+        btn.innerHTML = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Save`;
+      }, 2000);
+      _renderHistoryBtn();
+    } catch {}
+  });
+}
+
+/* Patch _openHistoryDrawer to add Saved tab */
+const _origOpenHistoryDrawer = _openHistoryDrawer;
+window._openHistoryDrawerWithSaved = function(startTab) {
+  if (document.getElementById('_histDrawer')) { _closeHistoryDrawer(); return; }
+  let hist = [], saved = [];
+  try { hist  = JSON.parse(localStorage.getItem(_HIST_KEY())  || '[]'); } catch {}
+  try { saved = JSON.parse(localStorage.getItem(_SAVED_KEY()) || '[]'); } catch {}
+
+  const overlay = document.createElement('div');
+  overlay.id = '_histOverlay';
+  overlay.className = 'hist-overlay';
+  overlay.addEventListener('click', e => { if (e.target === overlay) _closeHistoryDrawer(); });
+
+  const drawer = document.createElement('div');
+  drawer.id = '_histDrawer';
+  drawer.className = 'hist-drawer';
+
+  const ago = t => {
+    const d = Math.round((Date.now() - t) / 1000);
+    if (d < 60) return 'just now';
+    if (d < 3600) return Math.floor(d/60) + 'm ago';
+    if (d < 86400) return Math.floor(d/3600) + 'h ago';
+    return Math.floor(d/86400) + 'd ago';
+  };
+
+  const renderRecent = () => hist.map((h, i) => `
+    <div class="hist-item">
+      <span class="hist-time">${ago(h.t)}</span>
+      <p class="hist-snippet">${h.snippet}…</p>
+      <button class="hist-restore" data-src="hist" data-i="${i}">Restore →</button>
+    </div>`).join('') || '<p class="hist-empty">No recent results yet.</p>';
+
+  const renderSaved = () => saved.map((s, i) => `
+    <div class="hist-item">
+      <span class="hist-time">${ago(s.t)}</span>
+      <p class="hist-snippet hist-saved-name">${s.name}</p>
+      <div class="hist-item-actions">
+        <button class="hist-restore" data-src="saved" data-i="${i}">Restore →</button>
+        <button class="hist-del-btn" data-i="${i}" title="Delete">✕</button>
+      </div>
+    </div>`).join('') || '<p class="hist-empty">No saved results yet. Use the "Save" button on any result.</p>';
+
+  const activeTab = startTab || 'recent';
+  drawer.innerHTML = `
+    <div class="hist-header">
+      <div class="hist-tabs">
+        <button class="hist-tab ${activeTab==='recent'?'active':''}" data-tab="recent">Recent</button>
+        <button class="hist-tab ${activeTab==='saved'?'active':''}" data-tab="saved">Saved${saved.length ? ` (${saved.length})` : ''}</button>
+      </div>
+      <button class="hist-close" onclick="_closeHistoryDrawer()">✕</button>
+    </div>
+    <div class="hist-list" id="_histList">
+      ${activeTab === 'recent' ? renderRecent() : renderSaved()}
+    </div>
+    <button class="hist-clear" id="_histClear">${activeTab==='recent' ? 'Clear recent' : 'Clear saved'}</button>`;
+
+  overlay.appendChild(drawer);
+  document.body.appendChild(overlay);
+  requestAnimationFrame(() => { overlay.classList.add('visible'); drawer.classList.add('visible'); });
+
+  // Tab switching
+  drawer.querySelectorAll('.hist-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      drawer.querySelectorAll('.hist-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const t = tab.dataset.tab;
+      document.getElementById('_histList').innerHTML = t === 'recent' ? renderRecent() : renderSaved();
+      document.getElementById('_histClear').textContent = t === 'recent' ? 'Clear recent' : 'Clear saved';
+      wireRestoreButtons(t);
+    });
+  });
+  wireRestoreButtons(activeTab);
+
+  function wireRestoreButtons(src) {
+    drawer.querySelectorAll('.hist-restore').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const items = src === 'saved' ? saved : hist;
+        const item = items[+btn.dataset.i];
+        const result = document.getElementById('result');
+        const rb = document.getElementById('resultBody');
+        if (result && rb && item?.html) {
+          rb.innerHTML = item.html;
+          result.classList.add('visible');
+          result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        _closeHistoryDrawer();
+      });
+    });
+    drawer.querySelectorAll('.hist-del-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        saved.splice(+btn.dataset.i, 1);
+        try { localStorage.setItem(_SAVED_KEY(), JSON.stringify(saved)); } catch {}
+        document.getElementById('_histList').innerHTML = renderSaved();
+        wireRestoreButtons('saved');
+      });
+    });
+  }
+
+  document.getElementById('_histClear').addEventListener('click', () => {
+    const activeTabEl = drawer.querySelector('.hist-tab.active');
+    if (activeTabEl?.dataset.tab === 'saved') {
+      try { localStorage.removeItem(_SAVED_KEY()); } catch {}
+    } else {
+      try { localStorage.removeItem(_HIST_KEY()); } catch {}
+    }
+    _closeHistoryDrawer();
+    _renderHistoryBtn();
+  });
+};
+
+/* Override the history button click to use enhanced drawer */
+const _origRenderHistoryBtn = _renderHistoryBtn;
+function _renderHistoryBtn() {
+  let btn = document.getElementById('_histBtn');
+  try {
+    const hist  = JSON.parse(localStorage.getItem(_HIST_KEY())  || '[]');
+    const saved = JSON.parse(localStorage.getItem(_SAVED_KEY()) || '[]');
+    const total = hist.length + saved.length;
+    if (!total) { if (btn) btn.remove(); return; }
+    if (!btn) {
+      btn = document.createElement('button');
+      btn.id = '_histBtn';
+      btn.className = 'tool-hist-btn';
+      const form = document.getElementById('toolForm');
+      if (form) form.insertAdjacentElement('afterend', btn);
+    }
+    btn.innerHTML = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 106 5.3L3 8"/><path d="M12 7v5l4 2"/></svg> History${saved.length ? ` · ${saved.length} saved` : ''} <span class="tool-hist-badge">${hist.length}</span>`;
+    btn.onclick = () => window._openHistoryDrawerWithSaved('recent');
+  } catch {}
+}
+
+/* ── Copy as Markdown ── */
+function _htmlToMarkdown(html) {
+  return html
+    .replace(/<h[1-3][^>]*>(.*?)<\/h[1-3]>/gi, (_, t) => `\n## ${t.replace(/<[^>]+>/g, '')}\n`)
+    .replace(/<strong[^>]*>(.*?)<\/strong>/gi, '**$1**')
+    .replace(/<em[^>]*>(.*?)<\/em>/gi, '_$1_')
+    .replace(/<li[^>]*>(.*?)<\/li>/gi, '- $1\n')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ')
+    .replace(/\n{3,}/g, '\n\n').trim();
+}
+
+function _injectCopyMarkdownBtn() {
+  const copyBtn = document.getElementById('copyBtn');
+  if (!copyBtn || document.getElementById('_copyMdBtn')) return;
+  const btn = document.createElement('button');
+  btn.id = '_copyMdBtn';
+  btn.className = 'tool-copy-md-btn';
+  btn.type = 'button';
+  btn.title = 'Copy as Markdown (for Notion, Google Docs, etc.)';
+  btn.textContent = 'Copy MD';
+  copyBtn.insertAdjacentElement('afterend', btn);
+  btn.addEventListener('click', () => {
+    const body = document.getElementById('resultBody');
+    if (!body) return;
+    navigator.clipboard.writeText(_htmlToMarkdown(body.innerHTML)).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy MD'; }, 2000);
+    });
+  });
+}
+
+/* ── Result Read-Time Badge ── */
+function _injectReadTimeBadge(text) {
+  const result = document.getElementById('result');
+  if (!result || result.querySelector('.tool-readtime')) return;
+  const words = text.trim().split(/\s+/).length;
+  const mins  = Math.max(1, Math.round(words / 200));
+  const badge = document.createElement('span');
+  badge.className = 'tool-readtime';
+  badge.textContent = `~${mins} min read · ${words.toLocaleString()} words`;
+  const header = result.querySelector('.tool-result-header');
+  if (header) header.appendChild(badge);
+  else {
+    const body = document.getElementById('resultBody');
+    if (body) body.insertAdjacentElement('beforebegin', badge);
+  }
+}
+
+/* ── Scroll-to-Top on Long Results ── */
+function _injectScrollToTop() {
+  const result = document.getElementById('result');
+  const body   = document.getElementById('resultBody');
+  if (!result || !body || result.querySelector('#_scrollTopBtn')) return;
+  if (body.scrollHeight <= 420) return;
+  const btn = document.createElement('button');
+  btn.id = '_scrollTopBtn';
+  btn.className = 'tool-scroll-top';
+  btn.type = 'button';
+  btn.setAttribute('aria-label', 'Scroll result to top');
+  btn.innerHTML = `<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><polyline points="18 15 12 9 6 15"/></svg> Top`;
+  result.appendChild(btn);
+  btn.addEventListener('click', () => {
+    result.scrollTo({ top: 0, behavior: 'smooth' });
+    body.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 }

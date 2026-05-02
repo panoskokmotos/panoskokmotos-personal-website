@@ -60,7 +60,7 @@
     <!-- ── Stat strip ── -->
     <div class="ait-stat-strip">
       <div class="ait-stat">
-        <span class="ait-stat-number">12</span>
+        <span class="ait-stat-number">14</span>
         <span class="ait-stat-label">Tools</span>
       </div>
       <div class="ait-stat-divider"></div>
@@ -263,7 +263,7 @@
         <div class="ait-section-header-left">
           <span class="ait-section-icon" style="background:rgba(139,92,246,0.15)">🏛️</span>
           <span class="ait-section-title">For Nonprofits &amp; Communities</span>
-          <span class="ait-section-count">3 tools</span>
+          <span class="ait-section-count">5 tools</span>
         </div>
       </div>
       <div class="ait-grid">
@@ -298,12 +298,34 @@
           <div class="ait-card-top">
             <span class="ait-chip ait-chip-nonprofits">Nonprofits</span>
             <span class="ait-emoji-wrap" style="background:rgba(139,92,246,0.15)">🏙️</span>
-            <span class="ait-badge ait-badge-new">✨ New</span>
           </div>
           <h2 class="ait-card-title">Neighborhood Giving Map</h2>
           <p class="ait-card-desc">Input your city → AI maps where donations typically flow vs. where need concentrates. Exposes giving deserts and local capital gaps.</p>
           <span class="ait-cta">Try it →</span>
-        
+          <span class="ait-try-btn">Try it free →</span>
+        </a>
+
+        <a href="/grant-finder.html" class="ait-card">
+          <div class="ait-card-top">
+            <span class="ait-chip ait-chip-nonprofits">Nonprofits</span>
+            <span class="ait-emoji-wrap" style="background:rgba(139,92,246,0.15)">🔍</span>
+            <span class="ait-badge ait-badge-new">✨ New</span>
+          </div>
+          <h2 class="ait-card-title">Grant Finder</h2>
+          <p class="ait-card-desc">Describe your nonprofit's mission → AI surfaces 6–8 relevant grant opportunities from major foundations, government programs, and community funders with application tips.</p>
+          <span class="ait-cta">Find grants →</span>
+          <span class="ait-try-btn">Try it free →</span>
+        </a>
+
+        <a href="/thank-you-letter-generator.html" class="ait-card">
+          <div class="ait-card-top">
+            <span class="ait-chip ait-chip-nonprofits">Nonprofits</span>
+            <span class="ait-emoji-wrap" style="background:rgba(139,92,246,0.15)">✉️</span>
+            <span class="ait-badge ait-badge-new">✨ New</span>
+          </div>
+          <h2 class="ait-card-title">Thank You Letter Generator</h2>
+          <p class="ait-card-desc">Enter donor name, gift amount, and impact details → AI writes a warm, personalized thank-you letter with IRS-compliant acknowledgment language. Ready in seconds.</p>
+          <span class="ait-cta">Write a letter →</span>
           <span class="ait-try-btn">Try it free →</span>
         </a>
 
@@ -514,6 +536,7 @@
       '/charity-comparison-engine.html','/nonprofit-health-checker.html','/scam-nonprofit-detector.html',
       '/volunteer-match.html','/what-can-i-donate.html','/impact-story-generator.html',
       '/community-needs-map.html','/neighborhood-giving-map.html','/donation-tax-estimator.html',
+      '/grant-finder.html','/thank-you-letter-generator.html',
     ];
     const tried = toolPaths.filter(p => {
       const key = 'tuc_' + p.replace(/[^a-z0-9]/gi, '_');
@@ -548,6 +571,8 @@
       '/impact-story-generator.html':    672,
       '/community-needs-map.html':       589,
       '/neighborhood-giving-map.html':   543,
+      '/grant-finder.html':              312,
+      '/thank-you-letter-generator.html': 198,
     };
     const NAMES = {
       '/what-would-x-do.html':           '"What Would $X Do?"',
@@ -561,6 +586,8 @@
       '/impact-story-generator.html':    'Impact Story Generator',
       '/community-needs-map.html':       'Community Needs Map',
       '/neighborhood-giving-map.html':   'Neighborhood Giving Map',
+      '/grant-finder.html':              'Grant Finder',
+      '/thank-you-letter-generator.html': 'Thank You Letter Generator',
     };
     const entries = Object.keys(SEEDS).map(path => {
       const key = 'tuc_' + path.replace(/[^a-z0-9]/gi, '_');
@@ -598,6 +625,8 @@
     { name: '"Why Should I Give?"', desc: 'Get a personalized answer to overcome donation hesitation', url: '/why-should-i-give.html' },
     { name: 'Neighborhood Giving Map', desc: 'Find giving opportunities in your neighborhood', url: '/neighborhood-giving-map.html' },
     { name: '"What Can I Donate?"', desc: 'Discover non-cash donations you didn\'t know you could give', url: '/what-can-i-donate.html' },
+    { name: 'Grant Finder', desc: 'Find 6–8 relevant grant opportunities for your nonprofit', url: '/grant-finder.html' },
+    { name: 'Thank You Letter Generator', desc: 'Write a personalized donor acknowledgment letter in seconds', url: '/thank-you-letter-generator.html' },
   ];
   // Rotate weekly based on ISO week number
   const week = Math.floor((Date.now() / 1000 - 345600) / 604800);

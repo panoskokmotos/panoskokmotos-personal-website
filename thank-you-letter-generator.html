@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thank You Letter Generator — AI Donor Acknowledgment Letters</title>
+  <meta name="description" content="Enter donor name, gift amount, and impact — AI writes a warm, personalized thank-you letter with IRS-compliant acknowledgment language. Ready in seconds." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+  <script src="/tool-utils.js"></script>
+  <link rel="icon" href="/favicon.ico" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://panoskokmotos.com/thank-you-letter-generator.html" />
+  <meta property="og:url" content="https://panoskokmotos.com/thank-you-letter-generator.html" />
+  <meta property="og:title" content="Thank You Letter Generator — AI Donor Acknowledgment" />
+  <meta property="og:description" content="Write personalized, IRS-compliant donor thank-you letters in seconds with AI." />
+  <meta property="og:image" content="https://panoskokmotos.com/og-ai-tools.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://panoskokmotos.com/og-ai-tools.png" />
+  <meta name="twitter:creator" content="@panoskokmotoss" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is the IRS acknowledgment language correct?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The AI includes standard IRS 501(c)(3) acknowledgment language required for gifts of $250 or more, including the 'no goods or services' statement. Always have your legal counsel review letters before sending for compliance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What gift types does it support?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cash donations, stock/securities gifts, in-kind donations, recurring/monthly gifts, and planned giving acknowledgments. Each type gets appropriate language."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I customize the letter after it's generated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — copy the letter and edit it in any word processor. You can use the Refine feature to ask the AI to adjust the tone, length, or add specific details."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I use this for bulk thank-you letters?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Generate a template letter, then use the Copy as Markdown feature and paste into your CRM or email platform. Customize the donor-specific fields for each recipient."
+      }
+    }
+  ]
+}
+</script>
+  <link rel="prefetch" href="/impact-story-generator.html" />
+  <link rel="prefetch" href="/grant-finder.html" />
+</head>
+<body class="tool-page">
+
+  <header class="tool-header">
+    <a href="/ai-tools.html" class="tool-back">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      AI for Social Impact Lab
+    </a>
+  </header>
+
+  <main class="tool-main">
+    <p class="tool-eyebrow">AI for Social Impact · Free Tool · For Nonprofits</p>
+    <h1 class="tool-title">Thank You Letter Generator</h1>
+    <p class="tool-desc">Write a warm, personalized donor acknowledgment letter in seconds. Includes IRS-compliant language for gifts $250+. Just fill in the details and let AI do the writing.</p>
+
+    <!-- How it works -->
+    <div class="tool-how">
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 1</span>
+        <span class="tool-how-title">Enter gift details</span>
+        <span class="tool-how-desc">Donor name, amount, type, and what the gift supports.</span>
+      </div>
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 2</span>
+        <span class="tool-how-title">AI writes the letter</span>
+        <span class="tool-how-desc">Personalized, warm, with correct acknowledgment language.</span>
+      </div>
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 3</span>
+        <span class="tool-how-title">Copy &amp; send</span>
+        <span class="tool-how-desc">Paste into your email, CRM, or letterhead. Done.</span>
+      </div>
+    </div>
+
+    <div class="tool-wrap">
+      <form id="toolForm" class="tool-form" onsubmit="handleSubmit(event)">
+
+        <div class="tool-row">
+          <div class="tool-field">
+            <label class="tool-label" for="donorName">Donor name <span class="tool-required">*</span></label>
+            <input
+              id="donorName"
+              class="tool-input"
+              type="text"
+              placeholder="e.g. John Smith or The Garcia Family"
+              required
+            />
+          </div>
+          <div class="tool-field">
+            <label class="tool-label" for="orgName">Your organization name <span class="tool-required">*</span></label>
+            <input
+              id="orgName"
+              class="tool-input"
+              type="text"
+              placeholder="e.g. Chicago Youth Mentors"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="tool-row">
+          <div class="tool-field">
+            <label class="tool-label" for="giftAmount">Gift amount <span class="tool-required">*</span></label>
+            <input
+              id="giftAmount"
+              class="tool-input"
+              type="number"
+              min="1"
+              placeholder="e.g. 250"
+              required
+            />
+          </div>
+          <div class="tool-field">
+            <label class="tool-label" for="giftType">Gift type</label>
+            <select id="giftType" class="tool-select">
+              <option value="cash donation">Cash / Check</option>
+              <option value="online donation">Online donation</option>
+              <option value="stock or securities gift">Stock / Securities</option>
+              <option value="in-kind donation">In-Kind donation</option>
+              <option value="recurring monthly gift">Recurring monthly gift</option>
+              <option value="planned gift / bequest">Planned gift / Bequest</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="tool-field">
+          <label class="tool-label" for="giftImpact">What will this gift support? <span class="tool-required">*</span></label>
+          <input
+            id="giftImpact"
+            class="tool-input"
+            type="text"
+            placeholder="e.g. after-school tutoring for 20 students, a new community kitchen, our general operating fund"
+            required
+          />
+        </div>
+
+        <div class="tool-row">
+          <div class="tool-field">
+            <label class="tool-label" for="letterTone">Tone</label>
+            <select id="letterTone" class="tool-select">
+              <option value="warm and personal">Warm &amp; Personal</option>
+              <option value="formal and professional">Formal &amp; Professional</option>
+              <option value="inspiring and mission-driven">Inspiring &amp; Mission-Driven</option>
+              <option value="brief and to-the-point">Brief &amp; Concise</option>
+            </select>
+          </div>
+          <div class="tool-field">
+            <label class="tool-label" for="signerName">Letter signed by</label>
+            <input
+              id="signerName"
+              class="tool-input"
+              type="text"
+              placeholder="e.g. Jane Doe, Executive Director"
+            />
+          </div>
+        </div>
+
+        <!-- Example chips -->
+        <div class="tool-examples">
+          <p class="tool-examples-label">Quick examples:</p>
+          <div class="tool-examples-chips">
+            <button type="button" class="tool-example-chip"
+              data-fill-donor-name="John Smith"
+              data-fill-gift-amount="250"
+              data-fill-gift-type="cash donation"
+              data-fill-gift-impact="school supplies for 10 students"
+              data-fill-org-name="Youth Forward Foundation">🎒 $250 cash, school supplies</button>
+            <button type="button" class="tool-example-chip"
+              data-fill-donor-name="The Garcia Family"
+              data-fill-gift-amount="5000"
+              data-fill-gift-type="stock or securities gift"
+              data-fill-gift-impact="new equipment for our community kitchen"
+              data-fill-org-name="Neighborhood Food Bank">🏗️ $5K stock, kitchen equipment</button>
+            <button type="button" class="tool-example-chip"
+              data-fill-donor-name="Acme Corporation"
+              data-fill-gift-amount="10000"
+              data-fill-gift-type="online donation"
+              data-fill-gift-impact="mental health counseling sessions for 50 families"
+              data-fill-org-name="Community Wellness Center">🏢 $10K corporate, counseling</button>
+            <button type="button" class="tool-example-chip"
+              data-fill-donor-name="Maria Chen"
+              data-fill-gift-amount="25"
+              data-fill-gift-type="recurring monthly gift"
+              data-fill-gift-impact="our general operating fund"
+              data-fill-org-name="Clean Rivers Initiative">🔄 $25/mo recurring</button>
+          </div>
+        </div>
+
+        <div id="errorBox" class="tool-error" style="display:none">
+          <p id="errorText"></p>
+        </div>
+
+        <button type="submit" class="tool-submit" id="submitBtn">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM20 8l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          Generate Thank You Letter
+        </button>
+
+        <p class="tool-disclaimer-small">Generated letters include standard IRS acknowledgment language. Review with legal counsel before sending for compliance.</p>
+      </form>
+
+      <!-- Result -->
+      <div id="result" class="tool-result">
+        <div class="tool-result-header">
+          <h2 class="tool-result-title">Your Thank You Letter</h2>
+          <div class="tool-result-actions">
+            <button class="tool-copy-btn" id="copyBtn">Copy</button>
+          </div>
+        </div>
+        <div id="resultBody" class="tool-result-body"></div>
+        <button class="tool-try-another" id="tryAnotherBtn">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 106 5.3L3 8"/></svg>
+          Write another letter
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading state -->
+    <div id="loading" class="tool-loading" style="display:none">
+      <div class="tool-loading-spinner"></div>
+      <p id="loadingText">Writing your letter…</p>
+    </div>
+  </main>
+
+  <!-- AI Chat Widget -->
+  <div class="chat-widget" id="chatWidget">
+    <button class="chat-toggle" id="chatToggle" aria-label="Chat with Panos AI">
+      <svg class="chat-icon-open" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <svg class="chat-icon-close" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <span class="chat-badge">AI</span>
+    </button>
+    <div class="chat-panel" id="chatPanel">
+      <div class="chat-header">
+        <div class="chat-header-info">
+          <picture>
+            <source srcset="/photo.webp" type="image/webp" />
+            <img src="/photo.jpg" alt="Panos Kokmotos" class="chat-avatar" />
+          </picture>
+          <div class="chat-header-text">
+            <strong>Ask Panos</strong>
+            <span><span class="chat-status-dot"></span>AI · Usually replies instantly</span>
+          </div>
+        </div>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <p>👋 Hi! I'm Panos's AI. Ask me about donor relations, fundraising best practices, or Givelink!</p>
+      </div>
+      <div class="chat-starters" id="chatStarters">
+        <button class="chat-starter">What makes donors feel valued?</button>
+        <button class="chat-starter">How soon should I send a thank you?</button>
+        <button class="chat-starter">Tell me about Givelink</button>
+      </div>
+      <div class="chat-input-wrap">
+        <input type="text" id="chatInput" placeholder="Ask about donor relations, fundraising…" />
+        <button id="chatSend" aria-label="Send">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <script src="/chat.js"></script>
+
+  <script>
+    const LOADING_MSGS = [
+      'Writing your letter…',
+      'Personalizing the message…',
+      'Adding impact language…',
+      'Including acknowledgment language…',
+      'Almost done…',
+    ];
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const donorName  = document.getElementById('donorName').value.trim();
+      const orgName    = document.getElementById('orgName').value.trim();
+      const giftAmount = document.getElementById('giftAmount').value;
+      const giftType   = document.getElementById('giftType').value;
+      const giftImpact = document.getElementById('giftImpact').value.trim();
+      const letterTone = document.getElementById('letterTone').value;
+      const signerName = document.getElementById('signerName').value.trim();
+      const amount     = parseFloat(giftAmount);
+
+      if (!donorName || !orgName || !giftAmount || !giftImpact) {
+        showError('Please fill in all required fields.');
+        return;
+      }
+      if (isNaN(amount) || amount <= 0) {
+        showError('Please enter a valid gift amount.');
+        return;
+      }
+
+      const needsIRS = amount >= 250;
+      const currencyAmt = giftType.includes('in-kind') ? `an in-kind gift valued at $${amount}` : `$${amount.toLocaleString()}`;
+
+      const systemPrompt = `You are an expert nonprofit fundraising writer specializing in donor stewardship and acknowledgment letters.
+
+Write donor thank-you letters that are ${letterTone}, authentic, and mission-focused. Follow these rules:
+1. Open with genuine gratitude — specific, not generic
+2. Connect the gift to concrete impact — make the donor feel the difference they made
+3. Share one brief story or statistic that illustrates impact
+4. ${needsIRS ? 'Include the required IRS 501(c)(3) acknowledgment statement: "No goods or services were provided in exchange for this contribution." This is required by law for gifts of $250 or more.' : 'Keep the tone personal and warm.'}
+5. Close with a forward-looking statement about the relationship, not just the gift
+6. Format as a proper letter with greeting, body paragraphs, and closing
+
+Keep the letter between 200–350 words unless the tone is "Brief & Concise" (then 100–150 words). Do not include placeholder text like [DATE] — write the letter as if ready to send.`;
+
+      const userMessage = `Please write a thank-you letter with these details:
+- Donor: ${donorName}
+- Organization: ${orgName}
+- Gift: ${currencyAmt} (${giftType})
+- What this supports: ${giftImpact}
+- Tone: ${letterTone}
+${signerName ? `- Signed by: ${signerName}` : '- Use a generic closing like "With gratitude, [Your Name]"'}
+
+${needsIRS ? '(Gift is $250+, include IRS acknowledgment language)' : ''}`;
+
+      hideError();
+      setLoading(true);
+      startLoadingMessages(LOADING_MSGS);
+
+      try {
+        const result = await callWorker(systemPrompt, userMessage);
+        showResult(result);
+        notifyToolUsed('Thank You Letter Generator');
+      } catch (err) {
+        if (!err._shown) showError('Could not generate letter. Please try again.');
+      } finally {
+        setLoading(false);
+        stopLoadingMessages();
+      }
+    }
+
+    initCopyBtn();
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>

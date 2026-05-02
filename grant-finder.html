@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grant Finder — AI Grant Opportunities for Nonprofits</title>
+  <meta name="description" content="Enter your nonprofit's mission and cause area — AI surfaces 5–8 relevant grant opportunities with funder names, amount ranges, and application tips." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+  <script src="/tool-utils.js"></script>
+  <link rel="icon" href="/favicon.ico" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://panoskokmotos.com/grant-finder.html" />
+  <meta property="og:url" content="https://panoskokmotos.com/grant-finder.html" />
+  <meta property="og:title" content="Grant Finder — AI Grant Opportunities for Nonprofits" />
+  <meta property="og:description" content="AI-powered grant discovery for nonprofits. Enter your mission and get 5–8 relevant grant opportunities instantly." />
+  <meta property="og:image" content="https://panoskokmotos.com/og-ai-tools.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://panoskokmotos.com/og-ai-tools.png" />
+  <meta name="twitter:creator" content="@panoskokmotoss" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does the Grant Finder work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You describe your nonprofit's mission, cause area, location, and size. Claude AI cross-references your profile against known major foundations, community foundations, and government grant programs to surface the most relevant opportunities."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are these real grants?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The AI identifies real foundations and grant programs based on its training data through 2024. Always verify current deadlines and eligibility directly on each funder's website before applying."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What types of grants does it find?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Major national foundations (Gates, MacArthur, Ford, Kresge), community foundations, federal and state programs, corporate giving programs, and cause-specific funders relevant to your mission area."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How should I use these results?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the AI results as a starting point for research. Verify each funder's current eligibility requirements, deadlines, and grant amounts on their official website. Consider consulting a grant writer for major applications."
+      }
+    }
+  ]
+}
+</script>
+  <link rel="prefetch" href="/impact-story-generator.html" />
+  <link rel="prefetch" href="/nonprofit-health-checker.html" />
+  <link rel="prefetch" href="/community-needs-map.html" />
+</head>
+<body class="tool-page">
+
+  <header class="tool-header">
+    <a href="/ai-tools.html" class="tool-back">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      AI for Social Impact Lab
+    </a>
+  </header>
+
+  <main class="tool-main">
+    <p class="tool-eyebrow">AI for Social Impact · Free Tool · For Nonprofits</p>
+    <h1 class="tool-title">Grant Finder</h1>
+    <p class="tool-desc">Describe your nonprofit's mission, cause area, and size — AI surfaces relevant grant opportunities from major foundations, community foundations, and government programs, with application tips.</p>
+
+    <!-- How it works -->
+    <div class="tool-how">
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 1</span>
+        <span class="tool-how-title">Describe your mission</span>
+        <span class="tool-how-desc">Tell us what your nonprofit does and who it serves.</span>
+      </div>
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 2</span>
+        <span class="tool-how-title">AI matches funders</span>
+        <span class="tool-how-desc">Claude scans its knowledge of 1,000s of foundations and grant programs.</span>
+      </div>
+      <div class="tool-how-step">
+        <span class="tool-how-num">Step 3</span>
+        <span class="tool-how-title">Get actionable leads</span>
+        <span class="tool-how-desc">Receive a prioritized list with amounts, tips, and next steps.</span>
+      </div>
+    </div>
+
+    <div class="tool-wrap">
+      <form id="toolForm" class="tool-form" onsubmit="handleSubmit(event)">
+
+        <div class="tool-field">
+          <label class="tool-label" for="mission">Your nonprofit's mission <span class="tool-required">*</span></label>
+          <textarea
+            id="mission"
+            class="tool-textarea"
+            rows="3"
+            placeholder="e.g. We provide after-school tutoring and mentorship to low-income youth in Chicago's South Side, ages 10–18."
+            required
+          ></textarea>
+        </div>
+
+        <div class="tool-field">
+          <label class="tool-label" for="causeArea">Cause area <span class="tool-required">*</span></label>
+          <select id="causeArea" class="tool-select" required>
+            <option value="" disabled selected>Select cause area…</option>
+            <option value="Education & Youth Development">Education &amp; Youth Development</option>
+            <option value="Health & Medical Research">Health &amp; Medical Research</option>
+            <option value="Environment & Climate">Environment &amp; Climate</option>
+            <option value="Housing & Homelessness">Housing &amp; Homelessness</option>
+            <option value="Food Security & Hunger Relief">Food Security &amp; Hunger Relief</option>
+            <option value="Arts, Culture & Humanities">Arts, Culture &amp; Humanities</option>
+            <option value="Social Justice & Civil Rights">Social Justice &amp; Civil Rights</option>
+            <option value="Community Development">Community Development</option>
+            <option value="Disability Services">Disability Services</option>
+            <option value="Veterans & Military Families">Veterans &amp; Military Families</option>
+            <option value="Animal Welfare">Animal Welfare</option>
+            <option value="International Development">International Development</option>
+            <option value="Mental Health & Substance Abuse">Mental Health &amp; Substance Abuse</option>
+            <option value="Women & Girls">Women &amp; Girls</option>
+            <option value="Workforce Development">Workforce Development</option>
+          </select>
+        </div>
+
+        <div class="tool-row">
+          <div class="tool-field">
+            <label class="tool-label" for="location">Service area / location <span class="tool-required">*</span></label>
+            <input
+              id="location"
+              class="tool-input"
+              type="text"
+              placeholder="e.g. Chicago, IL or Rural Appalachia or National"
+              required
+            />
+          </div>
+          <div class="tool-field">
+            <label class="tool-label" for="orgSize">Annual budget</label>
+            <select id="orgSize" class="tool-select">
+              <option value="under $100K">Under $100K</option>
+              <option value="$100K–$500K" selected>$100K–$500K</option>
+              <option value="$500K–$1M">$500K–$1M</option>
+              <option value="$1M–$5M">$1M–$5M</option>
+              <option value="over $5M">Over $5M</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="tool-field">
+          <label class="tool-label" for="grantType">Grant type preference</label>
+          <select id="grantType" class="tool-select">
+            <option value="any type of grant">Any (show all)</option>
+            <option value="general operating support">General operating support</option>
+            <option value="program/project specific">Program / project-specific</option>
+            <option value="capacity building">Capacity building</option>
+            <option value="capital / equipment">Capital / equipment</option>
+            <option value="federal or state government">Government grants</option>
+          </select>
+        </div>
+
+        <!-- Example chips -->
+        <div class="tool-examples">
+          <p class="tool-examples-label">Quick examples:</p>
+          <div class="tool-examples-chips">
+            <button type="button" class="tool-example-chip"
+              data-fill-mission="After-school tutoring for low-income youth"
+              data-fill-cause-area="Education &amp; Youth Development"
+              data-fill-location="Chicago, IL"
+              data-fill-org-size="$100K–$500K">📚 Youth tutoring, Chicago</button>
+            <button type="button" class="tool-example-chip"
+              data-fill-mission="Emergency food pantry serving food-insecure families"
+              data-fill-cause-area="Food Security &amp; Hunger Relief"
+              data-fill-location="Rural Georgia"
+              data-fill-org-size="under $100K">🍽️ Food bank, rural Georgia</button>
+            <button type="button" class="tool-example-chip"
+              data-fill-mission="Environmental education and conservation programs"
+              data-fill-cause-area="Environment &amp; Climate"
+              data-fill-location="California"
+              data-fill-org-size="$500K–$1M">🌍 Environmental ed, California</button>
+            <button type="button" class="tool-example-chip"
+              data-fill-mission="Mental health counseling and crisis intervention for underserved communities"
+              data-fill-cause-area="Mental Health &amp; Substance Abuse"
+              data-fill-location="New York City, NY"
+              data-fill-org-size="$1M–$5M">🧠 Mental health, NYC</button>
+          </div>
+        </div>
+
+        <div id="errorBox" class="tool-error" style="display:none">
+          <p id="errorText"></p>
+        </div>
+
+        <button type="submit" class="tool-submit" id="submitBtn">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Find Grant Opportunities
+        </button>
+
+        <p class="tool-disclaimer-small">AI-powered suggestions based on publicly known funders. Always verify current deadlines and eligibility with each foundation directly.</p>
+      </form>
+
+      <!-- Result -->
+      <div id="result" class="tool-result">
+        <div class="tool-result-header">
+          <h2 class="tool-result-title">Your Grant Opportunities</h2>
+          <div class="tool-result-actions">
+            <button class="tool-copy-btn" id="copyBtn">Copy</button>
+          </div>
+        </div>
+        <div id="resultBody" class="tool-result-body"></div>
+        <button class="tool-try-another" id="tryAnotherBtn">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 106 5.3L3 8"/></svg>
+          Search again
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading state -->
+    <div id="loading" class="tool-loading" style="display:none">
+      <div class="tool-loading-spinner"></div>
+      <p id="loadingText">Searching grant databases…</p>
+    </div>
+  </main>
+
+  <!-- AI Chat Widget -->
+  <div class="chat-widget" id="chatWidget">
+    <button class="chat-toggle" id="chatToggle" aria-label="Chat with Panos AI">
+      <svg class="chat-icon-open" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <svg class="chat-icon-close" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <span class="chat-badge">AI</span>
+    </button>
+    <div class="chat-panel" id="chatPanel">
+      <div class="chat-header">
+        <div class="chat-header-info">
+          <picture>
+            <source srcset="/photo.webp" type="image/webp" />
+            <img src="/photo.jpg" alt="Panos Kokmotos" class="chat-avatar" />
+          </picture>
+          <div class="chat-header-text">
+            <strong>Ask Panos</strong>
+            <span><span class="chat-status-dot"></span>AI · Usually replies instantly</span>
+          </div>
+        </div>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <p>👋 Hi! I'm Panos's AI. Ask me about grant writing, Givelink, or the social impact tools!</p>
+      </div>
+      <div class="chat-starters" id="chatStarters">
+        <button class="chat-starter">How do I write a strong grant proposal?</button>
+        <button class="chat-starter">What makes a grant application stand out?</button>
+        <button class="chat-starter">Tell me about Givelink</button>
+      </div>
+      <div class="chat-input-wrap">
+        <input type="text" id="chatInput" placeholder="Ask about grants, nonprofits, Panos…" />
+        <button id="chatSend" aria-label="Send">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <script src="/chat.js"></script>
+
+  <script>
+    const LOADING_MSGS = [
+      'Searching major foundations…',
+      'Matching your mission to funders…',
+      'Checking government grant programs…',
+      'Finding community foundations…',
+      'Almost there…',
+    ];
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const mission   = document.getElementById('mission').value.trim();
+      const causeArea = document.getElementById('causeArea').value;
+      const location  = document.getElementById('location').value.trim();
+      const orgSize   = document.getElementById('orgSize').value;
+      const grantType = document.getElementById('grantType').value;
+
+      if (!mission || !causeArea || !location) {
+        showError('Please fill in your mission, cause area, and location.');
+        return;
+      }
+
+      const systemPrompt = `You are a nonprofit grant research expert with deep knowledge of US and international foundations, government grant programs, and corporate philanthropy as of 2024.
+
+When given a nonprofit profile, identify 6–8 highly relevant grant opportunities. For each grant, provide:
+1. **Funder Name** — the foundation or program name
+2. **Grant Amount Range** — typical award size
+3. **Focus Area Match** — why this funder aligns with the nonprofit's mission
+4. **Eligibility Notes** — key requirements to be aware of
+5. **Application Tips** — 1–2 specific tips for this funder
+6. **Next Step** — where to learn more (official website name, not a URL)
+
+Structure your response with clear headers for each grant opportunity. After the list, include a "Pro Tips" section with 2–3 general grant-seeking strategies for this nonprofit's profile.
+
+Be specific and actionable. Prioritize grants with the best mission fit first. Note any that are particularly accessible to the stated budget range.`;
+
+      const userMessage = `Nonprofit Profile:
+- Mission: ${mission}
+- Cause Area: ${causeArea}
+- Service Location: ${location}
+- Annual Budget: ${orgSize}
+- Grant Type Preference: ${grantType}
+
+Please identify the best grant opportunities for this organization.`;
+
+      hideError();
+      setLoading(true);
+      startLoadingMessages(LOADING_MSGS);
+
+      try {
+        const result = await callWorker(systemPrompt, userMessage);
+        showResult(result);
+        notifyToolUsed('Grant Finder');
+      } catch (err) {
+        if (!err._shown) showError('Could not fetch grant results. Please try again.');
+      } finally {
+        setLoading(false);
+        stopLoadingMessages();
+      }
+    }
+
+    initCopyBtn();
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>

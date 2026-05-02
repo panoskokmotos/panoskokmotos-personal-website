@@ -118,13 +118,13 @@
       <div class="wxd-section">
         <p class="wxd-section-label">How much are you thinking of giving?</p>
 
-        <div class="wxd-amount-chips" id="amountChips">
-          <button type="button" class="wxd-chip wxd-amount-chip" data-value="10">$10</button>
-          <button type="button" class="wxd-chip wxd-amount-chip" data-value="25">$25</button>
-          <button type="button" class="wxd-chip wxd-amount-chip wxd-chip-active" data-value="50">$50</button>
-          <button type="button" class="wxd-chip wxd-amount-chip" data-value="100">$100</button>
-          <button type="button" class="wxd-chip wxd-amount-chip" data-value="500">$500</button>
-          <button type="button" class="wxd-chip wxd-amount-chip" data-value="1000">$1,000</button>
+        <div class="wxd-amount-chips" id="amountChips" role="group" aria-label="Select donation amount">
+          <button type="button" class="wxd-chip wxd-amount-chip" data-value="10" aria-pressed="false">$10</button>
+          <button type="button" class="wxd-chip wxd-amount-chip" data-value="25" aria-pressed="false">$25</button>
+          <button type="button" class="wxd-chip wxd-amount-chip wxd-chip-active" data-value="50" aria-pressed="true">$50</button>
+          <button type="button" class="wxd-chip wxd-amount-chip" data-value="100" aria-pressed="false">$100</button>
+          <button type="button" class="wxd-chip wxd-amount-chip" data-value="500" aria-pressed="false">$500</button>
+          <button type="button" class="wxd-chip wxd-amount-chip" data-value="1000" aria-pressed="false">$1,000</button>
         </div>
 
         <div class="wxd-custom-amount">
@@ -148,28 +148,28 @@
       <!-- ── Cause Section ── -->
       <div class="wxd-section">
         <p class="wxd-section-label">What cause matters to you?</p>
-        <div class="wxd-cause-chips" id="causeChips">
-          <button type="button" class="wxd-chip wxd-cause-chip" data-value="clean water">🚰 Clean Water</button>
-          <button type="button" class="wxd-chip wxd-cause-chip" data-value="hunger and food security">🍽️ Hunger</button>
-          <button type="button" class="wxd-chip wxd-cause-chip" data-value="education for underserved youth">📚 Education</button>
-          <button type="button" class="wxd-chip wxd-cause-chip" data-value="climate and environment">🌍 Climate</button>
-          <button type="button" class="wxd-chip wxd-cause-chip" data-value="animal welfare">🐾 Animal Welfare</button>
-          <button type="button" class="wxd-chip wxd-cause-chip" data-value="mental health">🧠 Mental Health</button>
-          <button type="button" class="wxd-chip wxd-cause-chip" data-value="homeless services">🏠 Homelessness</button>
-          <button type="button" class="wxd-chip wxd-cause-chip" data-value="women's empowerment">👩 Women's Rights</button>
-          <button type="button" class="wxd-chip wxd-cause-chip" data-value="medical research">💊 Medical Research</button>
-          <button type="button" class="wxd-chip wxd-cause-chip" data-value="arts and culture">🎭 Arts &amp; Culture</button>
-          <button type="button" class="wxd-chip wxd-cause-chip" data-value="disability support">♿ Disability</button>
-          <button type="button" class="wxd-chip wxd-cause-chip" data-value="veterans support">🎖️ Veterans</button>
-          <button type="button" class="wxd-chip wxd-cause-chip" data-value="refugee support">🌏 Refugees</button>
+        <div class="wxd-cause-chips" id="causeChips" role="group" aria-label="Select cause area">
+          <button type="button" class="wxd-chip wxd-cause-chip" data-value="clean water" aria-pressed="false">🚰 Clean Water</button>
+          <button type="button" class="wxd-chip wxd-cause-chip" data-value="hunger and food security" aria-pressed="false">🍽️ Hunger</button>
+          <button type="button" class="wxd-chip wxd-cause-chip" data-value="education for underserved youth" aria-pressed="false">📚 Education</button>
+          <button type="button" class="wxd-chip wxd-cause-chip" data-value="climate and environment" aria-pressed="false">🌍 Climate</button>
+          <button type="button" class="wxd-chip wxd-cause-chip" data-value="animal welfare" aria-pressed="false">🐾 Animal Welfare</button>
+          <button type="button" class="wxd-chip wxd-cause-chip" data-value="mental health" aria-pressed="false">🧠 Mental Health</button>
+          <button type="button" class="wxd-chip wxd-cause-chip" data-value="homeless services" aria-pressed="false">🏠 Homelessness</button>
+          <button type="button" class="wxd-chip wxd-cause-chip" data-value="women's empowerment" aria-pressed="false">👩 Women's Rights</button>
+          <button type="button" class="wxd-chip wxd-cause-chip" data-value="medical research" aria-pressed="false">💊 Medical Research</button>
+          <button type="button" class="wxd-chip wxd-cause-chip" data-value="arts and culture" aria-pressed="false">🎭 Arts &amp; Culture</button>
+          <button type="button" class="wxd-chip wxd-cause-chip" data-value="disability support" aria-pressed="false">♿ Disability</button>
+          <button type="button" class="wxd-chip wxd-cause-chip" data-value="veterans support" aria-pressed="false">🎖️ Veterans</button>
+          <button type="button" class="wxd-chip wxd-cause-chip" data-value="refugee support" aria-pressed="false">🌏 Refugees</button>
         </div>
       </div>
 
       <!-- ── Giving Toggle ── -->
       <div class="wxd-section wxd-toggle-section">
-        <div class="wxd-toggle" id="givingToggle">
-          <button type="button" class="wxd-toggle-btn wxd-toggle-active" data-mode="onetime">One-time</button>
-          <button type="button" class="wxd-toggle-btn" data-mode="monthly">Monthly</button>
+        <div class="wxd-toggle" id="givingToggle" role="group" aria-label="Giving frequency">
+          <button type="button" class="wxd-toggle-btn wxd-toggle-active" data-mode="onetime" aria-pressed="true">One-time</button>
+          <button type="button" class="wxd-toggle-btn" data-mode="monthly" aria-pressed="false">Monthly</button>
         </div>
         <p class="wxd-monthly-note" id="monthlyNote" aria-live="polite"></p>
       </div>
@@ -529,17 +529,25 @@
     function setActiveAmountChip(chip) {
       clearActiveAmountChips();
       chip.classList.add('wxd-chip-active');
+      chip.setAttribute('aria-pressed', 'true');
     }
 
     function clearActiveAmountChips() {
-      document.querySelectorAll('.wxd-amount-chip').forEach(c => c.classList.remove('wxd-chip-active'));
+      document.querySelectorAll('.wxd-amount-chip').forEach(c => {
+        c.classList.remove('wxd-chip-active');
+        c.setAttribute('aria-pressed', 'false');
+      });
     }
 
     // ── Cause chips ──
     document.querySelectorAll('.wxd-cause-chip').forEach(chip => {
       chip.addEventListener('click', () => {
-        document.querySelectorAll('.wxd-cause-chip').forEach(c => c.classList.remove('wxd-chip-active'));
+        document.querySelectorAll('.wxd-cause-chip').forEach(c => {
+          c.classList.remove('wxd-chip-active');
+          c.setAttribute('aria-pressed', 'false');
+        });
         chip.classList.add('wxd-chip-active');
+        chip.setAttribute('aria-pressed', 'true');
         selectedCause = chip.dataset.value;
         localStorage.setItem('wxd_last_cause', selectedCause);
       });
@@ -548,8 +556,12 @@
     // ── Giving toggle ──
     document.querySelectorAll('.wxd-toggle-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.wxd-toggle-btn').forEach(b => b.classList.remove('wxd-toggle-active'));
+        document.querySelectorAll('.wxd-toggle-btn').forEach(b => {
+          b.classList.remove('wxd-toggle-active');
+          b.setAttribute('aria-pressed', 'false');
+        });
         btn.classList.add('wxd-toggle-active');
+        btn.setAttribute('aria-pressed', 'true');
         givingMode = btn.dataset.mode;
         updateMonthlyNote();
       });

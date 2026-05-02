@@ -98,9 +98,9 @@
 
       <div class="tool-field">
         <label class="tool-label" for="country">Country</label>
-        <div class="dte-country-chips" id="countryChips">
-          <button type="button" class="dte-country-chip active" data-country="US">🇺🇸 United States</button>
-          <button type="button" class="dte-country-chip" data-country="GR">🇬🇷 Greece</button>
+        <div class="dte-country-chips" id="countryChips" role="radiogroup" aria-label="Select country">
+          <button type="button" class="dte-country-chip active" data-country="US" role="radio" aria-checked="true">🇺🇸 United States</button>
+          <button type="button" class="dte-country-chip" data-country="GR" role="radio" aria-checked="false">🇬🇷 Greece</button>
         </div>
         <input type="hidden" id="country" value="US" />
       </div>
@@ -294,8 +294,12 @@
     // Country toggle
     document.querySelectorAll('.dte-country-chip').forEach(chip => {
       chip.addEventListener('click', function() {
-        document.querySelectorAll('.dte-country-chip').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.dte-country-chip').forEach(c => {
+          c.classList.remove('active');
+          c.setAttribute('aria-checked', 'false');
+        });
         this.classList.add('active');
+        this.setAttribute('aria-checked', 'true');
         const country = this.dataset.country;
         document.getElementById('country').value = country;
         document.getElementById('usFields').style.display = country === 'US' ? '' : 'none';
